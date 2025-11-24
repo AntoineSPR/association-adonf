@@ -1,0 +1,49 @@
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section logo-section">
+        <a routerLink="/" class="footer-logo">
+          <h2>Adonf</h2>
+        </a>
+      </div>
+
+      <div class="footer-section links-section">
+        <nav class="footer-nav">
+          <ul>
+            <li *ngFor="let link of footerLinks">
+              <a [routerLink]="link.route">{{ link.label }}</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer-section social-section">
+        <div class="social-links">
+          <a
+            *ngFor="let social of socialLinks"
+            [href]="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+            <i class="icon-{{ social.icon }}"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-section address-section">
+        <p class="address">
+          <strong>Adonf</strong><br />
+          [Adresse à compléter]<br />
+          [Code Postal] [Ville]<br />
+          Tél : [Numéro]
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {{ currentYear }} Adonf - Tous droits réservés</p>
+      <p class="credits">Site réalisé avec Angular</p>
+    </div>
+  </div>
+</footer>

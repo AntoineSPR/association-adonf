@@ -1,0 +1,65 @@
+<header class="site-header">
+  <div class="header-container">
+    <div class="header-top">
+      <a routerLink="/" class="logo">
+        <h1>Adonf</h1>
+      </a>
+
+      <div class="header-actions">
+        <a routerLink="/billetterie" class="btn-billetterie">Billetterie</a>
+
+        <div class="social-links">
+          <a
+            *ngFor="let social of socialLinks"
+            [href]="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+            <i class="icon-{{ social.icon }}"></i>
+          </a>
+        </div>
+
+        <button
+          class="menu-toggle"
+          (click)="toggleMenu()"
+          [class.active]="isMenuOpen"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="main-nav" [class.open]="isMenuOpen">
+      <ul class="nav-menu">
+        <li
+          *ngFor="let item of menuItems"
+          class="nav-item"
+          [class.has-submenu]="item.submenu"
+        >
+          <a
+            *ngIf="!item.submenu"
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+          >
+            {{ item.label }}
+          </a>
+          <span *ngIf="item.submenu" class="nav-link-dropdown">
+            {{ item.label }}
+            <i class="arrow-down"></i>
+          </span>
+          <ul *ngIf="item.submenu" class="submenu">
+            <li *ngFor="let subitem of item.submenu">
+              <a [routerLink]="subitem.route" routerLinkActive="active">{{
+                subitem.label
+              }}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

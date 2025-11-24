@@ -1,0 +1,37 @@
+<div class="dashboard">
+  <h1>Tableau de bord</h1>
+
+  <div class="stats-grid">
+    <div *ngFor="let stat of stats" class="stat-card">
+      <div class="stat-icon">
+        <i class="icon-{{ stat.icon }}"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h2>Actions rapides</h2>
+    <div class="actions-grid">
+      <a routerLink="/backoffice/actualites" class="action-card">
+        <i class="icon-plus"></i>
+        <span>Nouvelle actualité</span>
+      </a>
+      <a routerLink="/backoffice/concerts" class="action-card">
+        <i class="icon-plus"></i>
+        <span>Nouveau concert</span>
+      </a>
+      <a routerLink="/backoffice/home" class="action-card">
+        <i class="icon-edit"></i>
+        <span>Modifier la page d'accueil</span>
+      </a>
+      <a routerLink="/backoffice/agenda" class="action-card">
+        <i class="icon-calendar"></i>
+        <span>Gérer l'agenda</span>
+      </a>
+    </div>
+  </div>
+</div>
