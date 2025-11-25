@@ -1,74 +1,50 @@
-<app-public-layout>
-  <div class="home-page">
-    <section class="hero-section">
-      <div class="hero-content">
-        <h1>Bienvenue à Adonf</h1>
-        <p>École de musique, studio d'enregistrement et salle de concerts</p>
+<div class="home-page">
+  <section class="actualites-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Actualités</h2>
+        </div>
+        <button
+          pButton
+          label="Toutes les actus"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          routerLink="/actualites"
+          class="p-button-text"
+        ></button>
       </div>
-    </section>
+      <div class="actualites-grid">
+        <app-actualite-card
+          *ngFor="let actu of actualites"
+          [actualite]="actu"
+          [featured]="actu.featured"
+        ></app-actualite-card>
+      </div>
+    </div>
+  </section>
 
-    <section class="actualites-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Actualités</h2>
-          <a routerLink="/actualites" class="btn-more">
-            Toutes les actus
-            <span class="arrow">→</span>
-          </a>
+  <section class="programmation-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Programmation</h2>
         </div>
-        <div class="actualites-grid">
-          <div
-            *ngFor="let actu of actualites"
-            class="actualite-card"
-            [routerLink]="['/actualites', actu.id]"
-          >
-            <div
-              class="card-image"
-              [style.background-image]="'url(' + actu.image + ')'"
-            ></div>
-            <div class="card-content">
-              <h3>{{ actu.title }}</h3>
-              <p>{{ actu.excerpt }}</p>
-            </div>
-          </div>
-        </div>
+        <button
+          pButton
+          label="Toute la prog"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          routerLink="/agenda"
+          class="p-button-text"
+        ></button>
       </div>
-    </section>
-
-    <section class="programmation-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Programmation</h2>
-          <a routerLink="/agenda" class="btn-more">
-            Toute la prog
-            <span class="arrow">→</span>
-          </a>
-        </div>
-        <div class="programmation-grid">
-          <div
-            *ngFor="let event of programmation"
-            class="event-card"
-            [routerLink]="['/concerts', event.id]"
-          >
-            <div
-              class="card-image"
-              [style.background-image]="'url(' + event.image + ')'"
-            >
-              <span
-                *ngIf="event.status"
-                class="status-badge"
-                [class.complet]="event.status === 'COMPLET'"
-              >
-                {{ event.status }}
-              </span>
-            </div>
-            <div class="card-info">
-              <div class="event-date">{{ event.date | date : "dd MMM" }}</div>
-              <h3>{{ event.name }}</h3>
-            </div>
-          </div>
-        </div>
+      <div class="concerts-grid">
+        <app-concert-card
+          *ngFor="let concert of concerts"
+          [concert]="concert"
+        ></app-concert-card>
       </div>
-    </section>
-  </div>
-</app-public-layout>
+    </div>
+  </section>
+</div>
