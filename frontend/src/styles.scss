@@ -1,12 +1,19 @@
-/* Global Styles - Adonf */
-
-/* PrimeNG Imports */
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
 
-/* Reset and Base Styles */
+:root {
+  --primary-color: #dc143c;
+  --primary-dark: #b8112f;
+  --primary-light: #ff4560;
+  --text-color: #333;
+  --text-light: #666;
+  --border-color: #e0e0e0;
+  --background-light: #f9f9f9;
+  --light-black: #1a1a1a;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -26,7 +33,6 @@ body {
   background: #fff;
 }
 
-/* Typography */
 h1,
 h2,
 h3,
@@ -47,14 +53,12 @@ a {
   }
 }
 
-/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-/* Buttons */
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
@@ -98,7 +102,6 @@ a {
   }
 }
 
-/* Form Elements */
 .form-control {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -165,17 +168,6 @@ label {
 }
 .p-4 {
   padding: 2rem;
-}
-
-/* Theme Colors */
-:root {
-  --primary-color: #dc143c;
-  --primary-dark: #b8112f;
-  --primary-light: #ff4560;
-  --text-color: #333;
-  --text-light: #666;
-  --border-color: #e0e0e0;
-  --background-light: #f9f9f9;
 }
 
 /* Responsive Images */

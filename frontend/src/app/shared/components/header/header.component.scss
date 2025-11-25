@@ -1,22 +1,15 @@
 .site-header {
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--light-black);
   position: sticky;
   top: 0;
   z-index: 1000;
-}
-
-.header-container {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
-}
-
-.header-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .logo {
@@ -30,24 +23,34 @@
   }
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+.header-middle {
+  overflow: hidden;
+}
+
+.header-right {
+  flex-shrink: 0;
 }
 
 .btn-billetterie {
   background: #dc143c;
   color: white;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 25px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
+  text-wrap: nowrap;
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
 
   &:hover {
     background: #b8112f;
     transform: translateY(-2px);
+  }
+
+  .pi-ticket {
+    padding-top: 0.15rem;
   }
 }
 
@@ -66,144 +69,125 @@
   }
 }
 
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
+:host ::ng-deep {
+  .p-menubar {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
 
-  span {
-    width: 25px;
-    height: 3px;
-    background: #333;
+  .p-menubar-root-list {
+    flex-wrap: nowrap !important;
+  }
+
+  .p-menubar-mobile-active .p-menubar-root-list {
+    min-width: 250px !important;
+    width: auto !important;
+    background-color: var(--light-black) !important;
+    box-shadow: 0 0 0 0.2rem
+      color-mix(in srgb, var(--primary-color) 70%, transparent) !important;
+    border-radius: 0.5rem;
+  }
+
+  .p-menubar-button {
+    &:focus,
+    &:focus-visible,
+    &:active {
+      box-shadow: 0 0 0 0.2rem
+        color-mix(in srgb, var(--primary-color) 70%, transparent) !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    &:hover {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+    }
+  }
+
+  .p-menuitem-separator {
+    border-left: 2px solid var(--primary-color);
+    height: 1.5rem;
+    margin: 0 0.5rem;
+  }
+
+  .p-menuitem-content {
+    background-color: transparent !important;
+  }
+
+  .p-menuitem-link {
+    color: white !important;
+    padding: 1rem 0.75rem !important;
     transition: all 0.3s ease;
-  }
-
-  &.active {
-    span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    span:nth-child(2) {
-      opacity: 0;
-    }
-    span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
-    }
-  }
-}
-
-.main-nav {
-  border-top: 1px solid #eee;
-}
-
-.nav-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.nav-item {
-  position: relative;
-
-  a,
-  .nav-link-dropdown {
-    display: block;
-    padding: 1rem 0;
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-    cursor: pointer;
+    border-radius: 4px;
 
     &:hover,
-    &.active {
-      color: #dc143c;
+    &:focus,
+    &:focus-visible {
+      background-color: var(--primary-color) !important;
     }
   }
 
-  &.has-submenu:hover .submenu {
-    display: block;
+  .p-menuitem-text {
+    color: white;
+    text-transform: uppercase;
+    line-height: 1.5rem;
   }
-}
 
-.submenu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 250px;
-  list-style: none;
-  padding: 0.5rem 0;
-  margin: 0;
-  border-radius: 4px;
-
-  li {
+  .p-menuitem-icon {
+    color: white;
     margin: 0;
   }
 
-  a {
-    padding: 0.75rem 1.5rem;
-    display: block;
-    white-space: nowrap;
+  .p-submenu-icon {
+    display: none !important;
+  }
 
-    &:hover {
-      background: #f5f5f5;
+  .p-submenu-list {
+    background-color: var(--light-black);
+    min-width: 250px;
+    width: auto;
+    border-radius: 4px;
+    padding: 0.5rem 0;
+
+    .p-menuitem-link {
+      padding: 0.75rem 1.5rem !important;
+      white-space: nowrap;
+      background-color: transparent !important;
+
+      &:hover,
+      &:focus {
+        background: var(--primary-color) !important;
+      }
+    }
+
+    .p-menuitem-text {
+      color: white;
     }
   }
 }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
-
-  .social-links {
+@media (max-width: 1080px) {
+  #billetterie-text {
     display: none;
   }
+}
 
-  .main-nav {
-    display: none;
-    border-top: none;
+@media (max-width: 960px) {
+  .header-middle {
+    overflow: visible;
+  }
 
-    &.open {
-      display: block;
+  :host ::ng-deep {
+    .p-menuitem-separator {
+      display: none;
     }
-  }
 
-  .nav-menu {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .nav-item {
-    a,
-    .nav-link-dropdown {
-      padding: 1rem;
-      border-bottom: 1px solid #eee;
+    .p-submenu-icon {
+      display: inline !important;
     }
-  }
 
-  .submenu {
-    position: static;
-    display: none;
-    box-shadow: none;
-    background: #f9f9f9;
-    padding-left: 1rem;
-
-    a {
-      padding: 0.75rem 1rem;
+    .p-menuitem-active .p-submenu-icon {
+      color: white !important;
     }
-  }
-
-  .nav-item.has-submenu .submenu {
-    display: block;
   }
 }

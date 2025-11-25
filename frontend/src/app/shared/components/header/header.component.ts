@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
+import { MenubarModule } from 'primeng/menubar';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MenubarModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
@@ -13,27 +14,32 @@ export class HeaderComponent {
   isMenuOpen = false;
 
   menuItems = [
-    { label: 'Home', route: '/' },
-    { label: 'Agenda', route: '/agenda' },
+    { label: '', routerLink: '/', icon: 'pi pi-home' },
+    { separator: true },
+    { label: 'Agenda', routerLink: '/agenda' },
+    { separator: true },
     {
       label: 'École de Musique',
-      submenu: [
-        { label: 'Cours de Musique', route: '/cours-de-musique' },
-        { label: 'Inscriptions et Tarifs', route: '/inscriptions-tarifs' },
-        { label: 'Projet Pédagogique', route: '/projet-pedagogique' },
+      items: [
+        { label: 'Cours de Musique', routerLink: '/cours-de-musique' },
+        { label: 'Inscriptions et Tarifs', routerLink: '/inscriptions-tarifs' },
+        { label: 'Projet Pédagogique', routerLink: '/projet-pedagogique' },
       ],
     },
-    { label: 'Répétitions', route: '/repetitions' },
-    { label: "Studio d'Enregistrement", route: '/studio-enregistrement' },
+    { separator: true },
+    { label: 'Répétitions', routerLink: '/repetitions' },
+    { separator: true },
+    { label: "Studio d'Enregistrement", routerLink: '/studio-enregistrement' },
+    { separator: true },
     {
       label: 'Prestations diverses',
-      submenu: [
-        { label: 'Sonorisation', route: '/prestations#sonorisation' },
-        { label: 'Régie', route: '/prestations#regie' },
-        { label: 'Festivals', route: '/prestations#festivals' },
+      items: [
+        { label: 'Sonorisation', routerLink: '/prestations#sonorisation' },
+        { label: 'Régie', routerLink: '/prestations#regie' },
+        { label: 'Festivals', routerLink: '/prestations#festivals' },
         {
           label: 'Accompagnement artistique',
-          route: '/prestations#accompagnement',
+          routerLink: '/prestations#accompagnement',
         },
       ],
     },
@@ -45,7 +51,7 @@ export class HeaderComponent {
     { icon: 'youtube', url: 'https://youtube.com/adonf' },
   ];
 
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
+  // toggleMenu(): void {
+  //   this.isMenuOpen = !this.isMenuOpen;
+  // }
 }
