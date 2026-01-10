@@ -56,15 +56,17 @@
 
 .social-links {
   display: flex;
-  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
 
   .social-link {
-    color: #333;
-    font-size: 1.25rem;
+    color: var(--primary-color);
+    font-size: 1.5rem;
     transition: color 0.3s ease;
 
     &:hover {
-      color: #dc143c;
+      color: white;
     }
   }
 }
@@ -150,6 +152,15 @@
 
 @media (max-width: 960px) {
   :host ::ng-deep {
+    p-menubar {
+      display: flex;
+      justify-content: center;
+    }
+
+    .social-links {
+      display: none;
+    }
+
     .p-menubar-mobile-active .p-menubar-root-list {
       position: fixed !important;
       left: 0 !important;

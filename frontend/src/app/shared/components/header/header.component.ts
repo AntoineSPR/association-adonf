@@ -50,8 +50,4 @@ export class HeaderComponent {
     { icon: 'instagram', url: 'https://instagram.com/adonf' },
     { icon: 'youtube', url: 'https://youtube.com/adonf' },
   ];
-
-  // toggleMenu(): void {
-  //   this.isMenuOpen = !this.isMenuOpen;
-  // }
 }
