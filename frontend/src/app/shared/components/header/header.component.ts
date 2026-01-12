@@ -43,11 +43,29 @@ export class HeaderComponent {
         },
       ],
     },
+    {
+      icon: 'pi pi-facebook',
+      url: 'https://www.facebook.com/AssociationADonf/',
+      target: '_blank',
+      styleClass: 'mobile-social-header',
+    },
+    {
+      icon: 'pi pi-instagram',
+      url: 'https://www.instagram.com/association_adonf/',
+      target: '_blank',
+      styleClass: 'mobile-social-header',
+    },
+    {
+      icon: 'pi pi-youtube',
+      url: 'https://www.youtube.com/@rockschooladonf7634',
+      target: '_blank',
+      styleClass: 'mobile-social-header',
+    },
   ];
 
   socialLinks = [
-    { icon: 'facebook', url: 'https://facebook.com/adonf' },
-    { icon: 'instagram', url: 'https://instagram.com/adonf' },
-    { icon: 'youtube', url: 'https://youtube.com/adonf' },
+    { icon: 'facebook', url: 'https://www.facebook.com/AssociationADonf/' },
+    { icon: 'instagram', url: 'https://www.instagram.com/association_adonf/' },
+    { icon: 'youtube', url: 'https://www.youtube.com/@rockschooladonf7634' },
   ];
 }
