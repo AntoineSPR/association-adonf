@@ -3,17 +3,12 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
   padding: 1rem;
 }
 
 .logo {
   text-decoration: none;
+  margin-right: 2rem;
 
   h1 {
     color: #dc143c;
@@ -21,14 +16,6 @@
     font-weight: bold;
     margin: 0;
   }
-}
-
-.header-middle {
-  overflow: visible;
-}
-
-.header-right {
-  flex-shrink: 0;
 }
 
 .btn-billetterie {
@@ -80,6 +67,12 @@
 
   .p-menubar-root-list {
     flex-wrap: nowrap !important;
+  }
+
+  .p-menubar-start,
+  .p-menubar-end {
+    display: flex;
+    align-items: center;
   }
 
   .p-menuitem-separator {
@@ -142,6 +135,12 @@
       color: white;
     }
   }
+
+  // Align submenu to the right for last few menu items to prevent overflow
+  .p-menuitem:last-child .p-submenu-list {
+    right: 0;
+    left: auto;
+  }
 }
 
 @media (max-width: 1080px) {
@@ -152,9 +151,25 @@
 
 @media (max-width: 960px) {
   :host ::ng-deep {
-    p-menubar {
-      display: flex;
-      justify-content: center;
+    .p-menubar {
+      width: 100% !important;
+      justify-content: space-between !important;
+      position: relative;
+    }
+
+    .p-menubar-start {
+      flex-shrink: 0;
+    }
+
+    .p-menubar-button {
+      position: absolute !important;
+      left: 50% !important;
+      transform: translateX(-50%);
+    }
+
+    .p-menubar-end {
+      flex-shrink: 0;
+      margin-left: revert;
     }
 
     .social-links {
