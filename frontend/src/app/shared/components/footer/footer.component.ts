@@ -21,12 +21,13 @@ export class FooterComponent {
     },
     { label: 'Mentions légales', route: '/mentions-legales' },
     { label: 'CGV / Statuts', route: '/cgv-statuts' },
+    { label: 'Partenaires', route: '/partenaires' },
   ];
 
   socialLinks = [
-    { icon: 'facebook', url: 'https://facebook.com/adonf' },
-    { icon: 'instagram', url: 'https://instagram.com/adonf' },
-    { icon: 'youtube', url: 'https://youtube.com/adonf' },
+    { icon: 'facebook', url: 'https://www.facebook.com/AssociationADonf/' },
+    { icon: 'instagram', url: 'https://www.instagram.com/association_adonf/' },
+    { icon: 'youtube', url: 'https://www.youtube.com/@rockschooladonf7634' },
   ];
 
   currentYear = new Date().getFullYear();
