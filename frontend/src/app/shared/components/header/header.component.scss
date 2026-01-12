@@ -136,8 +136,9 @@
     }
   }
 
-  // Align submenu to the right for last few menu items to prevent overflow
-  .p-menuitem:last-child .p-submenu-list {
+  // Align submenu to the right for last menu item (excluding social media) to prevent overflow
+  .p-menuitem:nth-last-child(-n + 4):not(.mobile-social-header)
+    .p-submenu-list {
     right: 0;
     left: auto;
   }
