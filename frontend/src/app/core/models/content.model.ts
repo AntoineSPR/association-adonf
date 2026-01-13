@@ -9,6 +9,11 @@ export interface Actualite {
   featured: boolean;
 }
 
+export enum ConcertStatus {
+  COMPLET = 'Complet',
+  ANNULE = 'Annulé',
+}
+
 export interface Concert {
   id: number;
   name: string;
@@ -18,7 +23,7 @@ export interface Concert {
   imageUrl: string;
   price?: number;
   description: string;
-  status?: 'COMPLET' | 'ANNULE' | null;
+  status?: ConcertStatus | null;
   featured: boolean;
 }
 

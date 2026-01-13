@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Concert } from '../../../core/models/content.model';
+import { Concert, ConcertStatus } from '../../../core/models/content.model';
 
 @Component({
   selector: 'app-concert-card',
@@ -13,4 +13,5 @@ import { Concert } from '../../../core/models/content.model';
 export class ConcertCardComponent {
   @Input() concert!: Concert;
   @Input() compact: boolean = false;
+  ConcertStatus = ConcertStatus;
 }

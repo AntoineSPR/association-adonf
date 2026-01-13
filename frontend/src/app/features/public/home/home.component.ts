@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ActualiteCardComponent } from '../../../shared/components/actualite-card/actualite-card.component';
 import { ConcertCardComponent } from '../../../shared/components/concert-card/concert-card.component';
-import { Actualite, Concert } from '../../../core/models/content.model';
+import {
+  Actualite,
+  Concert,
+  ConcertStatus,
+} from '../../../core/models/content.model';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -84,7 +88,7 @@ export class HomeComponent {
         'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800',
       price: 20,
       description: 'Soirée jazz exceptionnelle',
-      status: 'COMPLET',
+      status: ConcertStatus.COMPLET,
       featured: false,
     },
     {
@@ -97,7 +101,7 @@ export class HomeComponent {
         'https://images.unsplash.com/photo-1482443462550-d2c99314ab6a?w=800',
       price: 5,
       description: "Concert annuel des élèves de l'école de musique",
-      status: null,
+      status: ConcertStatus.ANNULE,
       featured: false,
     },
     {

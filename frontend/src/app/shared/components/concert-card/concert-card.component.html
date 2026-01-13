@@ -8,8 +8,8 @@
     <div class="status-badge-wrapper" *ngIf="concert.status">
       <span
         class="status-badge"
-        [class.complet]="concert.status === 'COMPLET'"
-        [class.annule]="concert.status === 'ANNULE'"
+        [class.complet]="concert.status === ConcertStatus.COMPLET"
+        [class.annule]="concert.status === ConcertStatus.ANNULE"
       >
         {{ concert.status }}
       </span>

@@ -10,13 +10,14 @@
           label="Toutes les actus"
           icon="pi pi-arrow-right"
           iconPos="right"
-          routerLink="/actualites"
+          routerLink="/agenda"
+          fragment="actualites"
           class="p-button-text"
         ></button>
       </div>
       <div class="actualites-grid">
         <app-actualite-card
-          *ngFor="let actu of actualites"
+          *ngFor="let actu of actualites | slice : 0 : 3"
           [actualite]="actu"
           [featured]="actu.featured"
         ></app-actualite-card>
@@ -36,12 +37,13 @@
           icon="pi pi-arrow-right"
           iconPos="right"
           routerLink="/agenda"
+          fragment="programmation"
           class="p-button-text"
         ></button>
       </div>
       <div class="concerts-grid">
         <app-concert-card
-          *ngFor="let concert of concerts"
+          *ngFor="let concert of concerts | slice : 0 : 3"
           [concert]="concert"
         ></app-concert-card>
       </div>

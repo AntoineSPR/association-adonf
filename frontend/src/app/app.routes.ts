@@ -11,13 +11,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'actualites',
-    loadComponent: () =>
-      import('./features/public/agenda/agenda.component').then(
-        (m) => m.AgendaComponent
-      ),
-  },
-  {
     path: 'actualites/:id',
     loadComponent: () =>
       import(
