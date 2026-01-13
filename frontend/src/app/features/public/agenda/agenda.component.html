@@ -1,59 +1,36 @@
-<p>agenda works!</p>
-<div id="actualites"></div>
-<h2>Ceci sont des actualités.</h2>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi quis velit
-corrupti praesentium quibusdam dolorum consequuntur explicabo modi quam magni,
-dolores iure maxime quas autem qui. Provident obcaecati incidunt doloremque!
-<br />
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolores
-veritatis dignissimos rerum repudiandae ducimus cupiditate ea repellat veniam
-numquam, officia nam! Enim, quas sit! Sed mollitia natus non nisi. <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto quas quae a
-repellat eius reiciendis recusandae saepe dolorem ratione dolore? Enim
-excepturi, cupiditate voluptate assumenda facilis voluptatibus odio laborum
-voluptates! <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet eius porro
-corporis cum, quas minus, quae vero possimus voluptas quia facere at ipsa
-dignissimos consectetur obcaecati perferendis ipsam expedita nesciunt. <br />
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat distinctio
-tempora, beatae fuga quos nesciunt. Quod praesentium corrupti doloremque quas
-repudiandae, eum tempora maxime natus veritatis placeat nesciunt exercitationem
-ea! <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Est obcaecati rem quos
-molestias aut ipsam nobis dolor eligendi esse. Deserunt reiciendis impedit
-incidunt ut, nisi dolor minus perferendis explicabo tenetur? <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ea corporis
-pariatur quae eligendi, nobis nostrum. Distinctio reprehenderit non, id beatae,
-et labore aliquid, expedita nesciunt cumque dicta hic iste. <br />
-Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis facilis
-sed labore. Dolorem suscipit eum ipsum corrupti? Mollitia, fuga dolorem illo
-animi labore nostrum perferendis iure nesciunt, odio obcaecati fugit. <br />
-<div id="programmation"></div>
-<h2>Ceci est la programmation.</h2>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi quis velit
-corrupti praesentium quibusdam dolorum consequuntur explicabo modi quam magni,
-dolores iure maxime quas autem qui. Provident obcaecati incidunt doloremque!
-<br />
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolores
-veritatis dignissimos rerum repudiandae ducimus cupiditate ea repellat veniam
-numquam, officia nam! Enim, quas sit! Sed mollitia natus non nisi. <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto quas quae a
-repellat eius reiciendis recusandae saepe dolorem ratione dolore? Enim
-excepturi, cupiditate voluptate assumenda facilis voluptatibus odio laborum
-voluptates! <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet eius porro
-corporis cum, quas minus, quae vero possimus voluptas quia facere at ipsa
-dignissimos consectetur obcaecati perferendis ipsam expedita nesciunt. <br />
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat distinctio
-tempora, beatae fuga quos nesciunt. Quod praesentium corrupti doloremque quas
-repudiandae, eum tempora maxime natus veritatis placeat nesciunt exercitationem
-ea! <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Est obcaecati rem quos
-molestias aut ipsam nobis dolor eligendi esse. Deserunt reiciendis impedit
-incidunt ut, nisi dolor minus perferendis explicabo tenetur? <br />
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ea corporis
-pariatur quae eligendi, nobis nostrum. Distinctio reprehenderit non, id beatae,
-et labore aliquid, expedita nesciunt cumque dicta hic iste. <br />
-Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis facilis
-sed labore. Dolorem suscipit eum ipsum corrupti? Mollitia, fuga dolorem illo
-animi labore nostrum perferendis iure nesciunt, odio obcaecati fugit. <br />
+<div class="agenda-page">
+  <section class="actualites-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" id="actualites">Toutes les actualités</h2>
+        </div>
+      </div>
+      <div class="actualites-grid">
+        @for(actu of actualites; track actu.id) {
+        <app-actualite-card
+          [actualite]="actu"
+          [featured]="actu.featured"
+        ></app-actualite-card>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="programmation-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" id="programmation">
+            Toute la programmation
+          </h2>
+        </div>
+      </div>
+      <div class="concerts-grid">
+        @for(concert of concerts; track concert.id) {
+        <app-concert-card [concert]="concert"></app-concert-card>
+        }
+      </div>
+    </div>
+  </section>
+</div>
