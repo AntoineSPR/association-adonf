@@ -183,3 +183,76 @@ img {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
+
+/* Section Layouts (Home & Agenda) */
+.section-layout {
+  button {
+    color: var(--primary-color);
+  }
+
+  .actualites-section,
+  .programmation-section {
+    padding: 4rem 2rem;
+  }
+
+  .actualites-section {
+    background: #ffffff;
+  }
+
+  .programmation-section {
+    background: var(--background-light);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    h2,
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    .section-subtitle {
+      color: var(--text-light);
+      margin: 0.25rem 0 0 0;
+      font-size: 1rem;
+    }
+  }
+
+  .actualites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .concerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .actualites-grid,
+    .concerts-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+}
