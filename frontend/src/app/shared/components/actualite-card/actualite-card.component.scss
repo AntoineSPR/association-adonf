@@ -21,14 +21,6 @@
       transform: translateX(5px);
     }
   }
-
-  &.featured {
-    border: 2px solid var(--primary-color);
-
-    .card-title {
-      color: var(--primary-color);
-    }
-  }
 }
 
 .card-image-wrapper {

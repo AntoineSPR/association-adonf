@@ -1,17 +1,10 @@
-<div
-  class="actualite-card"
-  [class.featured]="featured"
-  [routerLink]="['/actualites', actualite.id]"
->
+<div class="actualite-card" [routerLink]="['/actualites', actualite.id]">
   <div class="card-image-wrapper">
     <img
       [src]="actualite.imageUrl"
       [alt]="actualite.title"
       class="card-image"
     />
-    <div class="image-overlay">
-      <span class="overlay-text">{{ actualite.title }}</span>
-    </div>
   </div>
   <div class="card-content">
     <h3 class="card-title">{{ actualite.title }}</h3>

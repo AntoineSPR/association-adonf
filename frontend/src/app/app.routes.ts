@@ -13,9 +13,9 @@ export const routes: Routes = [
   {
     path: 'actualites',
     loadComponent: () =>
-      import(
-        './features/public/actualites-list/actualites-list.component'
-      ).then((m) => m.ActualitesListComponent),
+      import('./features/public/agenda/agenda.component').then(
+        (m) => m.AgendaComponent
+      ),
   },
   {
     path: 'actualites/:id',

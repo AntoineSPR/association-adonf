@@ -22,10 +22,6 @@
     </div>
     <div class="event-details">
       <h3 class="event-name">{{ concert.name }}</h3>
-      <p class="event-venue" *ngIf="concert.venue">
-        <i class="pi pi-map-marker"></i>
-        {{ concert.venue }}
-      </p>
       <p class="event-price" *ngIf="concert.price">{{ concert.price }}€</p>
     </div>
   </div>
