@@ -78,7 +78,7 @@ const Footer = () => {
       <div className="max-w-[1200px] mx-auto px-4">
         {/* Footer Top Content */}
         <div className="flex flex-col min-[961px]:flex-row min-[961px]:justify-between items-center gap-8 mb-8">
-          {/* Logo Section - Hidden on screens narrower than 961px to match original SCSS breakpoint (max-width: 960px) */}
+          {/* Logo Section - Hidden on screens narrower than 961px */}
           <div className="hidden min-[961px]:block footer-logo">
             <a href="/" className="no-underline">
               <img
@@ -148,7 +148,7 @@ const Footer = () => {
               href="https://github.com/AntoineSPR"
               target="_blank"
               style={{ color: "inherit" }}
-              className="hover:underline" // Added standard link hover behavior as typically implied if not specified differently
+              className="hover:underline"
             >
               Antoine Simper
             </a>
