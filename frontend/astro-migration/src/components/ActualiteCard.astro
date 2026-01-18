@@ -1,0 +1,90 @@
+---
+import type { Actualite } from '../data/mock';
+
+interface Props {
+  actualite: Actualite;
+  featured?: boolean;
+}
+
+const { actualite, featured } = Astro.props;
+---
+
+<article class={`actualite-card ${featured ? 'featured' : ''}`}>
+  <div class="card-image">
+    <img src={actualite.imageUrl} alt={actualite.title} />
+  </div>
+  <div class="card-content">
+    <div class="card-date">{actualite.publishedAt.toLocaleDateString('fr-FR')}</div>
+    <h3>{actualite.title}</h3>
+    <p>{actualite.excerpt}</p>
+    <a href={`/actualites/${actualite.slug}`} class="read-more">Lire la suite <i class="pi pi-arrow-right"></i></a>
+  </div>
+</article>
+
+<style lang="scss">
+  .actualite-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+
+  .card-image {
+    height: 200px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+  }
+
+  .actualite-card:hover .card-image img {
+    transform: scale(1.05);
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-date {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    color: var(--text-color);
+  }
+
+  p {
+    color: var(--text-light);
+    flex: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .read-more {
+    color: var(--primary-color);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    &:hover {
+      color: var(--primary-dark);
+    }
+  }
+</style>
