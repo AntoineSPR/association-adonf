@@ -105,7 +105,7 @@ export const concerts: Concert[] = [
       'https://images.unsplash.com/photo-1511192336575-5a79af67169a?w=800',
     price: 5,
     description: 'Venez fêter Noël avec nous',
-    status: null,
+    status: ConcertStatus.ANNULE,
     featured: true,
   },
 ];
