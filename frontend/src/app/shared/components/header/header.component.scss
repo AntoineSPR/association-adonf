@@ -61,6 +61,7 @@
     background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
+    justify-content: center !important;
   }
 
   .p-menubar-root-list {
@@ -71,6 +72,10 @@
   .p-menubar-end {
     display: flex;
     align-items: center;
+  }
+
+  .p-menubar-end {
+    margin-left: 1rem !important;
   }
 
   .p-menuitem-separator {
@@ -153,6 +158,10 @@
 }
 
 @media (max-width: 960px) {
+  .logo img {
+    width: 150px;
+  }
+
   :host ::ng-deep {
     .p-menubar {
       width: 100% !important;
