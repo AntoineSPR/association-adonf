@@ -33,6 +33,19 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    --primary-color: #dc143c;
+    --primary-dark: #b8112f;
+    --primary-light: #ff4560;
+    --text-color: #333;
+    --text-light: #666;
+    --border-color: #e0e0e0;
+    --background-light: #f9f9f9;
+    --light-black: #1a1a1a;
+    --text-on-dark: #ccc;
+    --text-muted-on-dark: #888;
+    --error-color: #e74c3c;
+    --btn-secondary-bg: #f5f5f5;
   }
 
   .dark {
@@ -75,20 +88,12 @@
   }
 }
 
-/* Retaining some custom variables map if you used them in other components */
-:root {
-  --primary-color: #dc143c;
-  --primary-dark: #b8112f;
-  --light-black: #1a1a1a;
-}
-
-/* Legacy Anchor Styles */
 a {
-  color: #dc143c;
+  color: var(--primary-color);
   text-decoration: none;
 
   &:hover {
-    color: #b8112f;
+    color: var(--primary-dark);
   }
 }
 
@@ -110,32 +115,32 @@ a {
   text-align: center;
 
   &-primary {
-    background: #dc143c;
+    background: var(--primary-color);
     color: white;
 
     &:hover {
-      background: #b8112f;
+      background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
     }
   }
 
   &-secondary {
-    background: #f5f5f5;
-    color: #333;
+    background: var(--btn-secondary-bg);
+    color: var(--text-color);
 
     &:hover {
-      background: #e0e0e0;
+      background: var(--border-color);
     }
   }
 
   &-outline {
     background: transparent;
-    border: 2px solid #dc143c;
-    color: #dc143c;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
 
     &:hover {
-      background: #dc143c;
+      background: var(--primary-color);
       color: white;
     }
   }
@@ -144,18 +149,18 @@ a {
 .form-control {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #dc143c;
+    border-color: var(--primary-color);
   }
 
   &.error {
-    border-color: #e74c3c;
+    border-color: var(--error-color);
   }
 }
 

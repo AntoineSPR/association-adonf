@@ -41,7 +41,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#1a1a1a] py-6 px-4 mt-auto">
+    <footer className="bg-[var(--light-black)] py-6 px-4 mt-auto">
       <div className="max-w-[1200px] mx-auto px-4">
         {/* Footer Top Content */}
         <div className="flex flex-col min-[961px]:flex-row min-[961px]:justify-between items-center gap-8 mb-8">
@@ -67,7 +67,7 @@ const Footer = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#dc143c] transition-colors duration-300 hover:text-white"
+                  className="text-[var(--primary-color)] transition-colors duration-300 hover:text-white"
                   aria-label={social.label}
                 >
                   <social.icon className="h-6 w-6" />
@@ -82,7 +82,7 @@ const Footer = () => {
                   <li key={link.route}>
                     <a
                       href={link.route}
-                      className="text-[#ccc] no-underline transition-colors duration-300 hover:text-[#dc143c]"
+                      className="text-[var(--text-on-dark)] no-underline transition-colors duration-300 hover:text-[var(--primary-color)]"
                     >
                       {link.label}
                     </a>
@@ -94,7 +94,7 @@ const Footer = () => {
 
           {/* Address Section */}
           <div className="text-center">
-            <p className="text-[#ccc] leading-[1.6] m-0">
+            <p className="text-[var(--text-on-dark)] leading-[1.6] m-0">
               <strong>Association Adonf</strong>
               <br />
               29 avenue de Onda
@@ -107,7 +107,7 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="border-t border-[#333] pt-4 text-center text-[#888] text-[0.9rem]">
+        <div className="border-t border-[var(--text-color)] pt-4 text-center text-[var(--text-muted-on-dark)] text-[0.9rem]">
           <p className="my-2">&copy; {currentYear} Association Adonf</p>
           <p className="my-2 text-[0.85rem]">
             Réalisation :{" "}

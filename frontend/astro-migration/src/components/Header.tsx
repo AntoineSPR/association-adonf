@@ -64,14 +64,14 @@ const menuItems = [
 ];
 
 const Separator = () => (
-  <div className="h-6 w-[2px] bg-[#dc143c] mx-2 hidden xl:block" />
+  <div className="h-6 w-[2px] bg-[var(--primary-color)] mx-2 hidden xl:block" />
 );
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#1a1a1a] p-2 text-white shadow-md font-sans">
+    <header className="sticky top-0 z-50 w-full bg-[var(--light-black)] p-2 text-white shadow-md font-sans">
       <div className="container mx-auto flex flex-col gap-2">
         {/* Top Row: Logo - Navigation - Billetterie */}
         <div className="flex items-center justify-between gap-4">
@@ -95,7 +95,7 @@ const Header = () => {
                       {item.children ? (
                         <>
                           <button
-                            className="flex items-center gap-1 px-3 py-2 text-sm font-bold tracking-wide text-white uppercase transition-colors bg-transparent rounded hover:bg-[#dc143c]/10 hover:text-[#dc143c] focus:outline-none"
+                            className="flex items-center gap-1 px-3 py-2 text-sm font-bold tracking-wide text-white uppercase transition-colors bg-transparent rounded hover:bg-[var(--primary-color)]/10 hover:text-[var(--primary-color)] focus:outline-none"
                             aria-expanded="false"
                           >
                             {item.label}
@@ -119,12 +119,12 @@ const Header = () => {
 
                           {/* Dropdown Menu - Standard Absolute Positioning */}
                           <div className="absolute left-0 z-50 invisible w-[240px] pt-2 transition-all duration-200 opacity-0 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transform translate-y-2">
-                            <ul className="py-2 bg-[#1a1a1a] border border-[#333] shadow-xl rounded-sm">
+                            <ul className="py-2 bg-[var(--light-black)] border border-[var(--text-color)] shadow-xl rounded-sm">
                               {item.children.map((child) => (
                                 <li key={child.label}>
                                   <a
                                     href={child.href}
-                                    className="block px-4 py-2.5 text-sm text-gray-200 transition-colors hover:bg-[#dc143c] hover:text-white no-underline"
+                                    className="block px-4 py-2.5 text-sm uppercase text-[var(--text-on-dark)] transition-colors hover:bg-[var(--primary-color)] hover:text-white no-underline"
                                   >
                                     {child.label}
                                   </a>
@@ -137,7 +137,7 @@ const Header = () => {
                         <a
                           href={item.href}
                           className={cn(
-                            "group inline-flex h-10 w-max items-center justify-center rounded px-3 py-2 text-sm uppercase font-bold tracking-wide transition-colors hover:bg-[#dc143c]/10 hover:text-[#dc143c] focus:bg-[#dc143c] focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 hover:no-underline text-white",
+                            "group inline-flex h-10 w-max items-center justify-center rounded px-3 py-2 text-sm uppercase font-bold tracking-wide transition-colors hover:bg-[var(--primary-color)]/10 hover:text-[var(--primary-color)] focus:bg-[var(--primary-color)] focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 hover:no-underline text-white",
                             item.isHome ? "px-2" : "",
                           )}
                         >
@@ -159,11 +159,11 @@ const Header = () => {
           <div className="hidden min-[1150px]:block shrink-0 ml-4">
             <Button
               asChild
-              className="bg-[#dc143c] hover:bg-[#b8112f] text-white rounded-full px-6 font-bold uppercase tracking-wider text-sm shadow-lg transition-transform hover:-translate-y-0.5"
+              className="bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white rounded-full px-6 font-bold uppercase tracking-wider text-sm shadow-lg transition-transform hover:-translate-y-0.5"
             >
               <a
                 href="/billetterie"
-                className="flex items-center gap-2 no-underline"
+                className="flex items-center gap-2 no-underline hover:text-white"
               >
                 <Ticket className="h-4 w-4" />
                 <span>Billetterie</span>
@@ -177,7 +177,7 @@ const Header = () => {
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="text-white hover:bg-[#dc143c] hover:text-white"
+                  className="text-white hover:bg-[var(--primary-color)] hover:text-white"
                 >
                   <Menu className="h-6 w-6" />
                   <span className="sr-only">Menu</span>
@@ -185,14 +185,14 @@ const Header = () => {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="bg-[#1a1a1a] text-white border-l-gray-800 overflow-y-auto"
+                className="bg-[var(--light-black)] text-white border-l-gray-800 overflow-y-auto"
               >
                 <nav className="flex flex-col gap-4 mt-8">
                   {menuItems.map((item, index) => (
                     <div key={index} className="flex flex-col gap-2">
                       {item.children ? (
                         <>
-                          <div className="font-bold text-[#dc143c] px-2 uppercase tracking-wide">
+                          <div className="font-bold text-[var(--primary-color)] px-2 uppercase tracking-wide">
                             {item.label}
                           </div>
                           <div className="pl-4 flex flex-col gap-2 border-l-2 border-gray-700 ml-2">
@@ -200,7 +200,7 @@ const Header = () => {
                               <a
                                 key={child.label}
                                 href={child.href}
-                                className="text-sm hover:text-[#dc143c] py-2 transition-colors block"
+                                className="text-sm hover:bg-[var(--primary-color)] hover:text-white py-2 px-2 rounded transition-colors block"
                               >
                                 {child.label}
                               </a>
@@ -210,7 +210,7 @@ const Header = () => {
                       ) : (
                         <a
                           href={item.href}
-                          className="font-bold hover:text-[#dc143c] px-2 py-1 uppercase tracking-wide transition-colors flex items-center gap-2"
+                          className="font-bold hover:bg-[var(--primary-color)] hover:text-white px-2 py-1 uppercase tracking-wide rounded transition-colors flex items-center gap-2"
                         >
                           {item.isHome && item.icon ? (
                             <>
@@ -227,11 +227,11 @@ const Header = () => {
                   <div className="mt-4">
                     <Button
                       asChild
-                      className="w-full bg-[#dc143c] hover:bg-[#b8112f] text-white rounded-full font-bold uppercase"
+                      className="w-full bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white rounded-full font-bold uppercase"
                     >
                       <a
                         href="/billetterie"
-                        className="flex items-center justify-center gap-2"
+                        className="flex items-center justify-center gap-2 hover:text-white"
                       >
                         <Ticket className="h-4 w-4" />
                         <span>Billetterie</span>
@@ -247,7 +247,7 @@ const Header = () => {
                         href={social.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#dc143c] transition-colors duration-300 hover:text-white"
+                        className="text-[var(--primary-color)] transition-colors duration-300 hover:text-white"
                         aria-label={social.label}
                       >
                         <social.icon className="h-6 w-6" />
@@ -269,7 +269,7 @@ const Header = () => {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#dc143c] transition-colors duration-300 hover:text-white"
+              className="text-[var(--primary-color)] transition-colors duration-300 hover:text-white"
               aria-label={social.label}
             >
               <social.icon className="h-6 w-6" />
