@@ -6,110 +6,364 @@ import { lessons } from '../data/lessons';
 
 <Layout title="Cours de Musique - Association Adonf">
   
-  <div class="container mx-auto px-4 py-8 md:py-12">
+  <div class="page-container">
     
-    <!-- Title Section -->
-    <div class="mb-12 border-b-4 border-[var(--primary-color)] pb-4 inline-block pr-12">
-        <h1 class="text-4xl md:text-5xl font-black uppercase text-[var(--light-black)] m-0 leading-none">
-            Cours de Musique
+    <!-- Header -->
+    <header class="page-header">
+        <h1 class="main-title">
+            COURS DE <span>MUSIQUE</span>
         </h1>
-    </div>
+        <div class="title-underline"></div>
+    </header>
 
-    <!-- Vision / Intro -->
-    <section class="mb-16 max-w-4xl">
-        <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
-          À l'Association Adonf, nous croyons que la musique doit être accessible à tous, quel que soit l'âge ou le niveau. 
-          Notre approche pédagogique est centrée sur le plaisir de jouer, la découverte et la pratique collective.
-        </p>
+    <!-- Vision -->
+    <section class="vision-section">
+        <div class="vision-title-col">
+             <h2>
+                NOTRE<br/>PHILOSOPHIE
+             </h2>
+        </div>
+        <div class="vision-text-col">
+            <p>
+              À l'Association Adonf, nous croyons que la musique doit être <strong>accessible à tous</strong>. 
+              Notre approche pédagogique est centrée sur le <em>plaisir de jouer</em>, la découverte et la pratique collective.
+            </p>
+        </div>
     </section>
 
     <!-- Grid -->
-    <section class="mb-20">
-      <div class="flex flex-wrap justify-center gap-8">
+    <section class="lessons-section">
+      <div class="lessons-container">
         {lessons.map((lesson) => (
           <LessonCard lesson={lesson} />
         ))}
       </div>
     </section>
 
-    <!-- Infos (Tarifs/Contact) -->
-    <section>
-      <div class="grid md:grid-cols-2">
-        
-        <!-- Tarifs -->
-        <div class="p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-700">
-          <h3 class="text-2xl font-bold uppercase mb-6 flex items-center gap-3">
-            <span class="text-[var(--primary-color)] text-3xl">€</span> Tarifs
-          </h3>
-          <div class="space-y-6">
-            <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[var(--primary-color)]/50 transition-colors">
-              <h4 class="font-bold text-lg mb-2">Cours Individuel</h4>
-              <p class="text-[var(--text-on-dark)] mb-4 text-sm">30 minutes / semaine</p>
-              <div class="text-3xl font-bold text-[var(--primary-color)]">450€ <span class="text-sm text-gray-400 font-normal">/ an</span></div>
-            </div>
+    <!-- Unified Infos Section -->
+    <section class="infos-section">
+        <div class="infos-container">
             
-            <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[var(--primary-color)]/50 transition-colors">
-              <h4 class="font-bold text-lg mb-2">Atelier Groupe</h4>
-              <p class="text-[var(--text-on-dark)] mb-4 text-sm">1h30 / semaine</p>
-              <div class="text-3xl font-bold text-[var(--primary-color)]">320€ <span class="text-sm text-gray-400 font-normal">/ an</span></div>
+            <!-- Tarifs (White) -->
+            <div class="tarifs-block">
+                <h3>Tarifs Annuels</h3>
+                
+                <div class="tarifs-list">
+                    <div class="tarif-row">
+                        <div class="tarif-label">
+                            <h4>Individuel</h4>
+                            <span>30 min / semaine</span>
+                        </div>
+                        <div class="tarif-price">450€</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="tarif-row">
+                        <div class="tarif-label">
+                            <h4>Groupe</h4>
+                            <span>1h30 / semaine</span>
+                        </div>
+                        <div class="tarif-price">320€</div>
+                    </div>
+                    
+                    <div class="tarif-note">
+                        <strong>Note :</strong> Adhésion annuelle à l'association de 15€ (obligatoire) non incluse.
+                    </div>
+                </div>
             </div>
 
-            <p class="text-sm text-gray-400 italic">
-              * Adhésion annuelle à l'association : 15€ (obligatoire)
-            </p>
-          </div>
-        </div>
+            <!-- Inscriptions (Black/Primary) -->
+            <div class="inscriptions-block">
+                <div class="bg-decoration"></div>
+                
+                <h3>Inscriptions</h3>
+                
+                <div class="inscriptions-content">
+                    <p>
+                        Les inscriptions sont ouvertes <strong>toute l'année</strong>. 
+                        Réservez votre séance d'essai gratuite dès maintenant.
+                    </p>
 
-        <!-- Contacts / Inscriptions -->
-        <div class="p-8 md:p-12 bg-white/5">
-          <h3 class="text-2xl font-bold uppercase mb-6 flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--primary-color)]"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-            Nous Contacter
-          </h3>
-          <div class="space-y-6">
-            <p class="text-[var(--text-on-dark)]">
-              Les inscriptions sont ouvertes toute l'année dans la limite des places disponibles.
-              N'hésitez pas à nous contacter pour une séance d'essai !
-            </p>
-            
-            <div class="space-y-4">
-              <div class="flex items-start gap-4">
-                <div class="mt-1 bg-[var(--primary-color)] p-2 rounded-lg text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                </div>
-                <div>
-                  <h5 class="font-bold">Email</h5>
-                  <a href="mailto:contact@association-adonf.fr" class="text-gray-300 hover:text-[var(--primary-color)] transition-colors">contact@association-adonf.fr</a>
-                </div>
-              </div>
+                    <nav class="contact-links">
+                         <a href="mailto:contact@association-adonf.fr">
+                            <span class="icon-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </span>
+                            <span>contact@association-adonf.fr</span>
+                         </a>
 
-              <div class="flex items-start gap-4">
-                <div class="mt-1 bg-[var(--primary-color)] p-2 rounded-lg text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                         <a href="tel:+33612345678">
+                            <span class="icon-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            </span>
+                            <span>06 12 34 56 78</span>
+                         </a>
+                    </nav>
                 </div>
-                <div>
-                  <h5 class="font-bold">Téléphone</h5>
-                  <a href="tel:+33123456789" class="text-gray-300 hover:text-[var(--primary-color)] transition-colors">01 23 45 67 89</a>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-4">
-                <div class="mt-1 bg-[var(--primary-color)] p-2 rounded-lg text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                </div>
-                <div>
-                  <h5 class="font-bold">Adresse</h5>
-                  <p class="text-gray-300">
-                    123 Rue de la Musique<br/>
-                    33000 Bordeaux
-                  </p>
-                </div>
-              </div>
             </div>
-          </div>
 
         </div>
-      </section>
+    </section>
 
   </div>
 </Layout>
+
+<style>
+  /* Core Layout */
+  .page-container {
+    padding: 3rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  @media(min-width: 768px) {
+    .page-container {
+      padding: 5rem 2rem;
+    }
+  }
+
+  /* Header */
+  .page-header {
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+  @media(min-width: 768px) {
+    .page-header {
+        text-align: left;
+        margin-bottom: 6rem;
+    }
+  }
+
+  .main-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    line-height: 1.1;
+    margin: 0;
+  }
+  @media(min-width: 768px) {
+    .main-title { font-size: 4.5rem; }
+  }
+
+  .main-title span { color: var(--primary-color, #dc143c); }
+
+  .title-underline {
+    height: 8px;
+    width: 120px;
+    background-color: var(--primary-color, #dc143c);
+    margin-top: 1rem;
+    border-radius: 4px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media(min-width: 768px) {
+    .title-underline { margin-left: 0; margin-right: 0; }
+  }
+
+  /* Vision Section */
+  .vision-section {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 5rem;
+    align-items: baseline;
+  }
+  @media(min-width: 768px) {
+    .vision-section {
+        grid-template-columns: 3fr 9fr;
+        gap: 3rem;
+        margin-bottom: 8rem;
+    }
+  }
+
+  .vision-title-col h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    letter-spacing: 0.1em;
+    border-left: 4px solid var(--primary-color, #dc143c);
+    padding-left: 1rem;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .vision-text-col p {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .vision-text-col strong { color: #1a1a1a; font-weight: 700; }
+  .vision-text-col em { color: var(--primary-color, #dc143c); font-style: italic; font-weight: 500; }
+
+  /* Lessons Grid */
+  .lessons-section {
+    margin-bottom: 8rem;
+  }
+  
+  .lessons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  /* Infos Section */
+  .infos-section {
+    margin-bottom: 4rem;
+  }
+
+  .infos-container {
+    display: grid;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  @media(min-width: 768px) {
+    .infos-container {
+        grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .tarifs-block {
+    background: white;
+    padding: 2.5rem;
+  }
+  @media(min-width: 768px) {
+    .tarifs-block { padding: 4rem; }
+  }
+
+  .tarifs-block h3, .inscriptions-block h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0 0 2.5rem 0;
+    padding-bottom: 1rem;
+    display: inline-block;
+  }
+  .tarifs-block h3 {
+    color: #1a1a1a;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  .inscriptions-block h3 {
+    color: white;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+    position: relative;
+    z-index: 2;
+  }
+
+  .tarif-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .tarif-label h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #1a1a1a;
+  }
+  .tarif-label span {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .tarif-price {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary-color, #dc143c);
+  }
+
+  .divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 1.5rem 0;
+  }
+
+  .tarif-note {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  /* Inscriptions Block */
+  .inscriptions-block {
+    background: #1a1a1a;
+    padding: 2.5rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  @media(min-width: 768px) {
+    .inscriptions-block { padding: 4rem; }
+  }
+
+  .bg-decoration {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: var(--primary-color, #dc143c);
+    border-radius: 50%;
+    opacity: 0.15;
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .inscriptions-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .inscriptions-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 2rem;
+  }
+  .inscriptions-content strong { color: white; }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contact-links a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-links a:hover {
+    color: var(--primary-color, #dc143c);
+  }
+
+  .icon-circle {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contact-links a:hover .icon-circle {
+    background: var(--primary-color, #dc143c);
+    color: white;
+  }
+
+</style>
