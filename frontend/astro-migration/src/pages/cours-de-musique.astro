@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LessonCard from '../components/LessonCard.astro';
+import { lessons } from '../data/lessons';
+---
+
+<Layout title="Cours de Musique - Association Adonf">
+  
+  <div class="container mx-auto px-4 py-8 md:py-12">
+    
+    <!-- Title Section -->
+    <div class="mb-12 border-b-4 border-[var(--primary-color)] pb-4 inline-block pr-12">
+        <h1 class="text-4xl md:text-5xl font-black uppercase text-[var(--light-black)] m-0 leading-none">
+            Cours de Musique
+        </h1>
+    </div>
+
+    <!-- Vision / Intro -->
+    <section class="mb-16 max-w-4xl">
+        <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-medium">
+          À l'Association Adonf, nous croyons que la musique doit être accessible à tous, quel que soit l'âge ou le niveau. 
+          Notre approche pédagogique est centrée sur le plaisir de jouer, la découverte et la pratique collective.
+        </p>
+    </section>
+
+    <!-- Grid -->
+    <section class="mb-20">
+      <div class="flex flex-wrap justify-center gap-8">
+        {lessons.map((lesson) => (
+          <LessonCard lesson={lesson} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Infos (Tarifs/Contact) -->
+    <section>
+      <div class="grid md:grid-cols-2">
+        
+        <!-- Tarifs -->
+        <div class="p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-700">
+          <h3 class="text-2xl font-bold uppercase mb-6 flex items-center gap-3">
+            <span class="text-[var(--primary-color)] text-3xl">€</span> Tarifs
+          </h3>
+          <div class="space-y-6">
+            <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[var(--primary-color)]/50 transition-colors">
+              <h4 class="font-bold text-lg mb-2">Cours Individuel</h4>
+              <p class="text-[var(--text-on-dark)] mb-4 text-sm">30 minutes / semaine</p>
+              <div class="text-3xl font-bold text-[var(--primary-color)]">450€ <span class="text-sm text-gray-400 font-normal">/ an</span></div>
+            </div>
+            
+            <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[var(--primary-color)]/50 transition-colors">
+              <h4 class="font-bold text-lg mb-2">Atelier Groupe</h4>
+              <p class="text-[var(--text-on-dark)] mb-4 text-sm">1h30 / semaine</p>
+              <div class="text-3xl font-bold text-[var(--primary-color)]">320€ <span class="text-sm text-gray-400 font-normal">/ an</span></div>
+            </div>
+
+            <p class="text-sm text-gray-400 italic">
+              * Adhésion annuelle à l'association : 15€ (obligatoire)
+            </p>
+          </div>
+        </div>
+
+        <!-- Contacts / Inscriptions -->
+        <div class="p-8 md:p-12 bg-white/5">
+          <h3 class="text-2xl font-bold uppercase mb-6 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--primary-color)]"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            Nous Contacter
+          </h3>
+          <div class="space-y-6">
+            <p class="text-[var(--text-on-dark)]">
+              Les inscriptions sont ouvertes toute l'année dans la limite des places disponibles.
+              N'hésitez pas à nous contacter pour une séance d'essai !
+            </p>
+            
+            <div class="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="mt-1 bg-[var(--primary-color)] p-2 rounded-lg text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+                <div>
+                  <h5 class="font-bold">Email</h5>
+                  <a href="mailto:contact@association-adonf.fr" class="text-gray-300 hover:text-[var(--primary-color)] transition-colors">contact@association-adonf.fr</a>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="mt-1 bg-[var(--primary-color)] p-2 rounded-lg text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                </div>
+                <div>
+                  <h5 class="font-bold">Téléphone</h5>
+                  <a href="tel:+33123456789" class="text-gray-300 hover:text-[var(--primary-color)] transition-colors">01 23 45 67 89</a>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="mt-1 bg-[var(--primary-color)] p-2 rounded-lg text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div>
+                  <h5 class="font-bold">Adresse</h5>
+                  <p class="text-gray-300">
+                    123 Rue de la Musique<br/>
+                    33000 Bordeaux
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+  </div>
+</Layout>
