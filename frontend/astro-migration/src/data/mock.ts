@@ -65,6 +65,18 @@ export const actualites: Actualite[] = [
     publishedAt: new Date('2025-11-10'),
     featured: false,
   },
+  {
+    id: 4,
+    title: "Nouveau Studio d'Enregistrement 2",
+    slug: 'nouveau-studio-enregistrement',
+    excerpt:
+      "Découvrez notre nouveau studio d'enregistrement équipé des dernières technologies pour vos projets musicaux.",
+    content: '',
+    imageUrl:
+      'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800',
+    publishedAt: new Date('2025-11-10'),
+    featured: false,
+  },
 ];
 
 export const concerts: Concert[] = [
@@ -101,8 +113,31 @@ export const concerts: Concert[] = [
     slug: 'concert-noel-eleves',
     date: new Date('2025-12-20'),
     venue: 'Salle principale Adonf',
-    imageUrl:
-      'https://images.unsplash.com/photo-1511192336575-5a79af67169a?w=800',
+    imageUrl: 'https://picsum.photos/800/600',
+    price: 5,
+    description: 'Venez fêter Noël avec nous',
+    status: ConcertStatus.ANNULE,
+    featured: true,
+  },
+  {
+    id: 4,
+    name: "Concert de Noël 2 - Élèves de l'École",
+    slug: 'concert-noel-eleves',
+    date: new Date('2025-12-20'),
+    venue: 'Salle principale Adonf',
+    imageUrl: 'https://picsum.photos/800/600',
+    price: 5,
+    description: 'Venez fêter Noël avec nous',
+    status: ConcertStatus.ANNULE,
+    featured: true,
+  },
+  {
+    id: 5,
+    name: "Concert de Noël 3 - Élèves de l'École",
+    slug: 'concert-noel-eleves',
+    date: new Date('2025-12-20'),
+    venue: 'Salle principale Adonf',
+    imageUrl: 'https://picsum.photos/800/600',
     price: 5,
     description: 'Venez fêter Noël avec nous',
     status: ConcertStatus.ANNULE,
