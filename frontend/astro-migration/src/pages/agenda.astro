@@ -6,42 +6,74 @@ import { actualites, concerts } from '../data/mock';
 ---
 
 <Layout title="Agenda - Association Adonf">
-  <div class="section-layout">
-    <section class="actualites-section">
-      <div class="container">
-        <div class="section-header">
+  <!-- Hero Section -->
+  <div class="relative bg-[var(--light-black)] text-white py-20 mb-12 shadow-md">
+    <div class="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+      <!-- Decorational background elements -->
+      <div class="absolute -top-10 -right-10 w-96 h-96 bg-[var(--primary-color)] rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full blur-3xl opacity-30"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 relative z-10 text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 uppercase tracking-tight">
+        L'Agenda <span class="text-[var(--primary-color)]">Adonf</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-[var(--text-on-dark)] max-w-2xl mx-auto font-light">
+        Tous les événements, concerts et actualités de l'association.
+      </p>
+      
+      <!-- Quick Navigation -->
+      <div class="flex flex-wrap justify-center gap-4 mt-8">
+        <a href="#actualites" class="inline-flex items-center px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white hover:text-white backdrop-blur-sm transition-all border border-white/10">
+          Actualités
+        </a>
+        <a href="#programmation" class="inline-flex items-center px-6 py-3 rounded-full bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white shadow-lg shadow-[var(--primary-color)]/30">
+          Programmation
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-layout container mx-auto px-4 pb-20 space-y-20">
+    <!-- Actualités Section -->
+    <section class="actualites-section scroll-mt-32" id="actualites">
+        <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
+          <div class="w-2 h-10 bg-[var(--primary-color)] rounded-full"></div>
           <div>
-            <h2 class="section-title" id="actualites">Toutes les actualités</h2>
+            <h2 class="text-3xl font-bold text-[var(--light-black)] uppercase tracking-wide m-0">Actualités</h2>
+            <p class="text-[var(--text-light)] text-lg">Les dernières nouvelles de l'association</p>
           </div>
         </div>
+        
         <div class="actualites-grid">
           {actualites.map((actu) => (
             <ActualiteCard actualite={actu} featured={actu.featured} />
           ))}
         </div>
-      </div>
     </section>
 
-    <section class="programmation-section">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <h2 class="section-title" id="programmation">Toute la programmation</h2>
+    <!-- Programmation Section -->
+    <section class="programmation-section scroll-mt-32" id="programmation">
+        <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
+           <div class="w-2 h-10 bg-[var(--light-black)] rounded-full"></div>
+           <div>
+            <h2 class="text-3xl font-bold text-[var(--light-black)] uppercase tracking-wide m-0">Programmation</h2>
+            <p class="text-[var(--text-light)] text-lg">Les concerts et événements à venir</p>
           </div>
         </div>
+
         <div class="concerts-grid">
           {concerts.map((concert) => (
             <ConcertCard concert={concert} />
           ))}
         </div>
-      </div>
     </section>
   </div>
 </Layout>
 
 <style>
-  /* Ensure scroll margin for sticky header */
-  #actualites, #programmation {
+  /* Ensure scroll margin for sticky header (overridden by class but kept for safety) */
+  .scroll-mt-32 {
     scroll-margin-top: 150px;
   }
 </style>
