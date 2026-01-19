@@ -3,6 +3,11 @@ import {
   FacebookIcon,
   InstagramIcon,
   YoutubeIcon,
+  ChevronDownIcon,
+  HomeIcon,
+  TicketIcon,
+  MenuIcon,
+  CloseIcon,
 } from "../components/ui/icons";
 
 const menuItems = [
@@ -84,22 +89,7 @@ const currentPath = Astro.url.pathname;
                           aria-expanded="false"
                         >
                           {item.label}
-                          <svg
-                            width="10"
-                            height="6"
-                            viewBox="0 0 10 6"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="w-2.5 h-2.5 transition-transform duration-200 group-hover:rotate-180"
-                          >
-                            <path
-                              d="M1 1L5 5L9 1"
-                              stroke="currentColor"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
+                          <ChevronDownIcon className="w-2.5 h-2.5 transition-transform duration-200 group-hover:rotate-180" />
                         </button>
 
                         <!-- Dropdown Menu -->
@@ -127,21 +117,7 @@ const currentPath = Astro.url.pathname;
                         ]}
                       >
                         {item.isHome ? (
-                             <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="h-5 w-5"
-                            >
-                              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                              <polyline points="9 22 9 12 15 12 15 22"/>
-                            </svg>
+                             <HomeIcon className="h-5 w-5" />
                         ) : (
                           item.label
                         )}
@@ -161,23 +137,7 @@ const currentPath = Astro.url.pathname;
             href="/billetterie"
             class="inline-flex items-center justify-center bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white rounded-full px-6 py-2 font-bold uppercase tracking-wider text-sm shadow-lg transition-transform hover:-translate-y-0.5 no-underline gap-2 h-10"
         >
-             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-4 w-4"
-              >
-                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
-                <path d="M13 5v2"/>
-                <path d="M13 17v2"/>
-                <path d="M13 11v2"/>
-            </svg>
+             <TicketIcon className="h-4 w-4" />
             <span>Billetterie</span>
         </a>
       </div>
@@ -189,22 +149,7 @@ const currentPath = Astro.url.pathname;
             class="text-white hover:bg-[var(--primary-color)] hover:text-white p-2 rounded transition-colors"
             aria-label="Menu"
           >
-             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-6 w-6"
-              >
-                <line x1="4" x2="20" y1="12" y2="12"/>
-                <line x1="4" x2="20" y1="6" y2="6"/>
-                <line x1="4" x2="20" y1="18" y2="18"/>
-            </svg>
+             <MenuIcon className="h-6 w-6" />
           </button>
       </div>
     </div>
@@ -234,21 +179,7 @@ const currentPath = Astro.url.pathname;
     <!-- Close Button -->
     <div class="flex justify-end p-4">
         <button id="mobile-menu-close" class="text-white hover:text-[var(--primary-color)]">
-             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-6 w-6"
-              >
-                <path d="M18 6 6 18"/>
-                <path d="m6 6 12 12"/>
-            </svg>
+             <CloseIcon className="h-6 w-6" />
         </button>
     </div>
 
@@ -279,21 +210,7 @@ const currentPath = Astro.url.pathname;
                     >
                         {item.isHome ? (
                              <>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="h-5 w-5"
-                                >
-                                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                                    <polyline points="9 22 9 12 15 12 15 22"/>
-                                </svg>
+                                <HomeIcon className="h-5 w-5" />
                                 <span>Accueil</span>
                              </>
                         ) : (
@@ -309,23 +226,7 @@ const currentPath = Astro.url.pathname;
                 href="/billetterie"
                 class="w-full flex items-center justify-center gap-2 bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white rounded-full font-bold uppercase py-3 no-underline shadow-md"
             >
-                 <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="h-4 w-4"
-                  >
-                    <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
-                    <path d="M13 5v2"/>
-                    <path d="M13 17v2"/>
-                    <path d="M13 11v2"/>
-                </svg>
+                 <TicketIcon className="h-4 w-4" />
                 <span>Billetterie</span>
             </a>
         </div>

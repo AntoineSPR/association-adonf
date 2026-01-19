@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import ActualiteCard from '../components/ActualiteCard.astro';
 import ConcertCard from '../components/ConcertCard.astro';
 import { actualites, concerts } from '../data/mock';
+import { ArrowRightIcon } from '../components/ui/icons';
 
 // Slice as per original Angular template logic
 const recentActualites = actualites.slice(0, 3);
@@ -21,7 +22,7 @@ const recentConcerts = concerts.slice(0, 3);
             <h2 class="section-title">Actualités</h2>
           </div>
           <a href="/agenda#actualites" class="btn btn-outline">
-            Toutes les actus <i class="pi pi-arrow-right"></i>
+            Toutes les actus <ArrowRightIcon className="w-4 h-4" />
           </a>
         </div>
         
@@ -40,7 +41,7 @@ const recentConcerts = concerts.slice(0, 3);
             <h2 class="section-title">Programmation</h2>
           </div>
           <a href="/agenda#programmation" class="btn btn-outline">
-            Toute la prog <i class="pi pi-arrow-right"></i>
+            Toute la prog <ArrowRightIcon className="w-4 h-4" />
           </a>
         </div>
         
