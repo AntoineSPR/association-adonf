@@ -21,6 +21,11 @@ export enum ConcertStatus {
   REPORTE = 'REPORTÉ',
 }
 
+export interface ConcertSection {
+  title: string;
+  content: string;
+}
+
 export interface Concert {
   id: number;
   name: string;
@@ -31,6 +36,7 @@ export interface Concert {
   price: number;
   description: string;
   status: ConcertStatus | null;
+  sections?: ConcertSection[]; // New field for customizable sections
   featured: boolean;
 }
 
@@ -122,8 +128,20 @@ export const concerts: Concert[] = [
       'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800',
     price: 15,
     description:
-      'Une soirée rock inoubliable avec le meilleur tribute band des Killers',
+      'Une soirée rock inoubliable avec le meilleur tribute band des Killers. Venez redécouvrir les tubes qui ont marqué les années 2000.',
     status: null,
+    sections: [
+      {
+        title: 'Au programme',
+        content:
+          "Retrouvez tous les classiques : Mr. Brightside, Somebody Told Me, Human... Interprétés avec passion par le groupe 'Hot Fuss' qui tourne dans toute l'Europe.",
+      },
+      {
+        title: 'Informations pratiques',
+        content:
+          'Ouverture des portes à 20h00. Début du concert à 20h30. Bar et petite restauration sur place. Pas de vestiaire.',
+      },
+    ],
     featured: true,
   },
   {
