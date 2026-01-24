@@ -1,152 +1,60 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import LessonCard from '../components/LessonCard.astro';
-import ContactCard from '../components/ContactCard.astro';
-import { lessons } from '../data/lessons';
+import Layout from "../layouts/Layout.astro";
+import LessonCard from "../components/LessonCard.astro";
+import ContactCard from "../components/ContactCard.astro";
+import { lessons } from "../data/lessons";
 ---
 
 <Layout title="Projet Pédagogique - Association Adonf">
-  
   <div class="page-container">
-    
     <!-- Header -->
     <header class="page-header">
-        <h1 class="main-title">
-            PROJET <span>PÉDAGOGIQUE</span>
-        </h1>
-        <div class="title-underline"></div>
+      <h1 class="main-title">
+        PROJET <span>PÉDAGOGIQUE</span>
+      </h1>
+      <div class="title-underline"></div>
     </header>
 
     <!-- Grid -->
     <section class="lessons-section">
       <div class="lessons-container">
-        {lessons.map((lesson) => (
-          <LessonCard lesson={lesson} />
-        ))}
+        {lessons.map((lesson) => <LessonCard lesson={lesson} />)}
       </div>
     </section>
 
     <!-- Contacts Section -->
     <section class="contacts-section">
-        <h2 class="section-title">CONTACTS</h2>
-        <div class="contacts-grid">
-            <ContactCard 
-                image="/assets/logo-adonf.png"
-                name="Secrétariat"
-                role="Association Adonf"
-                email="contact@association-adonf.fr"
-                phone="06 12 34 56 78"
-            />
-            <ContactCard 
-                image="/assets/logo-adonf.png"
-                name="Secrétariat"
-                role="Association Adonf"
-                email="contact@association-adonf.fr"
-                phone="06 12 34 56 78"
-            />
-        </div>
+      <h2 class="section-title">CONTACTS</h2>
+      <div class="contacts-grid">
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Secrétariat"
+          role="Association Adonf"
+          email="contact@association-adonf.fr"
+          phone="06 12 34 56 78"
+        />
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Secrétariat"
+          role="Association Adonf"
+          email="contact@association-adonf.fr"
+          phone="06 12 34 56 78"
+        />
+      </div>
     </section>
-
   </div>
 </Layout>
 
 <style>
-  /* Core Layout */
-  .page-container {
-    padding: 3rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: system-ui, -apple-system, sans-serif;
-  }
-
-  @media(min-width: 768px) {
-    .page-container {
-      padding: 5rem 2rem;
-    }
-  }
-
-  /* Header */
-  .page-header {
-    margin-bottom: 4rem;
-    text-align: center;
-  }
-  @media(min-width: 768px) {
-    .page-header {
-        text-align: left;
-        margin-bottom: 6rem;
-    }
-  }
-
-  .main-title {
-    font-size: 3rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #1a1a1a;
-    line-height: 1.1;
-    margin: 0;
-  }
-  @media(min-width: 768px) {
-    .main-title { font-size: 4.5rem; }
-  }
-
-  .main-title span { color: var(--primary-color, #dc143c); }
-
-  .title-underline {
-    height: 8px;
-    width: 120px;
-    background-color: var(--primary-color, #dc143c);
-    margin-top: 1rem;
-    border-radius: 4px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  @media(min-width: 768px) {
-    .title-underline { margin-left: 0; margin-right: 0; }
-  }
-
-  /* Section Titles */
-  .section-title {
-    font-size: 2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #1a1a1a;
-    margin-bottom: 3rem;
-    position: relative;
-    display: inline-block;
-  }
-  
-  .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      width: 60px;
-      height: 6px;
-      background: var(--primary-color, #dc143c);
-      border-radius: 3px;
-  }
-
   /* Lessons Grid */
   .lessons-section {
     margin-bottom: 6rem;
   }
-  
+
   .lessons-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 2rem;
   }
-
-  /* Contacts Section */
-  .contacts-section {
-    margin-bottom: 4rem;
-  }
-
-  .contacts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-  }
-
 </style>
