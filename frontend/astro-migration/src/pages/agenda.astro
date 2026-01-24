@@ -1,42 +1,25 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ActualiteCard from '../components/ActualiteCard.astro';
-import ConcertCard from '../components/ConcertCard.astro';
-import { actualites, concerts } from '../data/mock';
+import Layout from "../layouts/Layout.astro";
+import ActualiteCard from "../components/ActualiteCard.astro";
+import ConcertCard from "../components/ConcertCard.astro";
+import { actualites, concerts } from "../data/mock";
 ---
 
 <Layout title="Agenda - Association Adonf">
-  <!-- Hero Section -->
-  <div class="relative bg-[var(--light-black)] text-white py-20 mb-12 shadow-md">
-    <div class="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-      <!-- Decorational background elements -->
-      <div class="absolute -top-10 -right-10 w-96 h-96 bg-[var(--primary-color)] rounded-full blur-3xl"></div>
-      <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full blur-3xl opacity-30"></div>
-    </div>
-    
-    <div class="container mx-auto px-4 relative z-10 text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 uppercase tracking-tight">
-        L'Agenda <span class="text-[var(--primary-color)]">Adonf</span>
-      </h1>
-      <p class="text-xl md:text-2xl text-[var(--text-on-dark)] max-w-2xl mx-auto font-light">
-        Tous les événements, concerts et actualités de l'association.
-      </p>
-      
-      <!-- Quick Navigation -->
-      <div class="flex flex-wrap justify-center gap-4 mt-8">
-        <a href="#actualites" class="inline-flex items-center px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white hover:text-white backdrop-blur-sm transition-all border border-white/10">
-          Actualités
-        </a>
-        <a href="#programmation" class="inline-flex items-center px-6 py-3 rounded-full bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white shadow-lg shadow-[var(--primary-color)]/30">
-          Programmation
-        </a>
-      </div>
-    </div>
-  </div>
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">L'AGENDA <span>ADONF</span></h1>
+      <div class="title-underline"></div>
 
-  <div class="section-layout container mx-auto px-4 pb-20 space-y-20">
-    <!-- Actualités Section -->
-    <section class="actualites-section scroll-mt-32" id="actualites">
+      <div class="agenda-nav">
+        <a href="#actualites" class="nav-btn">Actualités</a>
+        <a href="#programmation" class="nav-btn btn-outline">Programmation</a>
+      </div>
+    </header>
+
+    <div class="section-layout space-y-20">
+      <!-- Actualités Section -->
+      <section class="actualites-section scroll-mt-32" id="actualites">
         <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
           <div class="w-2 h-10 bg-[var(--primary-color)] rounded-full"></div>
           <div>
@@ -44,29 +27,88 @@ import { actualites, concerts } from '../data/mock';
             <p class="text-[var(--text-light)] text-lg">Les dernières nouvelles de l'association</p>
           </div>
         </div>
-        
-        <div class="actualites-grid">
-          {actualites.map((actu) => (
-            <ActualiteCard actualite={actu} featured={actu.featured} />
-          ))}
-        </div>
-    </section>
 
-    <!-- Programmation Section -->
-    <section class="programmation-section scroll-mt-32" id="programmation">
+        <div class="actualites-grid">
+          {actualites.map((actu) => <ActualiteCard actualite={actu} featured={actu.featured} />)}
+        </div>
+      </section>
+
+      <!-- Programmation Section -->
+      <section class="programmation-section scroll-mt-32" id="programmation">
         <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
-           <div class="w-2 h-10 bg-[var(--light-black)] rounded-full"></div>
-           <div>
+          <div class="w-2 h-10 bg-[var(--light-black)] rounded-full"></div>
+          <div>
             <h2 class="text-3xl font-bold text-[var(--light-black)] uppercase tracking-wide m-0">Programmation</h2>
             <p class="text-[var(--text-light)] text-lg">Les concerts et événements à venir</p>
           </div>
         </div>
 
         <div class="concerts-grid">
-          {concerts.map((concert) => (
-            <ConcertCard concert={concert} />
-          ))}
+          {concerts.map((concert) => <ConcertCard concert={concert} />)}
         </div>
-    </section>
+      </section>
+    </div>
   </div>
 </Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .agenda-nav {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .agenda-nav {
+      justify-content: flex-start;
+    }
+  }
+
+  .nav-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-btn:not(.btn-outline) {
+    background: var(--primary-color, #dc143c);
+    color: white;
+    border: 2px solid var(--primary-color, #dc143c);
+  }
+
+  .nav-btn:not(.btn-outline):hover {
+    background: #b01030;
+    border-color: #b01030;
+    transform: translateY(-2px);
+  }
+
+  .nav-btn.btn-outline {
+    background: transparent;
+    color: #333;
+    border: 2px solid #333;
+  }
+
+  .nav-btn.btn-outline:hover {
+    background: #333;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .actualites-grid,
+  .concerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+</style>
