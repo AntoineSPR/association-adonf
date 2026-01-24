@@ -1,21 +1,20 @@
 ---
-import type { Lesson } from '../data/lessons';
-
 interface Props {
-  lesson: Lesson;
+  lesson: {
+    title: string;
+    slug: string;
+    image: string;
+  };
+  baseUrl?: string;
 }
 
-const { lesson } = Astro.props;
+const { lesson, baseUrl = "/cours-de-musique" } = Astro.props;
 ---
 
-<a href={`/cours-de-musique/${lesson.slug}`} class="block">
+<a href={`${baseUrl}/${lesson.slug}`} class="block">
   <div class="lesson-card">
     <div class="image-container">
-      <img 
-        src={lesson.image} 
-        alt="" 
-        loading="lazy" 
-      />
+      <img src={lesson.image} alt="" loading="lazy" />
     </div>
     <div class="card-label">
       <h3>{lesson.title}</h3>
@@ -24,6 +23,12 @@ const { lesson } = Astro.props;
 </a>
 
 <style>
+  .block {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
   .lesson-card {
     position: relative;
     width: 300px;
@@ -31,22 +36,24 @@ const { lesson } = Astro.props;
     border-radius: 12px;
     overflow: hidden;
     background-color: #333;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   /* Mobile responsiveness */
   @media (max-width: 640px) {
     .lesson-card {
-       width: 100%;
-       aspect-ratio: 1/1;
-       height: auto;
+      width: 100%;
+      aspect-ratio: 1/1;
+      height: auto;
     }
   }
 
   .lesson-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
   }
 
   .image-container {

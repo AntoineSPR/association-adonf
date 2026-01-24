@@ -2,12 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
 import ContactCard from "../components/ContactCard.astro";
-import { lessons } from "../data/lessons";
+import { projects } from "../data/projet-pedagogique";
 ---
 
 <Layout title="Projet Pédagogique - Association Adonf">
   <div class="page-container">
-    <!-- Header -->
+    <div class="header-spacing"></div>
+
     <header class="page-header">
       <h1 class="main-title">
         PROJET <span>PÉDAGOGIQUE</span>
@@ -16,9 +17,9 @@ import { lessons } from "../data/lessons";
     </header>
 
     <!-- Grid -->
-    <section class="lessons-section">
-      <div class="lessons-container">
-        {lessons.map((lesson) => <LessonCard lesson={lesson} />)}
+    <section class="projects-section">
+      <div class="projects-container">
+        {projects.map((project) => <LessonCard lesson={project} baseUrl="/projet-pedagogique" />)}
       </div>
     </section>
 
@@ -28,17 +29,10 @@ import { lessons } from "../data/lessons";
       <div class="contacts-grid">
         <ContactCard
           image="/assets/logo-adonf.png"
-          name="Secrétariat"
+          name="Coordinateur Pédagogique"
           role="Association Adonf"
           email="contact@association-adonf.fr"
-          phone="06 12 34 56 78"
-        />
-        <ContactCard
-          image="/assets/logo-adonf.png"
-          name="Secrétariat"
-          role="Association Adonf"
-          email="contact@association-adonf.fr"
-          phone="06 12 34 56 78"
+          phone="05 56 33 66 00"
         />
       </div>
     </section>
@@ -47,11 +41,11 @@ import { lessons } from "../data/lessons";
 
 <style>
   /* Lessons Grid */
-  .lessons-section {
+  .projects-section {
     margin-bottom: 6rem;
   }
 
-  .lessons-container {
+  .projects-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
