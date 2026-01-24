@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import LessonCard from '../components/LessonCard.astro';
+import ContactCard from '../components/ContactCard.astro';
 import { lessons } from '../data/lessons';
 ---
 
@@ -16,21 +17,6 @@ import { lessons } from '../data/lessons';
         <div class="title-underline"></div>
     </header>
 
-    <!-- Vision -->
-    <section class="vision-section">
-        <div class="vision-title-col">
-             <h2>
-                NOTRE<br/>PHILOSOPHIE
-             </h2>
-        </div>
-        <div class="vision-text-col">
-            <p>
-              À l'Association Adonf, nous croyons que la musique doit être <strong>accessible à tous</strong>. 
-              Notre approche pédagogique est centrée sur le <em>plaisir de jouer</em>, la découverte et la pratique collective.
-            </p>
-        </div>
-    </section>
-
     <!-- Grid -->
     <section class="lessons-section">
       <div class="lessons-container">
@@ -40,8 +26,22 @@ import { lessons } from '../data/lessons';
       </div>
     </section>
 
+    <!-- Vision -->
+    <section class="vision-section">
+        <div class="vision-title-col">
+             <h2>
+                NOTRE<br/>VISION
+             </h2>
+        </div>
+        <div class="vision-text-col">
+            <p>
+              Découvrir et apprendre, se perfectionner et progresser, sans cursus sans langage savant, avec pertinence et passion, en cours collectifs mais à l’écoute de chacun, voilà ce que vous propose la Rock School et son équipe pédagogique, autour des Musiques Actuelles.
+            </p>
+        </div>
+    </section>
+
     <!-- Unified Infos Section -->
-    <section class="infos-section">
+    <section id="inscriptions-tarifs" class="infos-section scroll-mt-32">
         <div class="infos-container">
             
             <!-- Tarifs (White) -->
@@ -49,27 +49,51 @@ import { lessons } from '../data/lessons';
                 <h3>Tarifs Annuels</h3>
                 
                 <div class="tarifs-list">
-                    <div class="tarif-row">
-                        <div class="tarif-label">
-                            <h4>Individuel</h4>
-                            <span>30 min / semaine</span>
-                        </div>
-                        <div class="tarif-price">450€</div>
+                    <div class="tarif-item">
+                        <h4>Guitare, batterie, chant, basse, clavier, MAO-Beatmaking, écriture-création-production, DJing, percussions</h4>
+                        <p>Cours de 1 heure : <span class="price">493 €</span> l’année + 15 € d’adhésion annuelle obligatoire</p>
                     </div>
 
                     <div class="divider"></div>
 
-                    <div class="tarif-row">
-                        <div class="tarif-label">
-                            <h4>Groupe</h4>
-                            <span>1h30 / semaine</span>
-                        </div>
-                        <div class="tarif-price">320€</div>
+                    <div class="tarif-item">
+                        <h4>Guitare, batterie, chant, clavier</h4>
+                        <p>Cours de 30min pour les 7-8 ans : <span class="price">246,50€</span> l'année + 15€ d'adhésion annuelle obligatoire</p>
                     </div>
-                    
-                    <div class="tarif-note">
-                        <strong>Note :</strong> Adhésion annuelle à l'association de 15€ (obligatoire) non incluse.
+
+                    <div class="divider"></div>
+
+                    <div class="tarif-item">
+                        <h4>Initiation batterie</h4>
+                        <p>Cours de 45min pour les 5-7 ans : <span class="price">370€</span> + 15€ d'adhésion annuelle obligatoire</p>
                     </div>
+
+                    <div class="divider"></div>
+
+                    <div class="tarif-item">
+                        <h4>Cours d'essai</h4>
+                        <p>Tarifé <span class="price">8,50€</span> ; remboursé si la personne décide de continuer le cours.</p>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="tarif-item">
+                        <h4>Jeu en groupe</h4>
+                        <ul class="tarif-sublist">
+                            <li>Gratuit pour les élèves de la Rock School (dans la limite des places disponibles).</li>
+                            <li><span class="price">200€</span> l'année (15 ateliers minimum) + 15€ d'adhésion annuelle obligatoire pour les personnes extérieures.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <h3>Moyens de paiement possibles</h3>
+                    <ul>
+                        <li><strong>Par CB :</strong> au comptant uniquement</li>
+                        <li><strong>Par espèces :</strong> au comptant uniquement</li>
+                        <li><strong>Par chèque :</strong> en 1, 2, 3, 4 ou 5 fois</li>
+                        <li><strong>Par prélèvement :</strong> en 1, 2, 3, 4 ou 5 fois</li>
+                    </ul>
                 </div>
             </div>
 
@@ -81,28 +105,28 @@ import { lessons } from '../data/lessons';
                 
                 <div class="inscriptions-content">
                     <p>
-                        Les inscriptions sont ouvertes <strong>toute l'année</strong>. 
-                        Réservez votre séance d'essai gratuite dès maintenant.
+                        Pour une inscription en cours d'année : merci de contacter <a href="mailto:transmission@rockschool-barbey.com">transmission@rockschool-barbey.com</a> pour vérifier s’il reste des places pour le cours souhaité. 
                     </p>
 
-                    <nav class="contact-links">
-                         <a href="mailto:contact@association-adonf.fr">
-                            <span class="icon-circle">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            </span>
-                            <span>contact@association-adonf.fr</span>
-                         </a>
-
-                         <a href="tel:+33612345678">
-                            <span class="icon-circle">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                            </span>
-                            <span>06 12 34 56 78</span>
-                         </a>
-                    </nav>
+                    <p> Le règlement intérieur 2025/2026 sur <a href="#">ce lien</a>. <br/>
+                        Le calendrier des cours 2025/2026 sur <a href="#">ce lien</a>. </p>
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section class="contacts-section">
+        <h2 class="section-title">CONTACTS</h2>
+        <div class="contacts-grid">
+            <ContactCard 
+                image="/assets/logo-adonf.png"
+                name="Secrétariat"
+                role="Association Adonf"
+                email="contact@association-adonf.fr"
+                phone="06 12 34 56 78"
+            />
         </div>
     </section>
 
@@ -223,11 +247,6 @@ import { lessons } from '../data/lessons';
     border-radius: 20px;
     overflow: hidden;
   }
-  @media(min-width: 768px) {
-    .infos-container {
-        grid-template-columns: 1fr 1fr;
-    }
-  }
 
   .tarifs-block {
     background: white;
@@ -256,29 +275,38 @@ import { lessons } from '../data/lessons';
     z-index: 2;
   }
 
-  .tarif-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .tarif-item {
     margin-bottom: 1rem;
   }
 
-  .tarif-label h4 {
-    margin: 0 0 0.25rem 0;
+  .tarif-item h4 {
+    margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
     text-transform: uppercase;
     font-weight: 800;
     color: #1a1a1a;
   }
-  .tarif-label span {
-    font-size: 0.9rem;
-    color: #666;
+
+  .tarif-item p {
+    font-size: 1rem;
+    color: #444;
+    margin: 0;
+    line-height: 1.5;
   }
 
-  .tarif-price {
-    font-size: 1.8rem;
-    font-weight: 900;
+  .tarif-item .price {
     color: var(--primary-color, #dc143c);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .tarif-sublist {
+      margin: 0.5rem 0 0 0;
+      padding-left: 1.2rem;
+      color: #444;
+  }
+  .tarif-sublist li {
+      margin-bottom: 0.25rem;
   }
 
   .divider {
@@ -287,13 +315,39 @@ import { lessons } from '../data/lessons';
     margin: 1.5rem 0;
   }
 
-  .tarif-note {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: #f9fafb;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    color: #555;
+  .payment-methods {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 2px solid #f0f0f0;
+  }
+
+  .payment-methods h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      border: none;
+      padding: 0;
+  }
+
+  .payment-methods ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+
+  .payment-methods li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #333;
+      padding-left: 1.5rem;
+      position: relative;
+  }
+
+  .payment-methods li::before {
+      content: "•";
+      color: var(--primary-color, #dc143c);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
   }
 
   /* Inscriptions Block */
@@ -334,36 +388,36 @@ import { lessons } from '../data/lessons';
   }
   .inscriptions-content strong { color: white; }
 
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  /* Contacts Section */
+  .contacts-section {
+    margin-bottom: 4rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 6px;
+      background: var(--primary-color, #dc143c);
+      border-radius: 3px;
   }
 
-  .contact-links a {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: white;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .contact-links a:hover {
-    color: var(--primary-color, #dc143c);
-  }
-
-  .icon-circle {
-    width: 40px;
-    height: 40px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .contact-links a:hover .icon-circle {
-    background: var(--primary-color, #dc143c);
-    color: white;
+  .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
   }
 
 </style>

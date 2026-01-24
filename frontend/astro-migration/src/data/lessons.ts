@@ -14,20 +14,17 @@ export const lessons: Lesson[] = [
   {
     title: 'Batterie',
     slug: 'batterie',
-    image:
-      'https://images.unsplash.com/photo-1519892300165-cb5542fb4747?w=800&q=80',
+    image: 'https://picsum.photos/800/80',
   },
   {
     title: 'Basse',
     slug: 'basse',
-    image:
-      'https://images.unsplash.com/photo-1445985543470-4102eb966c00?w=800&q=80',
+    image: 'https://picsum.photos/800/80',
   },
   {
     title: 'Chant',
     slug: 'chant',
-    image:
-      'https://images.unsplash.com/photo-1516280440614-6697288d5d38?w=800&q=80',
+    image: 'https://picsum.photos/800/80',
   },
   {
     title: 'Clavier',
