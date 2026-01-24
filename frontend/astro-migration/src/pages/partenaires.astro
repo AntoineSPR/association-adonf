@@ -1,0 +1,59 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PartnerCard from "../components/PartnerCard.astro";
+
+const partners = [
+  {
+    name: "Mairie de Bordeaux",
+    logo: "/assets/logo-adonf.png",
+    url: "https://www.bordeaux.fr",
+  },
+  {
+    name: "Département de la Gironde",
+    logo: "/assets/logo-adonf.png",
+    url: "https://www.gironde.fr",
+  },
+  {
+    name: "Région Nouvelle-Aquitaine",
+    logo: "/assets/logo-adonf.png",
+    url: "https://www.nouvelle-aquitaine.fr",
+  },
+  {
+    name: "Centre National de la Musique",
+    logo: "/assets/logo-adonf.png",
+    url: "https://cnm.fr",
+  },
+  {
+    name: "Rock School Barbey",
+    logo: "/assets/logo-adonf.png",
+    url: "https://www.rockschool-barbey.com",
+  },
+  {
+    name: "RIM - Réseau des Indépendants de la Musique",
+    logo: "/assets/logo-adonf.png",
+    url: "https://le-rim.org",
+  },
+];
+---
+
+<Layout title="Nos Partenaires - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">NOS <span>PARTENAIRES</span></h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <div class="partners-grid">
+      {partners.map((partner) => <PartnerCard {...partner} />)}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+</style>
