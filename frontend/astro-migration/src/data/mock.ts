@@ -1,9 +1,15 @@
+export interface ActualiteSection {
+  title: string;
+  content: string;
+}
+
 export interface Actualite {
   id: number;
   title: string;
   slug: string;
   excerpt: string;
   content: string;
+  sections?: ActualiteSection[];
   imageUrl: string;
   publishedAt: Date;
   featured: boolean;
@@ -35,7 +41,25 @@ export const actualites: Actualite[] = [
     slug: 'inscriptions-tremplin-2026',
     excerpt:
       'Les inscriptions pour le Tremplin Musical 2026 sont ouvertes ! Une opportunité unique pour les jeunes talents de se faire connaître.',
-    content: '',
+    content:
+      "Le Tremplin Musical est de retour pour une nouvelle édition qui s'annonce explosive ! Comme chaque année, nous recherchons les pépites de la scène locale.",
+    sections: [
+      {
+        title: 'Conditions de participation',
+        content:
+          "Pour participer, vous devez résider dans la région et proposer un répertoire original de compositions (pas de reprises). Le groupe doit avoir moins de 3 ans d'existence.",
+      },
+      {
+        title: 'Les prix à gagner',
+        content:
+          "Le lauréat remportera un enregistrement en studio, un accompagnement artistique d'un an et une programmation sur la scène du festival l'été prochain.",
+      },
+      {
+        title: "Comment s'inscrire ?",
+        content:
+          "Envoyez votre dossier complet (bio, liens d'écoute, photos) via le formulaire en ligne avant le 31 janvier.",
+      },
+    ],
     imageUrl:
       'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800',
     publishedAt: new Date('2025-11-20'),
@@ -47,7 +71,15 @@ export const actualites: Actualite[] = [
     slug: 'rentree-ecole-musique',
     excerpt:
       "Toutes les informations sur la rentrée de l'école de musique : horaires, inscriptions, nouveaux cours...",
-    content: '',
+    content:
+      "L'école de musique rouvre ses portes le 15 septembre. Découvrez notre planning pour l'année 2025-2026.",
+    sections: [
+      {
+        title: 'Nouveaux cours',
+        content:
+          "Cette année, nous ouvrons une classe de MAO (Musique Assistée par Ordinateur) et un atelier d'éveil musical pour les tout-petits.",
+      },
+    ],
     imageUrl:
       'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
     publishedAt: new Date('2025-11-15'),
@@ -68,7 +100,7 @@ export const actualites: Actualite[] = [
   {
     id: 4,
     title: "Nouveau Studio d'Enregistrement 2",
-    slug: 'nouveau-studio-enregistrement',
+    slug: 'nouveau-studio-enregistrement-2',
     excerpt:
       "Découvrez notre nouveau studio d'enregistrement équipé des dernières technologies pour vos projets musicaux.",
     content: '',
