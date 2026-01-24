@@ -1,0 +1,62 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+---
+
+<Layout title="Studio d'Enregistrement - Association Adonf">
+  <div class="page-container">
+    <!-- Header -->
+    <header class="page-header">
+      <h1 class="main-title">
+        STUDIO <span>D'ENREGISTREMENT</span>
+      </h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <!-- Equipment List -->
+    <section class="equipment-section">
+      <h2 class="section-title">ENREGISTREMENT ET MIXAGE SUR PROTOOLS 10</h2>
+
+      <div class="equipment-container">
+        <ul class="check-list">
+          <li>Préamplis RME Octamic ( 16 pistes en simultané / 24 bits 48Khz )</li>
+          <li>2 Préamplis compresseur à lampe AVALON</li>
+          <li>Écoutes Genelec / Ns10 Yamaha</li>
+          <li>Parc micro batterie Audix , micros instruments Shure , micro voix Neumann + divers DI</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section class="contacts-section">
+      <h2 class="section-title">CONTACTS</h2>
+      <div class="contacts-grid">
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Ingénieur Son"
+          role="Studio d'Enregistrement"
+          email="contact@association-adonf.fr"
+          phone="06 12 34 56 78"
+        />
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  /* Equipment List */
+  .equipment-section {
+    margin-bottom: 5rem;
+  }
+
+  .equipment-container {
+    background: #f9f9f9;
+    padding: 2.5rem;
+    border-radius: 16px;
+  }
+  @media (min-width: 768px) {
+    .equipment-container {
+      padding: 3rem;
+    }
+  }
+</style>

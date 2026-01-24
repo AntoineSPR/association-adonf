@@ -1,0 +1,76 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+---
+
+<Layout title="Régie - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">RÉGIE</h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <section class="content-section">
+      <div class="text-container">
+        <p>
+          Au-delà du son, l'association ADONF assure la régie générale de vos événements. Coordination des équipes techniques, gestion des fiches
+          techniques, accueil des artistes, respect des horaires et des contraintes de sécurité : nous prenons en charge l'organisation
+          opérationnelle.
+        </p>
+        <p>
+          Notre expérience nous permet d'anticiper les imprévus et d'assurer le bon déroulement de votre manifestation, vous permettant de vous
+          concentrer sur l'artistique et l'accueil du public.
+        </p>
+      </div>
+      <div class="image-container">
+        <img src="/assets/logo-adonf.png" alt="Régie" />
+      </div>
+    </section>
+
+    <section class="contacts-section">
+      <h2 class="section-title">CONTACTS</h2>
+      <div class="contacts-grid">
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Responsable Régie"
+          role="Régie Générale"
+          email="contact@association-adonf.fr"
+          phone="06 12 34 56 78"
+        />
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .content-section {
+    display: grid;
+    gap: 3rem;
+    margin-bottom: 5rem;
+  }
+
+  /* Removed desktop side-by-side to keep vertical layout (text then image) */
+  /* @media (min-width: 768px) {
+    .content-section {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  } */
+
+  .image-container img {
+    width: 100%;
+    max-width: 600px; /* Limit width since it's now full column */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+  }
+
+  .text-container p {
+    font-size: 1.15rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+</style>

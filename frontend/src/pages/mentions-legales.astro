@@ -1,0 +1,131 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Mentions Légales - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">MENTIONS <span>LÉGALES</span></h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <div class="legal-content">
+      <section class="legal-section">
+        <h3>Éditeur du site :</h3>
+        <p>
+          Le site <a href="http://www.rockschool-barbey.com" target="_blank">www.rockschool-barbey.com</a> est édité par l'association PARALLÈLES ATTITUDES
+          DIFFUSION, 18 cours Barbey 33800 Bordeaux
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h3>Réalisation :</h3>
+        <p>Antoine SIMPER : <a href="https://github.com/AntoineSPR" target="_blank">https://github.com/AntoineSPR</a></p>
+      </section>
+
+      <section class="legal-section">
+        <h3>Hébergement :</h3>
+        <p>
+          OVH SAS au capital de 500 K€<br />
+          RCS Roubaix – Tourcoing 424 761 419 00045<br />
+          Code APE 6202A<br />
+          N° TVA : FR 22 424 761 419<br />
+          Siège social : 2 rue Kellermann - 59100 Roubaix - France<br />
+          Directeur de la publication : Octave KLABA
+        </p>
+      </section>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        Conformément au code de la Propriété Intellectuelle et plus généralement à tous les accords comportant des dispositions relatives au droit
+        d'auteur, la reproduction partielle ou totale de textes, d'images ou d'illustrations non destinées explicitement à être téléchargées par les
+        visiteur·euse·s, sont interdites sans autorisation préalable de l'éditeur·rice ou de tout ayant-droit.
+      </p>
+
+      <h2>Données personnelles / Données entrées par l’utilisateur·rice</h2>
+      <p>
+        Au cours de votre visite sur le site <a href="http://www.rockschool-barbey.com" target="_blank">www.rockschool-barbey.com</a>, il pourra vous
+        être demandé de saisir des informations personnelles nominatives vous concernant (nom, prénom, e-mail, etc.). Les données reçues de votre part
+        sont reprises dans les fichiers du Normandy et servent uniquement à répondre à la demande d'informations que vous avez introduite. Sous
+        réserve des dispositions légales applicables et notamment de la Loi "Informatique et Libertés" modifiée par la loi du 6 août 2004,
+        conformément à l'article 39 de la Loi "Informatique et Libertés" n°78-17 du 6 janvier 1978, vous disposez d'un droit d'accès et de
+        rectification des données vous concernant en écrivant à la Rock School Barbey. (<a href="mailto:contact@rockschool-barbey.com"
+          >contact@rockschool-barbey.com</a
+        >)
+      </p>
+
+      <h2>Responsabilités</h2>
+      <p>L'utilisation des informations contenues sur le présent site relève de la seule responsabilité de son utilisateur·rice.</p>
+      <p>
+        Toutes les ressources contenues dans ce site, textes, visuels et illustrations (schémas, dessins, plans, photographies et animations
+        informatiques) sont communiqués à titre purement informatif et ne peuvent en rien engager la responsabilité de l'éditeur·rice.
+      </p>
+      <p>
+        En effet, malgré le souhait de l'éditeur·rice d’apporter les informations les plus exactes possibles et d’assurer une mise à jour régulière du
+        site Internet, celui·celle–ci n’est pas responsable d’imprécisions, d’inexactitudes, d’erreurs ou de possibles omissions portant sur des
+        informations contenues sur le site ni des résultats obtenus par l’utilisation et la pratique des informations délivrées sur ce support de
+        communication.
+      </p>
+
+      <h2>Exercice du droit d’accès</h2>
+      <p>
+        Conformément à l’article 34 de la loi "Informatique et Libertés", vous disposez d’un droit d'accès, de modification, de rectification et de
+        suppression des données vous concernant. Pour exercer ce droit d'accès, adressez–vous à l'éditeur·rice.
+      </p>
+      <p>
+        Pour plus d’informations sur la loi « Informatique et Libertés », vous pouvez consulter le site Internet de la <a
+          href="https://www.cnil.fr"
+          target="_blank">CNIL</a
+        >.
+      </p>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .legal-content {
+    max-width: 900px;
+    margin: 0 auto 5rem auto;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .legal-section {
+    margin-bottom: 2rem;
+  }
+
+  .legal-content h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 3rem 0 1.5rem 0;
+    color: #1a1a1a;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+  }
+
+  .legal-content h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: var(--primary-color, #dc143c);
+    text-transform: uppercase;
+  }
+
+  .legal-content p {
+    margin-bottom: 1rem;
+    text-align: justify;
+  }
+
+  .legal-content a {
+    color: var(--primary-color, #dc143c);
+    text-decoration: underline;
+  }
+
+  .legal-content a:hover {
+    text-decoration: none;
+  }
+</style>

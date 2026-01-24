@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LessonCard from "../components/LessonCard.astro";
+import ContactCard from "../components/ContactCard.astro";
+import { projects } from "../data/projet-pedagogique";
+---
+
+<Layout title="Projet Pédagogique - Association Adonf">
+  <div class="page-container">
+    <div class="header-spacing"></div>
+
+    <header class="page-header">
+      <h1 class="main-title">
+        PROJET <span>PÉDAGOGIQUE</span>
+      </h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <!-- Grid -->
+    <section class="projects-section">
+      <div class="projects-container">
+        {projects.map((project) => <LessonCard lesson={project} baseUrl="/projet-pedagogique" />)}
+      </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section class="contacts-section">
+      <h2 class="section-title">CONTACTS</h2>
+      <div class="contacts-grid">
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Coordinateur Pédagogique"
+          role="Association Adonf"
+          email="contact@association-adonf.fr"
+          phone="05 56 33 66 00"
+        />
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  /* Lessons Grid */
+  .projects-section {
+    margin-bottom: 6rem;
+  }
+
+  .projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+</style>

@@ -1,0 +1,282 @@
+---
+import {
+  FacebookIcon,
+  InstagramIcon,
+  YoutubeIcon,
+  ChevronDownIcon,
+  HomeIcon,
+  TicketIcon,
+  MenuIcon,
+  CloseIcon,
+} from "../components/ui/icons";
+
+const menuItems = [
+  { label: "", href: "/", icon: "home", isHome: true },
+  { label: "Agenda", href: "/agenda" },
+  {
+    label: "École de Musique",
+    children: [
+      { label: "Cours de Musique", href: "/cours-de-musique" },
+      { label: "Inscriptions et Tarifs", href: "/cours-de-musique#inscriptions-tarifs" },
+      { label: "Projet Pédagogique", href: "/projet-pedagogique" },
+    ],
+  },
+  { label: "Répétitions", href: "/repetitions" },
+  { label: "Studio d'Enregistrement", href: "/studio-enregistrement" },
+  {
+    label: "Prestations diverses",
+    children: [
+      { label: "Sonorisation", href: "/sonorisation" },
+      { label: "Régie", href: "/regie" },
+      { label: "Festivals", href: "/festivals" },
+      {
+        label: "Accompagnement artistique",
+        href: "/accompagnement-artistique",
+      },
+    ],
+  },
+];
+
+const socials = [
+  {
+    icon: FacebookIcon,
+    url: "https://www.facebook.com/AssociationADonf/",
+    label: "Facebook",
+  },
+  {
+    icon: InstagramIcon,
+    url: "https://www.instagram.com/association_adonf/",
+    label: "Instagram",
+  },
+  {
+    icon: YoutubeIcon,
+    url: "https://www.youtube.com/@rockschooladonf7634",
+    label: "YouTube",
+  },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+  class="sticky top-0 z-50 w-full bg-[var(--light-black)] p-2 text-white shadow-md font-sans"
+>
+  <div class="container mx-auto flex flex-col gap-2">
+    <!-- Top Row: Logo - Navigation - Billetterie -->
+    <div class="flex items-center justify-between gap-4">
+      <!-- Logo -->
+      <a href="/" class="block shrink-0">
+        <img
+          src="/assets/logo-adonf.png"
+          alt="Association A Donf"
+          class="w-[150px] md:w-[200px] h-auto"
+        />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden min-[1150px]:flex flex-1 justify-center items-center">
+        <nav>
+          <ul class="flex items-center m-0 p-0 list-none">
+            {
+              menuItems.map((item, index) => (
+                <>
+                  {index > 0 && <li class="h-6 w-[2px] bg-[var(--primary-color)] mx-2 hidden xl:block" />}
+                  <li class="relative group">
+                    {item.children ? (
+                      <>
+                        <button
+                          class="flex items-center gap-1 px-3 py-2 text-sm font-bold tracking-wide text-white uppercase transition-colors bg-transparent rounded hover:bg-[var(--primary-color)]/10 hover:text-[var(--primary-color)] focus:outline-none cursor-pointer"
+                          aria-expanded="false"
+                        >
+                          {item.label}
+                          <ChevronDownIcon className="w-2.5 h-2.5 transition-transform duration-200 group-hover:rotate-180" />
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div class="absolute left-0 z-50 invisible w-[240px] pt-2 transition-all duration-200 opacity-0 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transform translate-y-2">
+                          <ul class="py-2 bg-[var(--light-black)] border border-[var(--text-color)] shadow-xl rounded-sm list-none m-0">
+                            {item.children.map((child) => (
+                              <li>
+                                <a
+                                  href={child.href}
+                                  class="block px-4 py-2.5 text-sm uppercase text-[var(--text-on-dark)] transition-colors hover:bg-[var(--primary-color)] hover:text-white no-underline"
+                                >
+                                  {child.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </>
+                    ) : (
+                      <a
+                        href={item.href}
+                        class:list={[
+                            "group inline-flex h-10 w-max items-center justify-center rounded px-3 py-2 text-sm uppercase font-bold tracking-wide transition-colors hover:bg-[var(--primary-color)]/10 hover:text-[var(--primary-color)] focus:bg-[var(--primary-color)] focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 hover:no-underline text-white",
+                             item.isHome ? "px-2" : ""
+                        ]}
+                      >
+                        {item.isHome ? (
+                             <HomeIcon className="h-5 w-5" />
+                        ) : (
+                          item.label
+                        )}
+                      </a>
+                    )}
+                  </li>
+                </>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Billetterie Button -->
+      <div class="hidden min-[1150px]:block shrink-0 ml-4">
+        <a
+            href="https://www.helloasso.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white rounded-full px-6 py-2 font-bold uppercase tracking-wider text-sm shadow-lg transition-transform hover:-translate-y-0.5 no-underline gap-2 h-10"
+        >
+             <TicketIcon className="h-4 w-4" />
+            <span>Billetterie</span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Trigger -->
+      <div class="min-[1150px]:hidden">
+          <button
+            id="mobile-menu-trigger"
+            class="text-white hover:bg-[var(--primary-color)] hover:text-white p-2 rounded transition-colors"
+            aria-label="Menu"
+          >
+             <MenuIcon className="h-6 w-6" />
+          </button>
+      </div>
+    </div>
+
+    <!-- Second Row: Social Icons (Desktop only) -->
+    <div class="hidden min-[1150px]:flex justify-center gap-8 pb-2">
+      {socials.map((social) => (
+        <a
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[var(--primary-color)] transition-colors duration-300 hover:text-white"
+          aria-label={social.label}
+        >
+          <social.icon className="h-6 w-6" />
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Overlay -->
+<div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+<!-- Mobile Drawer -->
+<div id="mobile-drawer" class="fixed inset-y-0 right-0 z-50 w-3/4 max-w-sm bg-[var(--light-black)] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out border-l border-gray-800 flex flex-col">
+    <!-- Close Button -->
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-white hover:text-[var(--primary-color)]">
+             <CloseIcon className="h-6 w-6" />
+        </button>
+    </div>
+
+    <!-- Mobile Nav Content -->
+    <nav class="flex flex-col gap-4 px-6 pb-8 overflow-y-auto">
+        {menuItems.map((item) => (
+            <div class="flex flex-col gap-2">
+                {item.children ? (
+                    <>
+                        <div class="font-bold text-white px-2 uppercase tracking-wide">
+                            {item.label}
+                        </div>
+                        <div class="pl-4 flex flex-col gap-2 border-l-2 border-gray-700 ml-2">
+                            {item.children.map((child) => (
+                                <a
+                                    href={child.href}
+                                    class="text-sm text-white hover:bg-[var(--primary-color)] hover:text-white py-2 px-2 rounded transition-colors block no-underline"
+                                >
+                                    {child.label}
+                                </a>
+                            ))}
+                        </div>
+                    </>
+                ) : (
+                    <a
+                        href={item.href}
+                        class="font-bold text-white hover:bg-[var(--primary-color)] hover:text-white px-2 py-1 uppercase tracking-wide rounded transition-colors flex items-center gap-2 no-underline"
+                    >
+                        {item.isHome ? (
+                             <>
+                                <HomeIcon className="h-5 w-5" />
+                                <span>Accueil</span>
+                             </>
+                        ) : (
+                            item.label
+                        )}
+                    </a>
+                )}
+            </div>
+        ))}
+
+        <div class="mt-4">
+            <a
+                href="/billetterie"
+                class="w-full flex items-center justify-center gap-2 bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white rounded-full font-bold uppercase py-3 no-underline shadow-md"
+            >
+                 <TicketIcon className="h-4 w-4" />
+                <span>Billetterie</span>
+            </a>
+        </div>
+
+        <!-- Mobile Socials -->
+        <div class="flex justify-center gap-8 mt-4 pt-4 border-t border-gray-800">
+             {socials.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-[var(--primary-color)] transition-colors duration-300 hover:text-white"
+              aria-label={social.label}
+            >
+              <social.icon className="h-6 w-6" />
+            </a>
+          ))}
+        </div>
+    </nav>
+</div>
+
+<script>
+    const trigger = document.getElementById('mobile-menu-trigger');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const drawer = document.getElementById('mobile-drawer');
+    const overlay = document.getElementById('mobile-overlay');
+
+    function openMenu() {
+        drawer?.classList.remove('translate-x-full');
+        overlay?.classList.remove('hidden');
+        // Small delay to allow display:block to apply before opacity transition
+        setTimeout(() => {
+            overlay?.classList.remove('opacity-0');
+        }, 10);
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function closeMenu() {
+        drawer?.classList.add('translate-x-full');
+        overlay?.classList.add('opacity-0');
+        setTimeout(() => {
+            overlay?.classList.add('hidden');
+        }, 300); // Match transition duration
+        document.body.style.overflow = '';
+    }
+
+    trigger?.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
+    overlay?.addEventListener('click', closeMenu);
+</script>
+

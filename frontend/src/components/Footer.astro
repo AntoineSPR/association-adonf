@@ -1,0 +1,132 @@
+---
+import { FacebookIcon, InstagramIcon, YoutubeIcon } from "./ui/icons";
+
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  {
+    icon: FacebookIcon,
+    url: "https://www.facebook.com/AssociationADonf/",
+    label: "Facebook",
+  },
+  {
+    icon: InstagramIcon,
+    url: "https://www.instagram.com/association_adonf/",
+    label: "Instagram",
+  },
+  {
+    icon: YoutubeIcon,
+    url: "https://www.youtube.com/@rockschooladonf7634",
+    label: "YouTube",
+  },
+];
+
+const footerLinks = [
+  { label: "Accueil", route: "/" },
+  { label: "Association", route: "/association" },
+  { label: "Contacts", route: "/contacts" },
+  { label: "Plan d'accès", route: "/plan-acces" },
+  {
+    label: "Politique de confidentialité",
+    route: "/politique-confidentialite",
+  },
+  { label: "Mentions légales", route: "/mentions-legales" },
+  { label: "CGV / Statuts", route: "/cgv-statuts" },
+  { label: "Partenaires", route: "/partenaires" },
+];
+---
+
+<footer class="bg-[var(--light-black)] py-6 px-4 mt-auto">
+  <div class="max-w-[1200px] mx-auto px-4">
+    <!-- Footer Top Content -->
+    <div
+      class="flex flex-col min-[1150px]:flex-row min-[1150px]:justify-between items-center gap-8 mb-8"
+    >
+      <!-- Logo Section -->
+      <div class="hidden min-[1150px]:block footer-logo">
+        <a href="/" class="no-underline">
+          <img
+            src="/assets/logo-adonf.png"
+            alt="Accueil"
+            class="w-[200px] h-auto"
+            style="width: 200px;"
+          />
+        </a>
+      </div>
+
+      <!-- Main Content (Socials + Links) -->
+      <div
+        class="flex flex-col gap-6 max-w-[600px] items-center w-full min-[1150px]:w-auto"
+      >
+        <!-- Social Section -->
+        <div class="flex gap-6">
+          {
+            socialLinks.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[var(--primary-color)] transition-colors duration-300 hover:text-white"
+                aria-label={social.label}
+              >
+                <social.icon className="h-6 w-6" />
+              </a>
+            ))
+          }
+        </div>
+
+        <!-- Links Section -->
+        <nav>
+          <ul class="flex flex-wrap gap-8 justify-center list-none p-0 m-0">
+            {
+              footerLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.route}
+                    class="text-[var(--text-on-dark)] no-underline transition-colors duration-300 hover:text-[var(--primary-color)]"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Address Section -->
+      <div class="text-center">
+        <p class="text-[var(--text-on-dark)] leading-[1.6] m-0">
+          <strong>Association Adonf</strong>
+          <br />
+          29 avenue de Onda
+          <br />
+          17130 Montendre
+          <br />
+          Tél : 05 46 49 03 18
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div
+      class="border-t border-[var(--text-color)] pt-4 text-center text-[var(--text-muted-on-dark)] text-[0.9rem]"
+    >
+      <p class="my-2">&copy; {currentYear} Association Adonf</p>
+      <p class="my-2 text-[0.85rem]">
+        Réalisation :{" "}
+        <a
+          href="https://github.com/AntoineSPR"
+          target="_blank"
+          style="color: inherit;"
+          class="hover:underline"
+        >
+          Antoine Simper
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+
