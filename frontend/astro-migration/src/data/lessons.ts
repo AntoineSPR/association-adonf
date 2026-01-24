@@ -14,17 +14,17 @@ export const lessons: Lesson[] = [
   {
     title: 'Batterie',
     slug: 'batterie',
-    image: 'https://picsum.photos/800/80',
+    image: 'https://picsum.photos/1000',
   },
   {
     title: 'Basse',
     slug: 'basse',
-    image: 'https://picsum.photos/800/80',
+    image: 'https://picsum.photos/1000?blur',
   },
   {
     title: 'Chant',
     slug: 'chant',
-    image: 'https://picsum.photos/800/80',
+    image: 'https://picsum.photos/1000?greyscale',
   },
   {
     title: 'Clavier',

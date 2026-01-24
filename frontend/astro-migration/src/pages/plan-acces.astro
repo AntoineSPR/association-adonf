@@ -1,0 +1,207 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Plan d'Accès - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">PLAN <span>D'ACCÈS</span></h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <div class="grid-container">
+      <!-- General Info Column -->
+      <div class="info-column">
+        <section class="mb-5">
+          <h2 class="section-title-small">CONTACT</h2>
+          <p class="mb-2"><strong>Horaires de Bureau :</strong> 10h – 13h / 14h – 18h</p>
+          <p><strong>Téléphone :</strong> <a href="tel:0556336600">05 56 33 66 00</a></p>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title-small">TRANSPORTS</h2>
+          <div class="transport-item">
+            <span class="transport-label">Accès Tram</span>
+            <p>Tram C, D et F / arrêt Gare St Jean</p>
+          </div>
+          <div class="transport-item">
+            <span class="transport-label">Accès Bus</span>
+            <p>Lianes G, 9, 15, 20, 31 à proximité</p>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="section-title-small">HÉBERGEMENT</h2>
+          <p class="intro-text">À proximité de la Rock School Barbey, vous trouverez :</p>
+          <div class="accommodation-card">
+            <h3>AUBERGE DE JEUNESSE</h3>
+            <p class="address">22 Cours Barbey, 33800 Bordeaux</p>
+            <p class="details">Chambres collectives</p>
+            <a href="http://www.auberge-jeunesse-bordeaux.com" target="_blank" rel="noopener noreferrer">www.auberge-jeunesse-bordeaux.com</a>
+          </div>
+        </section>
+      </div>
+
+      <!-- Handicap Access Column -->
+      <div class="handicap-column">
+        <section class="handicap-block">
+          <div class="icon-header">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="handicap-icon"
+              ><circle cx="12" cy="12" r="10"></circle><path d="M10 8h4.5"></path><path d="M12 12v6"></path><path d="M12 18h2"></path></svg
+            >
+            <h2 class="section-title-small">ACCÈS POUR PERSONNES EN SITUATION DE HANDICAP</h2>
+          </div>
+
+          <p class="mb-4">
+            Entrez par la cour intérieure, via le portillon situé après l’Auberge de Jeunesse et présentez vous aux agents de sécurité 10min avant le
+            concert.
+          </p>
+          <p class="mb-4 highlight">Accès salle par le bar via un ascenseur.</p>
+
+          <div class="contact-box">
+            <p>Pour simplifier votre accès, n'hésitez pas à contacter Pierre, notre régisseur par mail :</p>
+            <a href="mailto:pieropolitan@hotmail.fr" class="btn btn-outline mt-2">pieropolitan@hotmail.fr</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <section class="map-section mt-5">
+      <img src="https://picsum.photos/2000" alt="Plan d'accès Rock School Barbey" class="map-image" />
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .grid-container {
+    display: grid;
+    gap: 3rem;
+  }
+
+  @media (min-width: 900px) {
+    .grid-container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .mb-5 {
+    margin-bottom: 3rem;
+  }
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  .mb-2 {
+    margin-bottom: 0.75rem;
+  }
+  .mt-5 {
+    margin-top: 4rem;
+  }
+  .mt-2 {
+    margin-top: 0.75rem;
+  }
+
+  .section-title-small {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+  .section-title-small::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: var(--primary-color, #dc143c);
+    border-radius: 2px;
+    margin-top: 4px;
+  }
+
+  /* Transport */
+  .transport-item {
+    margin-bottom: 1rem;
+    border-left: 3px solid #eee;
+    padding-left: 1rem;
+  }
+  .transport-label {
+    font-weight: 700;
+    color: var(--primary-color, #dc143c);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Accommodation */
+  .accommodation-card {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
+  .accommodation-card h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: #1a1a1a;
+  }
+  .accommodation-card a {
+    color: var(--primary-color, #dc143c);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .accommodation-card a:hover {
+    text-decoration: underline;
+  }
+
+  /* Handicap Section */
+  .handicap-block {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 16px;
+    padding: 2rem;
+  }
+  .icon-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .handicap-icon {
+    color: var(--primary-color, #dc143c);
+    min-width: 32px;
+  }
+  .highlight {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  .contact-box {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  /* Map */
+  .map-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #eee; /* Placeholder bg */
+  }
+</style>
