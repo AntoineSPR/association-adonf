@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+---
+
+<Layout title="Festivals - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">FESTIVALS</h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <section class="content-section">
+      <div class="text-container">
+        <p>
+          L'association ADONF est partenaire technique de nombreux festivals de la région. De la petite fête de village aux scènes installées en plein
+          air, nous proposons des solutions complètes incluant scènes, structures, lumière et sonorisation.
+        </p>
+        <p>
+          Nous travaillons en étroite collaboration avec les organisateurs pour dimensionner les moyens techniques en fonction du lieu, de la
+          programmation et du budget, tout en respectant les normes de sécurité en vigueur.
+        </p>
+      </div>
+      <div class="image-container">
+        <img src="/assets/logo-adonf.png" alt="Festivals" />
+      </div>
+    </section>
+
+    <section class="contacts-section">
+      <h2 class="section-title">CONTACTS</h2>
+      <div class="contacts-grid">
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Direction Technique"
+          role="Festivals"
+          email="contact@association-adonf.fr"
+          phone="06 12 34 56 78"
+        />
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .content-section {
+    display: grid;
+    gap: 3rem;
+    margin-bottom: 5rem;
+  }
+
+  /* Removed desktop side-by-side to keep vertical layout (text then image) */
+  /* @media (min-width: 768px) {
+    .content-section {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  } */
+
+  .image-container img {
+    width: 100%;
+    max-width: 600px; /* Limit width since it's now full column */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+  }
+
+  .text-container p {
+    font-size: 1.15rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+</style>
