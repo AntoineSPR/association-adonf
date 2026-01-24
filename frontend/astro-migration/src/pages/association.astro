@@ -1,0 +1,179 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+---
+
+<Layout title="L'Association - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">L'ASSOCIATION</h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <div class="grid-container">
+      <!-- Left Column -->
+      <div class="column">
+        <!-- LOCAUX -->
+        <section class="mb-5">
+          <h2 class="section-title">LOCAUX MIS À DISPOSITION</h2>
+          <ul class="check-list">
+            <li>1 local billetterie avec deux guichets</li>
+            <li>1 hall d’entrée</li>
+            <li>1 promenoir</li>
+            <li>1 salle de spectacle d’une capacité de 650 places debout (possibilité configuration assise : nous contacter)</li>
+            <li>2 loges + 1 bureau de prod + WC + douches</li>
+          </ul>
+          <p class="mt-2 text-sm">
+            <em>Note : la salle de spectacle étant située à l’étage, elle est équipée d’un monte charge avec accès direct sur la scène</em>
+          </p>
+        </section>
+
+        <!-- MATERIEL -->
+        <section class="mb-5">
+          <h2 class="section-title">MATÉRIEL MIS À DISPOSITION</h2>
+          <ul class="check-list">
+            <li>Sonorisation *</li>
+            <li>Lumières *</li>
+          </ul>
+          <p class="text-sm text-gray-600 mb-4">* selon fiche technique</p>
+
+          <div class="downloads-container">
+            <a href="#" class="btn btn-primary mb-2"> Télécharger la fiche technique de la salle (Mise à jour AVRIL 2025 V1.1) </a>
+            <a href="#" class="btn btn-primary"> Télécharger la fiche technique du club (Mise à jour NOVEMBRE 2024 V1.0) </a>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column -->
+      <div class="column">
+        <!-- PERSONNEL -->
+        <section class="mb-5">
+          <h2 class="section-title">PERSONNEL NON PRIS EN CHARGE PAR ADONF</h2>
+          <ul class="cross-list">
+            <li>Accueil guichets</li>
+            <li>Contrôle des billets</li>
+            <li>Agents de sécurité *</li>
+          </ul>
+          <p class="text-sm text-gray-600 mb-4">* 3 à 8 selon le type de spectacle</p>
+        </section>
+
+        <!-- CONDITIONS -->
+        <section class="mb-5">
+          <h2 class="section-title">CONDITIONS DE LOCATION</h2>
+          <div class="info-block">
+            <p><strong>Assurances :</strong> Responsabilité Civile Organisateur à la charge de l’organisateur locataire</p>
+            <p><strong>Règlement :</strong> 50% à la réservation / 50% 15 jours avant la manifestation</p>
+            <p class="mt-2">
+              Pour plus de renseignements, veuillez contacter <a href="mailto:concert@rockschool-barbey.com" class="text-primary font-bold"
+                >concert@rockschool-barbey.com</a
+              >.
+            </p>
+          </div>
+        </section>
+
+        <!-- HORAIRES -->
+        <section class="mb-5">
+          <h2 class="section-title">HORAIRES</h2>
+          <div class="info-block">
+            <p><strong>Ouverture des portes :</strong> 20h30</p>
+            <p><strong>Début du concert :</strong> 21h</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Contacts Section -->
+    <section class="contacts-section mt-5">
+      <h2 class="section-title">CONTACTS</h2>
+      <div class="contacts-grid">
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Direction / Programmation"
+          role="Association Adonf"
+          email="concert@rockschool-barbey.com"
+          phone="05 56 33 66 00"
+        />
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .grid-container {
+    display: grid;
+    gap: 3rem;
+  }
+
+  @media (min-width: 900px) {
+    .grid-container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .mb-5 {
+    margin-bottom: 3rem;
+  }
+
+  .mt-5 {
+    margin-top: 3rem;
+  }
+
+  .mt-2 {
+    margin-top: 1rem;
+  }
+
+  .text-sm {
+    font-size: 0.9rem;
+  }
+
+  .text-gray-600 {
+    color: #666;
+  }
+
+  .info-block {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color, #dc143c);
+  }
+
+  .info-block p {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+  .info-block p:last-child {
+    margin-bottom: 0;
+  }
+
+  .text-primary {
+    color: var(--primary-color, #dc143c);
+  }
+
+  /* Cross list for "Non pris en charge" */
+  .cross-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .cross-list li {
+    margin-bottom: 0.75rem;
+    padding-left: 2rem;
+    position: relative;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  .cross-list li::before {
+    content: "✕";
+    position: absolute;
+    left: 0;
+    color: #666; /* Or error color if preferred, but grey is neutral for "not included" */
+    font-weight: bold;
+  }
+
+  .downloads-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+</style>
