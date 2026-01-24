@@ -1,0 +1,211 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { lessons } from "../../data/lessons";
+import ContactCard from "../../components/ContactCard.astro";
+
+export function getStaticPaths() {
+  return lessons.map((lesson) => ({
+    params: { slug: lesson.slug },
+    props: { lesson },
+  }));
+}
+
+const { lesson } = Astro.props;
+---
+
+<Layout title={`Cours de ${lesson.title} - École de Musique Adonf`}>
+  <div class="page-container">
+    <div class="header-spacing"></div>
+
+    <div class="lesson-detail-container">
+      <div class="image-container">
+        <img src={lesson.image} alt={`Cours de ${lesson.title}`} transition:name={`lesson-image-${lesson.slug}`} />
+        <div class="lesson-title-overlay">
+          <h1>{lesson.title}</h1>
+        </div>
+      </div>
+
+      <div class="lesson-content">
+        {
+          lesson.description && (
+            <div class="main-text">
+              <p>{lesson.description}</p>
+            </div>
+          )
+        }
+
+        {
+          lesson.sections &&
+            lesson.sections.map((section) => (
+              <div class="custom-section">
+                <h2 class="section-title">{section.title}</h2>
+                <div class="section-text">
+                  {section.content.split("\n").map((line) => (
+                    <p>{line}</p>
+                  ))}
+                </div>
+              </div>
+            ))
+        }
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+      <h2 class="contact-title">CONTACT & INSCRITPIONS</h2>
+      <div class="contact-wrapper">
+        <ContactCard
+          image="/assets/logo-adonf.png"
+          name="Secrétariat / Inscriptions"
+          role="École de Musique"
+          email="transmission@rockschool-barbey.com"
+          phone="05 56 33 66 00"
+        />
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="/cours-de-musique">&larr; Retour à la liste des cours</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .header-spacing {
+    height: 40px;
+  }
+
+  .lesson-detail-container {
+    max-width: 900px;
+    margin: 0 auto 4rem auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .image-container {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lesson-title-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 2rem;
+    color: white;
+  }
+
+  .lesson-title-overlay h1 {
+    margin: 0;
+    font-size: 3rem;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
+  .lesson-content {
+    padding: 2.5rem;
+  }
+
+  .main-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 3rem;
+  }
+
+  .custom-section {
+    margin-bottom: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+  }
+
+  .section-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary-color, #dc143c);
+  }
+
+  .section-text p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 0.5rem;
+    white-space: pre-wrap; /* Preserve newlines if needed, but manual map is safer */
+  }
+
+  .contact-section {
+    max-width: 900px;
+    margin: 0 auto 4rem auto;
+    text-align: center;
+  }
+
+  .contact-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: #333;
+    text-transform: uppercase;
+  }
+
+  .contact-wrapper {
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .back-link a {
+    color: #666;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .back-link a:hover {
+    color: var(--primary-color, #dc143c);
+  }
+
+  @media (max-width: 768px) {
+    .image-container {
+      height: 250px;
+    }
+    .lesson-title-overlay h1 {
+      font-size: 2rem;
+    }
+    .lesson-content {
+      padding: 1.5rem;
+    }
+  }
+</style>
