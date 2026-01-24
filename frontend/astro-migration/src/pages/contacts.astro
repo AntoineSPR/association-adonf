@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+---
+
+<Layout title="Contacts - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">NOUS <span>CONTACTER</span></h1>
+      <div class="title-underline"></div>
+    </header>
+
+    <div class="contacts-grid">
+      <!-- Direction / Association -->
+      <ContactCard
+        image="/assets/logo-adonf.png"
+        name="Direction / Programmation"
+        role="Association Adonf"
+        email="concert@rockschool-barbey.com"
+        phone="05 56 33 66 00"
+      />
+
+      <!-- Cours de Musique -->
+      <ContactCard
+        image="/assets/logo-adonf.png"
+        name="Secrétariat / Inscriptions"
+        role="École de Musique"
+        email="transmission@rockschool-barbey.com"
+        phone="05 56 33 66 00"
+      />
+
+      <!-- Répétitions -->
+      <ContactCard
+        image="/assets/logo-adonf.png"
+        name="Régisseur Studio"
+        role="Répétitions"
+        email="repet@rockschool-barbey.com"
+        phone="05 56 33 66 00"
+      />
+
+      <!-- Studio Enregistrement -->
+      <ContactCard
+        image="/assets/logo-adonf.png"
+        name="Ingénieur Son"
+        role="Studio d'Enregistrement"
+        email="contact@association-adonf.fr"
+        phone="05 56 33 66 00"
+      />
+
+      <!-- Prestations Techniques -->
+      <ContactCard
+        image="/assets/logo-adonf.png"
+        name="Direction Technique"
+        role="Prestations / Festivals"
+        email="contact@association-adonf.fr"
+        phone="05 56 33 66 00"
+      />
+
+      <!-- Accompagnement -->
+      <ContactCard
+        image="/assets/logo-adonf.png"
+        name="Coordinateur Pédagogique"
+        role="Accompagnement Artistique"
+        email="contact@association-adonf.fr"
+        phone="05 56 33 66 00"
+      />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+</style>
