@@ -20,7 +20,7 @@ import { resolvePath } from "@/lib/utils";
     <!-- Grid -->
     <section class="projects-section">
       <div class="projects-container">
-        {projects.map((project) => <LessonCard lesson={project} baseUrl="/projet-pedagogique" />)}
+        {projects.map((project) => <LessonCard lesson={project} baseUrl={resolvePath("/projet-pedagogique")} />)}
       </div>
     </section>
 
@@ -29,7 +29,7 @@ import { resolvePath } from "@/lib/utils";
       <h2 class="section-title">CONTACTS</h2>
       <div class="contacts-grid">
         <ContactCard
-          image={resolvePath("/assets/logo-adonf.png")}
+          image="/assets/logo-adonf.png"
           name="Coordinateur Pédagogique"
           role="Association Adonf"
           email="contact@association-adonf.fr"

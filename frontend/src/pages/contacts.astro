@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ContactCard from "../components/ContactCard.astro";
-import { resolvePath } from "@/lib/utils";
 ---
 
 <Layout title="Contacts - Association Adonf">
@@ -14,7 +13,7 @@ import { resolvePath } from "@/lib/utils";
     <div class="contacts-grid">
       <!-- Direction / Association -->
       <ContactCard
-        image={resolvePath("/assets/logo-adonf.png")}
+        image="/assets/logo-adonf.png"
         name="Direction / Programmation"
         role="Association Adonf"
         email="concert@rockschool-barbey.com"
@@ -23,7 +22,7 @@ import { resolvePath } from "@/lib/utils";
 
       <!-- Cours de Musique -->
       <ContactCard
-        image={resolvePath("/assets/logo-adonf.png")}
+        image="/assets/logo-adonf.png"
         name="Secrétariat / Inscriptions"
         role="École de Musique"
         email="transmission@rockschool-barbey.com"
@@ -32,7 +31,7 @@ import { resolvePath } from "@/lib/utils";
 
       <!-- Répétitions -->
       <ContactCard
-        image={resolvePath("/assets/logo-adonf.png")}
+        image="/assets/logo-adonf.png"
         name="Régisseur Studio"
         role="Répétitions"
         email="repet@rockschool-barbey.com"
@@ -41,7 +40,7 @@ import { resolvePath } from "@/lib/utils";
 
       <!-- Studio Enregistrement -->
       <ContactCard
-        image={resolvePath("/assets/logo-adonf.png")}
+        image="/assets/logo-adonf.png"
         name="Ingénieur Son"
         role="Studio d'Enregistrement"
         email="contact@association-adonf.fr"
@@ -50,7 +49,7 @@ import { resolvePath } from "@/lib/utils";
 
       <!-- Prestations Techniques -->
       <ContactCard
-        image={resolvePath("/assets/logo-adonf.png")}
+        image="/assets/logo-adonf.png"
         name="Direction Technique"
         role="Prestations / Festivals"
         email="contact@association-adonf.fr"
@@ -59,7 +58,7 @@ import { resolvePath } from "@/lib/utils";
 
       <!-- Accompagnement -->
       <ContactCard
-        image={resolvePath("/assets/logo-adonf.png")}
+        image="/assets/logo-adonf.png"
         name="Coordinateur Pédagogique"
         role="Accompagnement Artistique"
         email="contact@association-adonf.fr"
