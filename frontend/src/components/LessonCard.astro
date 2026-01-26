@@ -42,15 +42,6 @@ const { lesson, baseUrl = "/cours-de-musique" } = Astro.props;
       box-shadow 0.3s ease;
   }
 
-  /* Mobile responsiveness */
-  @media (max-width: 640px) {
-    .lesson-card {
-      width: 100%;
-      aspect-ratio: 1/1;
-      height: auto;
-    }
-  }
-
   .lesson-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
