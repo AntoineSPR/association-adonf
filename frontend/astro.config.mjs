@@ -9,4 +9,5 @@ export default defineConfig({
   site: "https://antoinespr.github.io/association-adonf/",
   base: "/association-adonf/",
   output: "static",
+  trailingSlash: "always",
 });

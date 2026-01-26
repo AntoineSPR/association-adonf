@@ -205,7 +205,7 @@ const currentPath = Astro.url.pathname;
                         <div class="pl-4 flex flex-col gap-2 border-l-2 border-gray-700 ml-2">
                             {item.children.map((child) => (
                                 <a
-                                    href={child.href}
+                                    href={resolvePath(child.href)}
                                     class="text-sm text-white hover:bg-[var(--primary-color)] hover:text-white py-2 px-2 rounded transition-colors block no-underline"
                                 >
                                     {child.label}
@@ -215,7 +215,7 @@ const currentPath = Astro.url.pathname;
                     </>
                 ) : (
                     <a
-                        href={item.href}
+                        href={resolvePath(item.href)}
                         class="font-bold text-white hover:bg-[var(--primary-color)] hover:text-white px-2 py-1 uppercase tracking-wide rounded transition-colors flex items-center gap-2 no-underline"
                     >
                         {item.isHome ? (
@@ -233,7 +233,9 @@ const currentPath = Astro.url.pathname;
 
         <div class="mt-4">
             <a
-                href="/billetterie"
+                href="https://www.helloasso.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="w-full flex items-center justify-center gap-2 bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white rounded-full font-bold uppercase py-3 no-underline shadow-md"
             >
                  <TicketIcon className="h-4 w-4" />
