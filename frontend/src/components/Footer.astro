@@ -1,15 +1,8 @@
 ---
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "./ui/icons";
+import { resolvePath } from "../lib/utils";
 
 const currentYear = new Date().getFullYear();
-
-const resolvePath = (path: string) => {
-  if (!path) return path;
-  if (path.startsWith('http')) return path;
-  const base = import.meta.env.BASE_URL;
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  return `${base}${cleanPath}`;
-};
 
 const socialLinks = [
   {
@@ -47,25 +40,16 @@ const footerLinks = [
 <footer class="bg-[var(--light-black)] py-6 px-4 mt-auto">
   <div class="max-w-[1200px] mx-auto px-4">
     <!-- Footer Top Content -->
-    <div
-      class="flex flex-col min-[1150px]:flex-row min-[1150px]:justify-between items-center gap-8 mb-8"
-    >
+    <div class="flex flex-col min-[1150px]:flex-row min-[1150px]:justify-between items-center gap-8 mb-8">
       <!-- Logo Section -->
       <div class="hidden min-[1150px]:block footer-logo">
         <a href={resolvePath("/")} class="no-underline">
-          <img
-            src={resolvePath("/assets/logo-adonf.png")}
-            alt="Accueil"
-            class="w-[200px] h-auto"
-            style="width: 200px;"
-          />
+          <img src={resolvePath("/assets/logo-adonf.png")} alt="Accueil" class="w-[200px] h-auto" style="width: 200px;" />
         </a>
       </div>
 
       <!-- Main Content (Socials + Links) -->
-      <div
-        class="flex flex-col gap-6 max-w-[600px] items-center w-full min-[1150px]:w-auto"
-      >
+      <div class="flex flex-col gap-6 max-w-[600px] items-center w-full min-[1150px]:w-auto">
         <!-- Social Section -->
         <div class="flex gap-6">
           {
@@ -117,24 +101,12 @@ const footerLinks = [
     </div>
 
     <!-- Footer Bottom -->
-    <div
-      class="border-t border-[var(--text-color)] pt-4 text-center text-[var(--text-muted-on-dark)] text-[0.9rem]"
-    >
+    <div class="border-t border-[var(--text-color)] pt-4 text-center text-[var(--text-muted-on-dark)] text-[0.9rem]">
       <p class="my-2">&copy; {currentYear} Association Adonf</p>
       <p class="my-2 text-[0.85rem]">
         Réalisation :{" "}
-        <a
-          href="https://github.com/AntoineSPR"
-          target="_blank"
-          style="color: inherit;"
-          class="hover:underline"
-        >
-          Antoine Simper
-        </a>
+        <a href="https://github.com/AntoineSPR" target="_blank" style="color: inherit;" class="hover:underline"> Antoine Simper </a>
       </p>
     </div>
   </div>
 </footer>
-
-
-

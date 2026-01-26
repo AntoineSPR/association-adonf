@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { lessons } from "../../data/lessons";
 import ContactCard from "../../components/ContactCard.astro";
-
+import { resolvePath } from "@/lib/utils";
 export function getStaticPaths() {
   return lessons.map((lesson) => ({
     params: { slug: lesson.slug },
@@ -55,7 +55,7 @@ const { lesson } = Astro.props;
       <h2 class="contact-title">CONTACT & INSCRITPIONS</h2>
       <div class="contact-wrapper">
         <ContactCard
-          image="/assets/logo-adonf.png"
+          image={resolvePath("/assets/logo-adonf.png")}
           name="Secrétariat / Inscriptions"
           role="École de Musique"
           email="transmission@rockschool-barbey.com"
@@ -65,7 +65,7 @@ const { lesson } = Astro.props;
     </div>
 
     <div class="back-link">
-      <a href="/cours-de-musique">&larr; Retour à la liste des cours</a>
+      <a href={resolvePath("/cours-de-musique")}>&larr; Retour à la liste des cours</a>
     </div>
   </div>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ContactCard from "../components/ContactCard.astro";
+import { resolvePath } from "@/lib/utils";
 ---
 
 <Layout title="Répétitions - Association Adonf">
@@ -116,7 +117,7 @@ import ContactCard from "../components/ContactCard.astro";
       <h2 class="section-title">CONTACTS</h2>
       <div class="contacts-grid">
         <ContactCard
-          image="/assets/logo-adonf.png"
+          image={resolvePath("/assets/logo-adonf.png")}
           name="Régisseur Studio"
           role="Gestion Répétitions"
           email="contact@association-adonf.fr"

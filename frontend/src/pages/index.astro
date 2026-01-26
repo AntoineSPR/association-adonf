@@ -1,9 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ActualiteCard from '../components/ActualiteCard.astro';
-import ConcertCard from '../components/ConcertCard.astro';
-import { actualites, concerts } from '../data/mock';
-import { ArrowRightIcon } from '../components/ui/icons';
+import Layout from "../layouts/Layout.astro";
+import ActualiteCard from "../components/ActualiteCard.astro";
+import ConcertCard from "../components/ConcertCard.astro";
+import { actualites, concerts } from "../data/mock";
+import { ArrowRightIcon } from "../components/ui/icons";
+import { resolvePath } from "../lib/utils";
 
 // Slice as per original Angular template logic
 const recentActualites = actualites.slice(0, 3);
@@ -12,7 +13,6 @@ const recentConcerts = concerts.slice(0, 3);
 
 <Layout title="Association Adonf - École de musique & Concerts">
   <main class="section-layout">
-    
     <!-- Hero/Welcome Section could go here, omitting as source was section-layout focused -->
 
     <section class="actualites-section">
@@ -21,15 +21,13 @@ const recentConcerts = concerts.slice(0, 3);
           <div>
             <h2 class="section-title">Actualités</h2>
           </div>
-          <a href={`${import.meta.env.BASE_URL}agenda#actualites`} class="btn btn-outline">
+          <a href={resolvePath("/agenda#actualites")} class="btn btn-outline">
             Toutes les actus <ArrowRightIcon className="w-4 h-4" />
           </a>
         </div>
-        
+
         <div class="actualites-grid">
-          {recentActualites.map(actu => (
-            <ActualiteCard actualite={actu} featured={actu.featured} />
-          ))}
+          {recentActualites.map((actu) => <ActualiteCard actualite={actu} featured={actu.featured} />)}
         </div>
       </div>
     </section>
@@ -40,15 +38,13 @@ const recentConcerts = concerts.slice(0, 3);
           <div>
             <h2 class="section-title">Programmation</h2>
           </div>
-          <a href={`${import.meta.env.BASE_URL}agenda#programmation`} class="btn btn-outline">
+          <a href={resolvePath("/agenda#programmation")} class="btn btn-outline">
             Toute la prog <ArrowRightIcon className="w-4 h-4" />
           </a>
         </div>
-        
+
         <div class="concerts-grid">
-          {recentConcerts.map(concert => (
-            <ConcertCard concert={concert} />
-          ))}
+          {recentConcerts.map((concert) => <ConcertCard concert={concert} />)}
         </div>
       </div>
     </section>
@@ -56,10 +52,10 @@ const recentConcerts = concerts.slice(0, 3);
 </Layout>
 
 <style lang="scss">
-    /* Extra styles if needed beyond global */
-    .btn-outline {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+  /* Extra styles if needed beyond global */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 </style>

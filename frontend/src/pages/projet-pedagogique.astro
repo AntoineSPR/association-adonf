@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
 import ContactCard from "../components/ContactCard.astro";
 import { projects } from "../data/projet-pedagogique";
+import { resolvePath } from "@/lib/utils";
 ---
 
 <Layout title="Projet Pédagogique - Association Adonf">
@@ -28,7 +29,7 @@ import { projects } from "../data/projet-pedagogique";
       <h2 class="section-title">CONTACTS</h2>
       <div class="contacts-grid">
         <ContactCard
-          image="/assets/logo-adonf.png"
+          image={resolvePath("/assets/logo-adonf.png")}
           name="Coordinateur Pédagogique"
           role="Association Adonf"
           email="contact@association-adonf.fr"

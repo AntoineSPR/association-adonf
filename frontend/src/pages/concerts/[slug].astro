@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { concerts } from "../../data/mock";
-
+import { resolvePath } from "@/lib/utils";
 export function getStaticPaths() {
   return concerts.map((concert) => ({
     params: { slug: concert.slug },
@@ -84,7 +84,7 @@ const formatDate = (date: Date) => {
     </div>
 
     <div class="back-link">
-      <a href="/agenda#programmation">&larr; Retour à la programmation</a>
+      <a href={resolvePath("/agenda#programmation")}>&larr; Retour à la programmation</a>
     </div>
   </div>
 </Layout>

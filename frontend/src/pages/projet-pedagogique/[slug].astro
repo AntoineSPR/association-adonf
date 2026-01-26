@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { projects } from "../../data/projet-pedagogique";
 import ContactCard from "../../components/ContactCard.astro";
-
+import { resolvePath } from "@/lib/utils";
 export function getStaticPaths() {
   return projects.map((project) => ({
     params: { slug: project.slug },
@@ -53,7 +53,7 @@ const { project } = Astro.props;
       <h2 class="contact-title">CONTACTS</h2>
       <div class="contact-wrapper">
         <ContactCard
-          image="/assets/logo-adonf.png"
+          image={resolvePath("/assets/logo-adonf.png")}
           name="Coordinateur Pédagogique"
           role="Association Adonf"
           email="contact@association-adonf.fr"
@@ -63,7 +63,7 @@ const { project } = Astro.props;
     </div>
 
     <div class="back-link">
-      <a href="/projet-pedagogique">&larr; Retour aux projets</a>
+      <a href={resolvePath("/projet-pedagogique")}>&larr; Retour aux projets</a>
     </div>
   </div>
 </Layout>

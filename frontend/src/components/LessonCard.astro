@@ -1,4 +1,6 @@
 ---
+import { resolvePath } from "@/lib/utils";
+
 interface Props {
   lesson: {
     title: string;
@@ -8,13 +10,13 @@ interface Props {
   baseUrl?: string;
 }
 
-const { lesson, baseUrl = "/cours-de-musique" } = Astro.props;
+const { lesson, baseUrl = resolvePath("/cours-de-musique") } = Astro.props;
 ---
 
 <a href={`${baseUrl}/${lesson.slug}`} class="block">
   <div class="lesson-card">
     <div class="image-container">
-      <img src={lesson.image} alt="" loading="lazy" />
+      <img src={resolvePath(lesson.image)} alt={lesson.title} loading="lazy" />
     </div>
     <div class="card-label">
       <h3>{lesson.title}</h3>

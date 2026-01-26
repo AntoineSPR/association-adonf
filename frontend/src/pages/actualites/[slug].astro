@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { actualites } from "../../data/mock";
+import { resolvePath } from "@/lib/utils";
 
 export function getStaticPaths() {
   return actualites.map((actualite) => ({
@@ -43,7 +44,7 @@ const { actualite } = Astro.props;
     </div>
 
     <div class="back-link">
-      <a href="/agenda#actualites">&larr; Retour aux actualités</a>
+      <a href={resolvePath("/agenda#actualites")}>&larr; Retour aux actualités</a>
     </div>
   </div>
 </Layout>
