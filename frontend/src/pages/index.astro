@@ -21,7 +21,7 @@ const recentConcerts = concerts.slice(0, 3);
           <div>
             <h2 class="section-title">Actualités</h2>
           </div>
-          <a href="/agenda#actualites" class="btn btn-outline">
+          <a href={`${import.meta.env.BASE_URL}agenda#actualites`} class="btn btn-outline">
             Toutes les actus <ArrowRightIcon className="w-4 h-4" />
           </a>
         </div>
@@ -40,7 +40,7 @@ const recentConcerts = concerts.slice(0, 3);
           <div>
             <h2 class="section-title">Programmation</h2>
           </div>
-          <a href="/agenda#programmation" class="btn btn-outline">
+          <a href={`${import.meta.env.BASE_URL}agenda#programmation`} class="btn btn-outline">
             Toute la prog <ArrowRightIcon className="w-4 h-4" />
           </a>
         </div>

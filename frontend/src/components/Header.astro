@@ -10,6 +10,14 @@ import {
   CloseIcon,
 } from "../components/ui/icons";
 
+const resolvePath = (path: string) => {
+  if (!path) return path;
+  if (path.startsWith('http')) return path;
+  const base = import.meta.env.BASE_URL;
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${base}${cleanPath}`;
+};
+
 const menuItems = [
   { label: "", href: "/", icon: "home", isHome: true },
   { label: "Agenda", href: "/agenda" },
@@ -65,9 +73,9 @@ const currentPath = Astro.url.pathname;
     <!-- Top Row: Logo - Navigation - Billetterie -->
     <div class="flex items-center justify-between gap-4">
       <!-- Logo -->
-      <a href="/" class="block shrink-0">
+      <a href={resolvePath("/")} class="block shrink-0">
         <img
-          src="/assets/logo-adonf.png"
+          src={resolvePath("/assets/logo-adonf.png")}
           alt="Association A Donf"
           class="w-[150px] md:w-[200px] h-auto"
         />
@@ -98,7 +106,7 @@ const currentPath = Astro.url.pathname;
                             {item.children.map((child) => (
                               <li>
                                 <a
-                                  href={child.href}
+                                  href={resolvePath(child.href)}
                                   class="block px-4 py-2.5 text-sm uppercase text-[var(--text-on-dark)] transition-colors hover:bg-[var(--primary-color)] hover:text-white no-underline"
                                 >
                                   {child.label}
@@ -110,7 +118,7 @@ const currentPath = Astro.url.pathname;
                       </>
                     ) : (
                       <a
-                        href={item.href}
+                        href={resolvePath(item.href)}
                         class:list={[
                             "group inline-flex h-10 w-max items-center justify-center rounded px-3 py-2 text-sm uppercase font-bold tracking-wide transition-colors hover:bg-[var(--primary-color)]/10 hover:text-[var(--primary-color)] focus:bg-[var(--primary-color)] focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 hover:no-underline text-white",
                              item.isHome ? "px-2" : ""

@@ -3,6 +3,14 @@ import { FacebookIcon, InstagramIcon, YoutubeIcon } from "./ui/icons";
 
 const currentYear = new Date().getFullYear();
 
+const resolvePath = (path: string) => {
+  if (!path) return path;
+  if (path.startsWith('http')) return path;
+  const base = import.meta.env.BASE_URL;
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${base}${cleanPath}`;
+};
+
 const socialLinks = [
   {
     icon: FacebookIcon,
@@ -44,9 +52,9 @@ const footerLinks = [
     >
       <!-- Logo Section -->
       <div class="hidden min-[1150px]:block footer-logo">
-        <a href="/" class="no-underline">
+        <a href={resolvePath("/")} class="no-underline">
           <img
-            src="/assets/logo-adonf.png"
+            src={resolvePath("/assets/logo-adonf.png")}
             alt="Accueil"
             class="w-[200px] h-auto"
             style="width: 200px;"
@@ -82,7 +90,7 @@ const footerLinks = [
               footerLinks.map((link) => (
                 <li>
                   <a
-                    href={link.route}
+                    href={resolvePath(link.route)}
                     class="text-[var(--text-on-dark)] no-underline transition-colors duration-300 hover:text-[var(--primary-color)]"
                   >
                     {link.label}

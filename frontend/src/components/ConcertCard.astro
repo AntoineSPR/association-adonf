@@ -30,7 +30,7 @@ const { concert } = Astro.props;
         <p><i class="pi pi-map-marker"></i> {concert.venue}</p>
         <p><i class="pi pi-euro"></i> {concert.price > 0 ? `${concert.price}€` : 'Gratuit'}</p>
     </div>
-    <a href={`/concerts/${concert.slug}`} class="btn-reserver">
+    <a href={`${import.meta.env.BASE_URL}concerts/${concert.slug}`} class="btn-reserver">
         Réserver <i class="pi pi-arrow-right"></i>
     </a>
   </div>

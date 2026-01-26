@@ -24,7 +24,7 @@ const { actualite, featured } = Astro.props;
         Lire la suite <i class="pi pi-arrow-right"></i>
     </div>
   </div>
-  <a href={`/actualites/${actualite.slug}`} class="card-link" aria-label={`Lire ${actualite.title}`}></a>
+  <a href={`${import.meta.env.BASE_URL}actualites/${actualite.slug}`} class="card-link" aria-label={`Lire ${actualite.title}`}></a>
 </article>
 
 <style lang="scss">
