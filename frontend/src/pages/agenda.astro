@@ -19,7 +19,7 @@ import { actualites, concerts } from "../data/mock";
 
     <div class="section-layout space-y-20">
       <!-- Actualités Section -->
-      <section class="actualites-section scroll-mt-32" id="actualites">
+      <section class="actualites-section" id="actualites">
         <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
           <div class="w-2 h-10 bg-[var(--primary-color)] rounded-full"></div>
           <div>
@@ -34,7 +34,7 @@ import { actualites, concerts } from "../data/mock";
       </section>
 
       <!-- Programmation Section -->
-      <section class="programmation-section scroll-mt-32" id="programmation">
+      <section class="programmation-section" id="programmation">
         <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
           <div class="w-2 h-10 bg-[var(--light-black)] rounded-full"></div>
           <div>
@@ -61,6 +61,18 @@ import { actualites, concerts } from "../data/mock";
     gap: 1.5rem;
     justify-content: center;
     margin-top: 2rem;
+  }
+
+  .actualites-section,
+  .programmation-section {
+    scroll-margin-top: 4rem;
+  }
+
+  @media (min-width: 1150px) {
+    .actualites-section,
+    .programmation-section {
+      scroll-margin-top: 8rem;
+    }
   }
 
   @media (max-width: 480px) {
