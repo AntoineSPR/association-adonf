@@ -1,0 +1,17 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import LoginForm from "../../components/admin/LoginForm";
+---
+
+<Layout title="Connexion Back-Office | Association Adonf">
+  <main class="min-h-[70vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-extrabold text-gray-900">Espace Administration</h1>
+        <p class="mt-2 text-sm text-gray-600">Veuillez vous connecter pour accéder au back-office</p>
+      </div>
+
+      <LoginForm client:load />
+    </div>
+  </main>
+</Layout>

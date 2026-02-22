@@ -4,7 +4,7 @@ import axios from 'axios';
  * Helper function to get the base API URL
  */
 export function getApiUrl(): string {
-  return import.meta.env.PUBLIC_API_URL || 'http://localhost:7168';
+  return import.meta.env.PUBLIC_API_URL || 'https://localhost:7168';
 }
 
 // Create an Axios instance
