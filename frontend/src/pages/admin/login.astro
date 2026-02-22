@@ -11,7 +11,7 @@ import LoginForm from "../../components/admin/LoginForm";
         <p class="mt-2 text-sm text-gray-600">Veuillez vous connecter pour accéder au back-office</p>
       </div>
 
-      <LoginForm client:load />
+      <LoginForm client:only="react" />
     </div>
   </main>
 </Layout>
