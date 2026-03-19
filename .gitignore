@@ -8,10 +8,6 @@
 
 # Node
 /node_modules
-/frontend/node_modules
-/astro-migration/node_modules
-/astro-migration/dist
-/astro-migration/.astro
 npm-debug.log
 yarn-error.log
 
