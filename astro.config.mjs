@@ -15,7 +15,7 @@ export default defineConfig({
   base: isProd ? "/association-adonf/" : "/",
   output: "server",
   adapter: node({
-    mode: "standalone"
+    mode: "standalone",
   }),
   trailingSlash: isProd ? "always" : "ignore",
 });

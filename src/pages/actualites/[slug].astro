@@ -1,16 +1,15 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { actualites } from "../../data/mock";
-import { resolvePath } from "@/lib/utils";
+import { resolvePath } from "../../lib/utils";
 
-export function getStaticPaths() {
-  return actualites.map((actualite) => ({
-    params: { slug: actualite.slug },
-    props: { actualite },
-  }));
+const { slug } = Astro.params;
+const actualite = actualites.find((a) => a.slug === slug);
+
+// Redirect to 404 if not found
+if (!actualite) {
+  return Astro.redirect("/404");
 }
-
-const { actualite } = Astro.props;
 ---
 
 <Layout title={`${actualite.title} - Actualités Adonf`}>
@@ -27,16 +26,16 @@ const { actualite } = Astro.props;
         <p class="publish-date">Publié le {actualite.publishedAt.toLocaleDateString("fr-FR")}</p>
 
         <div class="main-text">
-          {actualite.content && <p>{actualite.content}</p>}
-          {!actualite.content && <p>{actualite.excerpt}</p>}
+          {actualite.content && <div set:html={actualite.content} />}
+          {!actualite.content && <div set:html={actualite.excerpt} />}
         </div>
 
         {
           actualite.sections &&
-            actualite.sections.map((section) => (
+            actualite.sections.map((section: any) => (
               <div class="custom-section">
                 <h2 class="section-title">{section.title}</h2>
-                <p>{section.content}</p>
+                <div set:html={section.description || section.content} />
               </div>
             ))
         }

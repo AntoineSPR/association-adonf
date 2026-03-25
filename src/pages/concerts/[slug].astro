@@ -1,37 +1,42 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { resolvePath } from "@/lib/utils";
+import { resolvePath } from "../../lib/utils";
 import { getApiUrl } from "../../lib/api";
 
-export async function getStaticPaths() {
-  let concerts = [];
-  try {
-    const res = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
-    if (res.ok) {
-      const doc = await res.json();
-      let content = doc.content;
-      if (typeof content === "string") {
-        content = JSON.parse(content);
-      }
-      if (content && Array.isArray(content.items)) {
-        concerts = content.items.map((c: any) => ({
-          ...c,
-          date: c.date ? new Date(c.date) : new Date(),
-          slug: c.slug || String(c.id), 
-        }));
+const { slug } = Astro.params;
+let concert;
+
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") {
+      content = JSON.parse(content);
+    }
+    if (content && Array.isArray(content.items)) {
+      const found = content.items.find((c: any) => (c.slug || String(c.id)) === slug);
+      if (found) {
+        // Construct standard ISO string assuming local time (e.g. "2026-03-25T20:30:00")
+        const dateStr = found.date || new Date().toISOString().split("T")[0];
+        const timeStr = found.time && found.time.includes(":") ? found.time : "00:00";
+        const parsedDate = new Date(`${dateStr}T${timeStr}:00`);
+
+        concert = {
+          ...found,
+          date: parsedDate,
+        };
       }
     }
-  } catch (e) {
-    console.error("Build failed to fetch concerts", e);
   }
-
-  return concerts.map((concert) => ({
-    params: { slug: concert.slug },
-    props: { concert },
-  }));
+} catch (e) {
+  console.error("Failed to fetch concert data", e);
 }
 
-const { concert } = Astro.props;
+// Redirect to 404 if concert not found
+if (!concert) {
+  return Astro.redirect("/404");
+}
 
 // Helper to format full date
 const formatDate = (date: Date) => {
@@ -81,20 +86,18 @@ const formatDate = (date: Date) => {
           </div>
           <div class="meta-item">
             <i class="pi pi-euro"></i>
-            <span>{concert.price > 0 ? `${concert.price}€` : "Gratuit"}</span>
+            <span>{concert.price || "Gratuit"}</span>
           </div>
         </div>
 
-        <div class="main-text">
-          <p>{concert.description}</p>
-        </div>
+        {concert.description && <div class="main-text text-lg" set:html={concert.description} />}
 
         {
           concert.sections &&
-            concert.sections.map((section) => (
+            concert.sections.map((section: any) => (
               <div class="custom-section">
                 <h2 class="section-title">{section.title}</h2>
-                <p>{section.content}</p>
+                <div class="text-lg" set:html={section.description || section.content} />
               </div>
             ))
         }

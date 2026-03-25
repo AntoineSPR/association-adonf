@@ -2,15 +2,15 @@
 import Layout from "../../layouts/Layout.astro";
 import { lessons } from "../../data/lessons";
 import ContactCard from "../../components/ContactCard.astro";
-import { resolvePath } from "@/lib/utils";
-export function getStaticPaths() {
-  return lessons.map((lesson) => ({
-    params: { slug: lesson.slug },
-    props: { lesson },
-  }));
-}
+import { resolvePath } from "../../lib/utils";
 
-const { lesson } = Astro.props;
+const { slug } = Astro.params;
+const lesson = lessons.find((l) => l.slug === slug);
+
+// Redirect to 404 if not found
+if (!lesson) {
+  return Astro.redirect("/404");
+}
 ---
 
 <Layout title={`Cours de ${lesson.title} - École de Musique Adonf`}>

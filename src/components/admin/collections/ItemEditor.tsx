@@ -36,9 +36,9 @@ const getEmptyTemplate = (type: string): Item => {
       slug: "nouveau-concert",
       name: "",
       date: new Date().toISOString().split("T")[0],
-      time: "20:30",
-      venue: "",
-      price: "",
+      time: "20:00",
+      venue: "Le Parallèle",
+      price: "Gratuit",
       imageUrl: "",
       description: "",
       buttonText: "",
@@ -281,6 +281,25 @@ function ItemEditorInner(props: ItemEditorProps) {
         itemToSave.id = Date.now().toString(); // assign a real DB ID
       }
 
+      // Auto-generate a clean, unique slug from the title if it's the default string
+      if (
+        !itemToSave.slug ||
+        itemToSave.slug === "nouveau-concert" ||
+        itemToSave.slug === "nouvel-element"
+      ) {
+        const generatedSlug = itemToSave.name
+          ? itemToSave.name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "") // Remove accents
+              .replace(/[^a-z0-9]+/g, "-") // Replace special chars with hyphens
+              .replace(/(^-|-$)+/g, "") // Remove leading/trailing hyphens
+          : "element";
+
+        // Append small ID snippet to guarantee uniqueness
+        itemToSave.slug = `${generatedSlug}-${String(itemToSave.id).slice(-4)}`;
+      }
+
       const itemIndex = contentCopy.items.findIndex(
         (i: Item) =>
           String(i.id) === String(item.id) ||
@@ -349,7 +368,7 @@ function ItemEditorInner(props: ItemEditorProps) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-20 relative">
-      <div className="sticky top-24 z-40 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
+      <div className="sticky top-24 min-[1150px]:top-32 z-40 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
         <div>
           <a
             href={`/admin/collections/${collection}`}

@@ -17,11 +17,15 @@ try {
     }
     if (content && Array.isArray(content.items)) {
       // Map API data back to the format expected by the frontend
-      concerts = content.items.map((c: any) => ({
-        ...c,
-        date: c.date ? new Date(c.date) : new Date(),
-        slug: c.slug || c.id, // fallback slug to id if missing
-      }));
+      concerts = content.items.map((c: any) => {
+        const dateStr = c.date || new Date().toISOString().split("T")[0];
+        const timeStr = c.time && c.time.includes(":") ? c.time : "00:00";
+        return {
+          ...c,
+          date: new Date(`${dateStr}T${timeStr}:00`),
+          slug: c.slug || String(c.id), // fallback slug to id if missing
+        };
+      });
       // Sort by date ascending
       concerts.sort((a, b) => a.date.getTime() - b.date.getTime());
     }

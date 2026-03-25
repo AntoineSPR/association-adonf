@@ -38,7 +38,7 @@ const { concert } = Astro.props;
     <h3>{concert.name}</h3>
     <div class="concert-details">
       <p><i class="pi pi-map-marker"></i> {concert.venue}</p>
-      <p><i class="pi pi-euro"></i> {concert.price > 0 ? `${concert.price}€` : "Gratuit"}</p>
+      <p><i class="pi pi-euro"></i> {concert.price || "Gratuit"}</p>
     </div>
     <a href={resolvePath(`/concerts/${concert.slug}`)} class="btn-reserver">
       Réserver <i class="pi pi-arrow-right"></i>
