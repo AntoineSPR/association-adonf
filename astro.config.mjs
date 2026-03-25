@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
+import node from "@astrojs/node";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -12,6 +13,9 @@ export default defineConfig({
     ? "https://antoinespr.github.io/association-adonf/"
     : "http://localhost:4321",
   base: isProd ? "/association-adonf/" : "/",
-  output: "static",
+  output: "server",
+  adapter: node({
+    mode: "standalone"
+  }),
   trailingSlash: isProd ? "always" : "ignore",
 });
