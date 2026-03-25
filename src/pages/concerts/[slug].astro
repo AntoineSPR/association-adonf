@@ -102,9 +102,15 @@ const formatDate = (date: Date) => {
             ))
         }
 
-        <div class="action-area">
-          <a href="https://www.helloasso.com" target="_blank" class="btn-primary">Réserver ma place</a>
-        </div>
+        {
+          concert.buttonLink && (
+            <div class="action-area">
+              <a href={concert.buttonLink} target="_blank" class="btn-primary">
+                {concert.buttonText || "Réserver ma place"}
+              </a>
+            </div>
+          )
+        }
       </div>
     </div>
 
