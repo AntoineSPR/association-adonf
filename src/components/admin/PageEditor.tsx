@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../lib/api";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
+import JoditEditor from "jodit-react";
 
 interface PageEditorProps {
   slug: string;
@@ -57,11 +56,10 @@ const JsonFormNode = ({
     if (isHtml) {
       return (
         <div className="bg-white">
-          <ReactQuill
+          <JoditEditor
             key={path.join("-")}
-            theme="snow"
             value={data || ""}
-            onChange={(val) => onChange(path, val)}
+            onBlur={(val) => onChange(path, val)}
           />
         </div>
       );
