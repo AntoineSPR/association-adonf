@@ -11,13 +11,18 @@ interface Section {
 
 interface Item {
   id: string | number;
-  name: string;
+  name?: string;
+  title?: string;
+  slug?: string;
   date?: string;
+  publishedAt?: string;
   time?: string;
   venue?: string;
   price?: string;
   imageUrl?: string;
   description?: string;
+  excerpt?: string;
+  content?: string;
   buttonText?: string;
   buttonLink?: string;
   sections?: Section[];
@@ -44,6 +49,19 @@ const getEmptyTemplate = (type: string): Item => {
       buttonText: "",
       buttonLink: "",
       status: "",
+      featured: false,
+      sections: [],
+    };
+  }
+  if (type === "actualites") {
+    return {
+      id: "new",
+      slug: "nouvelle-actualite",
+      title: "",
+      publishedAt: new Date().toISOString().split("T")[0],
+      excerpt: "",
+      content: "",
+      imageUrl: "",
       featured: false,
       sections: [],
     };
@@ -285,10 +303,12 @@ function ItemEditorInner(props: ItemEditorProps) {
       if (
         !itemToSave.slug ||
         itemToSave.slug === "nouveau-concert" ||
-        itemToSave.slug === "nouvel-element"
+        itemToSave.slug === "nouvel-element" ||
+        itemToSave.slug === "nouvelle-actualite"
       ) {
-        const generatedSlug = itemToSave.name
-          ? itemToSave.name
+        const itemTitle = itemToSave.name || itemToSave.title;
+        const generatedSlug = itemTitle
+          ? itemTitle
               .toLowerCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "") // Remove accents
@@ -411,10 +431,10 @@ function ItemEditorInner(props: ItemEditorProps) {
               </label>
               <input
                 type="text"
-                value={item.name || ""}
-                onChange={(e) => handleChange("name", e.target.value)}
+                value={collection === 'actualites' ? (item.title || "") : (item.name || "")}
+                onChange={(e) => handleChange(collection === 'actualites' ? "title" : "name", e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
-                placeholder="Ex: Concert Rock Adonf"
+                placeholder={collection === 'actualites' ? "Ex: Nouvel album studio" : "Ex: Concert Rock Adonf"}
               />
             </div>
 
@@ -470,15 +490,17 @@ function ItemEditorInner(props: ItemEditorProps) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Date
-                </label>
-                <input
-                  type="date"
-                  value={item.date || ""}
-                  onChange={(e) => handleChange("date", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                />
+                    Date {collection === 'actualites' ? 'de publication' : ''}
+                  </label>
+                  <input
+                    type="date"
+                    value={item[collection === 'actualites' ? 'publishedAt' : 'date'] || ""}
+                    onChange={(e) => handleChange(collection === 'actualites' ? "publishedAt" : "date", e.target.value)}
+                    className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none ${collection === 'actualites' ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                    disabled={collection === 'actualites'}
+                  />
               </div>
+              {collection === 'concerts' && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Heure
@@ -490,8 +512,10 @@ function ItemEditorInner(props: ItemEditorProps) {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
                 />
               </div>
+              )}
             </div>
 
+            {collection === 'concerts' && (
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -518,25 +542,41 @@ function ItemEditorInner(props: ItemEditorProps) {
                 />
               </div>
             </div>
+            )}
           </div>
 
           {/* Description & Action Button */}
           <div className="space-y-6">
             <h2 className="text-xl font-semibold border-b pb-2">
-              Description & Action
+              {collection === 'actualites' ? 'Contenu de l\'actualité' : 'Description & Action'}
             </h2>
+
+            {collection === 'actualites' && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Extrait (Résumé court)
+                </label>
+                <textarea
+                  value={item.excerpt || ""}
+                  onChange={(e) => handleChange("excerpt", e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                  rows={3}
+                  placeholder="Texte court affiché dans les listes d'actualités..."
+                />
+              </div>
+            )}
 
             <div className="h-[250px] md:h-[300px] mb-12 flex flex-col">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description courte
+                {collection === 'actualites' ? 'Contenu complet' : 'Description courte'}
               </label>
               <div className="flex-grow bg-white quill-wrapper">
                 <JoditEditor
                   ref={editorRef}
-                  value={item.description || ""}
+                  value={item[collection === 'actualites' ? 'content' : 'description'] || ""}
                   config={joditConfig}
                   onBlur={(newContent) =>
-                    handleChange("description", newContent)
+                    handleChange(collection === 'actualites' ? "content" : "description", newContent)
                   }
                   onChange={(newContent) => {}}
                 />

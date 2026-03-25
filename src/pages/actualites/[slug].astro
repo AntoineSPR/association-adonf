@@ -1,10 +1,30 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { actualites } from "../../data/mock";
 import { resolvePath } from "../../lib/utils";
+import { getApiUrl } from "../../lib/api";
 
 const { slug } = Astro.params;
-const actualite = actualites.find((a) => a.slug === slug);
+let actualite: any = null;
+
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/actualites`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") content = JSON.parse(content);
+    if (content && Array.isArray(content.items)) {
+      const found = content.items.find((a: any) => (a.slug || String(a.id)) === slug);
+      if (found) {
+        actualite = {
+          ...found,
+          publishedAt: new Date(found.publishedAt || new Date()),
+        };
+      }
+    }
+  }
+} catch (e) {
+  console.error("Failed to fetch actualite details", e);
+}
 
 // Redirect to 404 if not found
 if (!actualite) {

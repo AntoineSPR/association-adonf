@@ -21,9 +21,6 @@ const { actualite, featured } = Astro.props;
     <div class="card-date">{actualite.publishedAt.toLocaleDateString("fr-FR")}</div>
     <h3 class="card-title">{actualite.title}</h3>
     <p class="card-excerpt">{actualite.excerpt}</p>
-    <div class="read-more">
-      Lire la suite <i class="pi pi-arrow-right"></i>
-    </div>
   </div>
   <a href={resolvePath(`/actualites/${actualite.slug}`)} class="card-link" aria-label={`Lire ${actualite.title}`}></a>
 </article>

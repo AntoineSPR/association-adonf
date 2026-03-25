@@ -2,16 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import ActualiteCard from "../components/ActualiteCard.astro";
 import ConcertCard from "../components/ConcertCard.astro";
-import { actualites } from "../data/mock";
 import { ArrowRightIcon } from "../components/ui/icons";
 import { resolvePath } from "../lib/utils";
 import { getApiUrl } from "../lib/api";
 
-let concerts = [];
+let concerts: any[] = [];
+let actualites: any[] = [];
 try {
-  const res = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
-  if (res.ok) {
-    const doc = await res.json();
+  const resConcerts = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
+  if (resConcerts.ok) {
+    const doc = await resConcerts.json();
     let content = doc.content;
     if (typeof content === "string") {
       content = JSON.parse(content);
@@ -29,11 +29,27 @@ try {
       concerts.sort((a, b) => a.date.getTime() - b.date.getTime());
     }
   }
+
+  const resActualites = await fetch(`${getApiUrl()}/api/PageContent/actualites`);
+  if (resActualites.ok) {
+    const docAct = await resActualites.json();
+    let contentAct = docAct.content;
+    if (typeof contentAct === "string") {
+      contentAct = JSON.parse(contentAct);
+    }
+    if (contentAct && Array.isArray(contentAct.items)) {
+      actualites = contentAct.items.map((a: any) => ({
+        ...a,
+        publishedAt: new Date(a.publishedAt || new Date()),
+        slug: a.slug || String(a.id),
+      }));
+      actualites.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+    }
+  }
 } catch (e) {
-  console.error("Failed to fetch concerts", e);
+  console.error("Failed to fetch data", e);
 }
 
-// Slice as per original Angular template logic
 const recentActualites = actualites.slice(0, 3);
 const recentConcerts = concerts.slice(0, 3);
 ---
