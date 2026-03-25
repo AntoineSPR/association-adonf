@@ -4,6 +4,9 @@ import axios from 'axios';
  * Helper function to get the base API URL
  */
 export function getApiUrl(): string {
+  if (typeof process !== "undefined" && process.env.PUBLIC_API_URL) {
+    return process.env.PUBLIC_API_URL;
+  }
   return import.meta.env.PUBLIC_API_URL || 'https://localhost:7168';
 }
 

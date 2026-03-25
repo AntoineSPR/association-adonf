@@ -1,8 +1,30 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { concerts } from "../../data/mock";
 import { resolvePath } from "@/lib/utils";
-export function getStaticPaths() {
+import { getApiUrl } from "../../lib/api";
+
+export async function getStaticPaths() {
+  let concerts = [];
+  try {
+    const res = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
+    if (res.ok) {
+      const doc = await res.json();
+      let content = doc.content;
+      if (typeof content === "string") {
+        content = JSON.parse(content);
+      }
+      if (content && Array.isArray(content.items)) {
+        concerts = content.items.map((c: any) => ({
+          ...c,
+          date: c.date ? new Date(c.date) : new Date(),
+          slug: c.slug || String(c.id), 
+        }));
+      }
+    }
+  } catch (e) {
+    console.error("Build failed to fetch concerts", e);
+  }
+
   return concerts.map((concert) => ({
     params: { slug: concert.slug },
     props: { concert },
