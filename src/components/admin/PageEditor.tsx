@@ -36,10 +36,12 @@ const JsonFormNode = ({
   path,
   data,
   onChange,
+  availableContacts,
 }: {
   path: string[];
   data: any;
   onChange: (path: string[], val: any) => void;
+  availableContacts?: any[];
 }) => {
   if (data === null || data === undefined) {
     return <span className="text-gray-400 italic">null</span>;
@@ -125,6 +127,7 @@ const JsonFormNode = ({
               path={[...path, index.toString()]}
               data={item}
               onChange={onChange}
+              availableContacts={availableContacts}
             />
           </div>
         ))}
@@ -167,6 +170,8 @@ const JsonFormNode = ({
     return (
       <div className="space-y-4">
         {Object.keys(data).map((key) => {
+          if (path.length === 0 && key === "contacts" && availableContacts && availableContacts.length > 0) return null;
+
           const isComplex = typeof data[key] === "object" && data[key] !== null;
           return (
             <div
@@ -190,6 +195,7 @@ const JsonFormNode = ({
                 path={[...path, key]}
                 data={data[key]}
                 onChange={onChange}
+                availableContacts={availableContacts}
               />
             </div>
           );
@@ -208,15 +214,24 @@ export default function PageEditor({ slug }: PageEditorProps) {
   const [jsonString, setJsonString] = useState<string>("{}");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [availableContacts, setAvailableContacts] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
         setIsLoading(true);
-        const response = await api.get(`/api/pagecontent/${slug}`);
+        const [response, contactsResponse] = await Promise.all([
+          api.get(`/api/pagecontent/${slug}`),
+          slug !== "contacts" ? api.get('/api/pagecontent/contacts').catch(() => null) : Promise.resolve(null)
+        ]);
+
         const pageData = response.data?.content || {};
         setContent(pageData);
         setJsonString(JSON.stringify(pageData, null, 2));
+
+        if (contactsResponse && contactsResponse.data?.content?.contacts) {
+          setAvailableContacts(contactsResponse.data.content.contacts);
+        }
       } catch (err: any) {
         console.error(err);
         setError("Erreur lors du chargement des données.");
@@ -368,8 +383,63 @@ export default function PageEditor({ slug }: PageEditorProps) {
                 path={[]}
                 data={content}
                 onChange={handleFieldChange}
+                availableContacts={availableContacts}
               />
             </ErrorBoundary>
+          )}
+
+          {!isContentEmpty && slug !== "contacts" && availableContacts.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-gray-900 border-b border-gray-200 pb-2">
+                  Contacts associés à cette page
+                </h3>
+                <p className="text-sm text-gray-500 mt-2">
+                  Sélectionnez les personnes à afficher en bas de la page.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 p-4 bg-gray-50/50 rounded-lg border border-gray-200">
+                {availableContacts.map((contact: any, idx: number) => {
+                  const isChecked = Array.isArray(content.contacts) && content.contacts.some(
+                    (c: any) => c.name === contact.name
+                  );
+                  return (
+                    <label
+                      key={idx}
+                      className="flex items-center gap-3 cursor-pointer p-3 hover:bg-white rounded-md transition-shadow border border-gray-200 hover:shadow-sm bg-white/50"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={(e) => {
+                          const currentContacts = Array.isArray(content.contacts)
+                            ? content.contacts
+                            : [];
+                          let newContacts;
+                          if (e.target.checked) {
+                            newContacts = [...currentContacts, contact];
+                          } else {
+                            newContacts = currentContacts.filter(
+                              (c: any) => c.name !== contact.name
+                            );
+                          }
+                          handleFieldChange(["contacts"], newContacts);
+                        }}
+                        className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-900">
+                          {contact.name}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {contact.role} {contact.email ? `• ${contact.email}` : ""}
+                        </span>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
           )}
         </div>
       </div>
