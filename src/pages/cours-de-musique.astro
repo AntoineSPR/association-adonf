@@ -14,7 +14,7 @@ try {
     if (typeof content === "string") {
       content = JSON.parse(content);
     }
-    if (content && Array.isArray(content.items)) {  
+    if (content && Array.isArray(content.items)) {
       lessons = content.items;
     }
   }
@@ -22,9 +22,9 @@ try {
   console.error("Failed to fetch lessons", err);
 }
 
-lessons = lessons.map(lesson => ({
+lessons = lessons.map((lesson) => ({
   ...lesson,
-  image: lesson.imageUrl || lesson.image
+  image: lesson.imageUrl || lesson.image,
 }));
 ---
 

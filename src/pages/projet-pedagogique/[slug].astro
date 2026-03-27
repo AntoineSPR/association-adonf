@@ -1,16 +1,41 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { projects } from "../../data/projet-pedagogique";
 import ContactCard from "../../components/ContactCard.astro";
 import { resolvePath } from "@/lib/utils";
-export function getStaticPaths() {
-  return projects.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+import { getApiUrl } from "../../lib/api";
+
+const { slug } = Astro.params;
+
+let projects = [];
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/projets-pedagogiques`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") content = JSON.parse(content);
+    if (content && Array.isArray(content.items)) {
+      projects = content.items;
+    }
+  }
+} catch (err) {
+  console.error("Failed to fetch projets", err);
 }
 
-const { project } = Astro.props;
+const projectData = projects.find((p) => p.slug === slug);
+
+if (!projectData) {
+  return Astro.redirect("/404");
+}
+
+const project = {
+  ...projectData,
+  image: projectData.imageUrl || projectData.image,
+  introduction: projectData.content || projectData.introduction || "",
+  sections: projectData.sections?.map((s: any) => ({
+    ...s,
+    content: s.content || s.description || "",
+  })),
+};
 ---
 
 <Layout title={`${project.title} - Projet Pédagogique Adonf`}>
@@ -28,19 +53,19 @@ const { project } = Astro.props;
       <div class="project-content">
         {
           project.introduction && (
-            <div class="main-text">
-              <p>{project.introduction}</p>
+            <div class="main-text text-lg">
+              <div set:html={project.introduction} />
             </div>
           )
         }
 
         {
           project.sections &&
-            project.sections.map((section) => (
+            project.sections.map((section: any) => (
               <div class="custom-section">
                 <h2 class="section-title">{section.title}</h2>
-                <div class="section-text">
-                  <p>{section.content}</p>
+                <div class="section-text text-lg">
+                  <div set:html={section.content} />
                 </div>
               </div>
             ))

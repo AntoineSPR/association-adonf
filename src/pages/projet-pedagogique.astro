@@ -2,8 +2,31 @@
 import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
 import ContactCard from "../components/ContactCard.astro";
-import { projects } from "../data/projet-pedagogique";
 import { resolvePath } from "@/lib/utils";
+import { getApiUrl } from "../lib/api";
+
+let projects: any[] = [];
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/projets-pedagogiques`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") {
+      content = JSON.parse(content);
+    }
+    if (content && Array.isArray(content.items)) {
+      projects = content.items;
+    }
+  }
+} catch (err) {
+  console.error("Failed to fetch projets", err);
+}
+
+projects = projects.map((project) => ({
+  ...project,
+  image: project.imageUrl || project.image,
+  description: project.excerpt || project.description,
+}));
 ---
 
 <Layout title="Projet Pédagogique - Association Adonf">

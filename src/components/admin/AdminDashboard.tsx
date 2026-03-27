@@ -9,22 +9,10 @@ interface PageItem {
 
 const pages: PageItem[] = [
   {
-    title: "Accueil",
-    path: "/admin/pages/accueil",
-    description: "Page principale du site",
-    icon: "pi pi-home",
-  },
-  {
     title: "Association",
     path: "/admin/pages/association",
     description: "Présentation de l'association",
     icon: "pi pi-users",
-  },
-  {
-    title: "Agenda",
-    path: "/admin/pages/agenda",
-    description: "Événements à venir",
-    icon: "pi pi-calendar",
   },
   {
     title: "Actualités",
@@ -57,9 +45,9 @@ const pages: PageItem[] = [
     icon: "pi pi-star",
   },
   {
-    title: "Projet pédagogique",
-    path: "/admin/pages/projet-pedagogique",
-    description: "Le projet pédagogique",
+    title: "Mes Projets pédagogiques",
+    path: "/admin/collections/projets-pedagogiques",
+    description: "Gestion des projets pédagogiques",
     icon: "pi pi-book",
   },
   {

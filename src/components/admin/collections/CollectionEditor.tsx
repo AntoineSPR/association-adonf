@@ -121,7 +121,10 @@ export default function CollectionEditor({
                     {item.name || item.title}
                   </h3>
                   <p className="text-sm text-gray-500">
-                    {(item.date || item.publishedAt) && new Date(item.date || item.publishedAt).toLocaleDateString("fr-FR")}{" "}
+                    {(item.date || item.publishedAt) &&
+                      new Date(
+                        item.date || item.publishedAt,
+                      ).toLocaleDateString("fr-FR")}{" "}
                     {item.venue ? `- ${item.venue}` : ""}
                   </p>
                 </div>

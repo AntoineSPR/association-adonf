@@ -63,6 +63,18 @@ const getEmptyTemplate = (type: string): Item => {
       sections: [],
     };
   }
+
+  if (type === "projets-pedagogiques") {
+    return {
+      id: "new",
+      slug: "nouveau-projet",
+      title: "",
+      imageUrl: "",
+      excerpt: "",
+      content: "",
+      sections: [],
+    };
+  }
   if (type === "actualites") {
     return {
       id: "new",
@@ -178,13 +190,6 @@ function ItemEditorInner(props: ItemEditorProps) {
 
       // Initialize content structure if missing
       let content = doc.content;
-      if (typeof content === "string") {
-        try {
-          content = JSON.parse(content);
-        } catch {
-          content = { items: [] };
-        }
-      }
       if (!content || typeof content !== "object") {
         content = { items: [] };
       }
@@ -441,10 +446,33 @@ function ItemEditorInner(props: ItemEditorProps) {
               </label>
               <input
                 type="text"
-                  value={['actualites', 'lessons'].includes(collection || '') ? (item.title || "") : (item.name || "")}
-                  onChange={(e) => handleChange(['actualites', 'lessons'].includes(collection || '') ? "title" : "name", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
-                  placeholder={collection === 'lessons' ? "Ex: Guitare" : collection === 'actualites' ? "Ex: Nouvel album studio" : "Ex: Concert Rock Adonf"}
+                value={
+                  ["actualites", "lessons", "projets-pedagogiques"].includes(
+                    collection || "",
+                  )
+                    ? item.title || ""
+                    : item.name || ""
+                }
+                onChange={(e) =>
+                  handleChange(
+                    ["actualites", "lessons", "projets-pedagogiques"].includes(
+                      collection || "",
+                    )
+                      ? "title"
+                      : "name",
+                    e.target.value,
+                  )
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
+                placeholder={
+                  collection === "lessons"
+                    ? "Ex: Guitare"
+                    : collection === "projets-pedagogiques"
+                      ? "Ex: Eveil Musical"
+                      : collection === "actualites"
+                        ? "Ex: Nouvel album studio"
+                        : "Ex: Concert Rock Adonf"
+                }
               />
             </div>
 
@@ -498,72 +526,86 @@ function ItemEditorInner(props: ItemEditorProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                {collection !== 'lessons' && (
+              {collection !== "lessons" &&
+                collection !== "projets-pedagogiques" && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Date {collection === 'actualites' ? 'de publication' : ''}
+                      Date {collection === "actualites" ? "de publication" : ""}
                     </label>
                     <input
                       type="date"
-                      value={item[collection === 'actualites' ? 'publishedAt' : 'date'] || ""}
-                      onChange={(e) => handleChange(collection === 'actualites' ? "publishedAt" : "date", e.target.value)}
-                      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none ${collection === 'actualites' ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
-                      disabled={collection === 'actualites'}
+                      value={
+                        item[
+                          collection === "actualites" ? "publishedAt" : "date"
+                        ] || ""
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          collection === "actualites" ? "publishedAt" : "date",
+                          e.target.value,
+                        )
+                      }
+                      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none ${collection === "actualites" ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""}`}
+                      disabled={collection === "actualites"}
                     />
                   </div>
                 )}
-              {collection === 'concerts' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Heure
-                </label>
-                <input
-                  type="time"
-                  value={item.time || ""}
-                  onChange={(e) => handleChange("time", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                />
-              </div>
+              {collection === "concerts" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Heure
+                  </label>
+                  <input
+                    type="time"
+                    value={item.time || ""}
+                    onChange={(e) => handleChange("time", e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                  />
+                </div>
               )}
             </div>
 
-            {collection === 'concerts' && (
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Lieu
-                </label>
-                <input
-                  type="text"
-                  value={item.venue || ""}
-                  onChange={(e) => handleChange("venue", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                  placeholder="Ex: Salle des fêtes"
-                />
+            {collection === "concerts" && (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Lieu
+                  </label>
+                  <input
+                    type="text"
+                    value={item.venue || ""}
+                    onChange={(e) => handleChange("venue", e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                    placeholder="Ex: Salle des fêtes"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Prix
+                  </label>
+                  <input
+                    type="text"
+                    value={item.price || ""}
+                    onChange={(e) => handleChange("price", e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                    placeholder="Ex: 5€ ou Gratuit"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Prix
-                </label>
-                <input
-                  type="text"
-                  value={item.price || ""}
-                  onChange={(e) => handleChange("price", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                  placeholder="Ex: 5€ ou Gratuit"
-                />
-              </div>
-            </div>
             )}
           </div>
 
           {/* Description & Action Button */}
           <div className="space-y-6">
             <h2 className="text-xl font-semibold border-b pb-2">
-              {collection === 'actualites' ? 'Contenu de l\'actualité' : 'Description & Action'}
+              {collection === "actualites"
+                ? "Contenu de l'actualité"
+                : "Description & Action"}
             </h2>
 
-            {collection === 'actualites' && (
+            {["actualites", "projets-pedagogiques"].includes(
+              collection || "",
+            ) && (
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Extrait (Résumé court)
@@ -573,61 +615,87 @@ function ItemEditorInner(props: ItemEditorProps) {
                   onChange={(e) => handleChange("excerpt", e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
                   rows={3}
-                  placeholder="Texte court affiché dans les listes d'actualités..."
+                  placeholder={`Texte court affiché dans les listes${collection === "actualites" ? " d'actualités" : ""}...`}
                 />
               </div>
             )}
 
             <div className="h-[250px] md:h-[300px] mb-12 flex flex-col">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {collection === 'lessons' ? 'Contenu du cours (Description)' : collection === 'actualites' ? 'Contenu complet' : 'Description courte'}
+                {collection === "lessons"
+                  ? "Contenu du cours (Description)"
+                  : collection === "actualites"
+                    ? "Contenu complet"
+                    : collection === "projets-pedagogiques"
+                      ? "Introduction"
+                      : "Description courte"}
               </label>
               <div className="flex-grow bg-white quill-wrapper">
                 <JoditEditor
                   ref={editorRef}
-                  value={item[collection === 'actualites' ? 'content' : 'description'] || ""}
+                  value={
+                    item[
+                      ["actualites", "projets-pedagogiques"].includes(
+                        collection || "",
+                      )
+                        ? "content"
+                        : "description"
+                    ] || ""
+                  }
                   config={joditConfig}
                   onBlur={(newContent) =>
-                    handleChange(collection === 'actualites' ? "content" : "description", newContent)
+                    handleChange(
+                      ["actualites", "projets-pedagogiques"].includes(
+                        collection || "",
+                      )
+                        ? "content"
+                        : "description",
+                      newContent,
+                    )
                   }
                   onChange={(newContent) => {}}
                 />
               </div>
             </div>
 
-            {collection !== 'lessons' && (
-              <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 mt-8 shadow-sm">
-                <h3 className="font-medium text-gray-900 mb-3 block">
-                  Bouton d'action (optionnel)
-                </h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Texte du bouton
-                    </label>
-                    <input
-                      type="text"
-                      value={item.buttonText || ""}
-                      onChange={(e) => handleChange("buttonText", e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
-                      placeholder="Ex: Réserver ma place"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Lien cible (URL)
-                    </label>
-                    <input
-                      type="text"
-                      value={item.buttonLink || ""}
-                      onChange={(e) => handleChange("buttonLink", e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none font-mono"
-                      placeholder="https://..."
-                    />
+            {collection !== "lessons" &&
+              collection !== "projets-pedagogiques" && (
+                <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 mt-8 shadow-sm">
+                  <h3 className="font-medium text-gray-900 mb-3 block">
+                    Bouton d'action (optionnel)
+                  </h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Texte du bouton
+                      </label>
+                      <input
+                        type="text"
+                        value={item.buttonText || ""}
+                        onChange={(e) =>
+                          handleChange("buttonText", e.target.value)
+                        }
+                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                        placeholder="Ex: Réserver ma place"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Lien cible (URL)
+                      </label>
+                      <input
+                        type="text"
+                        value={item.buttonLink || ""}
+                        onChange={(e) =>
+                          handleChange("buttonLink", e.target.value)
+                        }
+                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none font-mono"
+                        placeholder="https://..."
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>
