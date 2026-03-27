@@ -2,8 +2,30 @@
 import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
 import ContactCard from "../components/ContactCard.astro";
-import { lessons } from "../data/lessons";
 import { resolvePath } from "@/lib/utils";
+import { getApiUrl } from "../lib/api";
+
+let lessons: any[] = [];
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/lessons`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") {
+      content = JSON.parse(content);
+    }
+    if (content && Array.isArray(content.items)) {  
+      lessons = content.items;
+    }
+  }
+} catch (err) {
+  console.error("Failed to fetch lessons", err);
+}
+
+lessons = lessons.map(lesson => ({
+  ...lesson,
+  image: lesson.imageUrl || lesson.image
+}));
 ---
 
 <Layout title="Cours de Musique - Association Adonf">

@@ -1,16 +1,41 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { lessons } from "../../data/lessons";
 import ContactCard from "../../components/ContactCard.astro";
 import { resolvePath } from "../../lib/utils";
+import { getApiUrl } from "../../lib/api";
 
 const { slug } = Astro.params;
-const lesson = lessons.find((l) => l.slug === slug);
+
+let lessons = [];
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/lessons`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") content = JSON.parse(content);
+    if (content && Array.isArray(content.items)) {
+      lessons = content.items;
+    }
+  }
+} catch (err) {
+  console.error("Failed to fetch lessons", err);
+}
+
+const lessonData = lessons.find((l) => l.slug === slug);
 
 // Redirect to 404 if not found
-if (!lesson) {
+if (!lessonData) {
   return Astro.redirect("/404");
 }
+
+const lesson = {
+  ...lessonData,
+  image: lessonData.imageUrl || lessonData.image,
+  sections: lessonData.sections?.map((s: any) => ({
+    ...s,
+    content: s.content || s.description || ""
+  }))
+};
 ---
 
 <Layout title={`Cours de ${lesson.title} - École de Musique Adonf`}>
@@ -29,20 +54,18 @@ if (!lesson) {
         {
           lesson.description && (
             <div class="main-text">
-              <p>{lesson.description}</p>
+              <div set:html={lesson.description} />
             </div>
           )
         }
 
         {
           lesson.sections &&
-            lesson.sections.map((section) => (
+            lesson.sections.map((section: any) => (
               <div class="custom-section">
                 <h2 class="section-title">{section.title}</h2>
                 <div class="section-text">
-                  {section.content.split("\n").map((line) => (
-                    <p>{line}</p>
-                  ))}
+                  <div set:html={section.content} />
                 </div>
               </div>
             ))

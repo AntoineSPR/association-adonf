@@ -39,7 +39,13 @@ const pages: PageItem[] = [
     icon: "pi pi-ticket",
   },
   {
-    title: "Cours de musique",
+    title: "Mes Cours de musique",
+    path: "/admin/collections/lessons",
+    description: "Gestion des cours de musique",
+    icon: "pi pi-list",
+  },
+  {
+    title: "Cours de musique (Page)",
     path: "/admin/pages/cours-de-musique",
     description: "Présentation des cours",
     icon: "pi pi-play",

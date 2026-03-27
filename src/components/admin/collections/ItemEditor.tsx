@@ -53,6 +53,16 @@ const getEmptyTemplate = (type: string): Item => {
       sections: [],
     };
   }
+  if (type === "lessons") {
+    return {
+      id: "new",
+      slug: "nouveau-cours",
+      title: "",
+      imageUrl: "",
+      description: "",
+      sections: [],
+    };
+  }
   if (type === "actualites") {
     return {
       id: "new",
@@ -431,10 +441,10 @@ function ItemEditorInner(props: ItemEditorProps) {
               </label>
               <input
                 type="text"
-                value={collection === 'actualites' ? (item.title || "") : (item.name || "")}
-                onChange={(e) => handleChange(collection === 'actualites' ? "title" : "name", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
-                placeholder={collection === 'actualites' ? "Ex: Nouvel album studio" : "Ex: Concert Rock Adonf"}
+                  value={['actualites', 'lessons'].includes(collection || '') ? (item.title || "") : (item.name || "")}
+                  onChange={(e) => handleChange(['actualites', 'lessons'].includes(collection || '') ? "title" : "name", e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
+                  placeholder={collection === 'lessons' ? "Ex: Guitare" : collection === 'actualites' ? "Ex: Nouvel album studio" : "Ex: Concert Rock Adonf"}
               />
             </div>
 
@@ -488,18 +498,20 @@ function ItemEditorInner(props: ItemEditorProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Date {collection === 'actualites' ? 'de publication' : ''}
-                  </label>
-                  <input
-                    type="date"
-                    value={item[collection === 'actualites' ? 'publishedAt' : 'date'] || ""}
-                    onChange={(e) => handleChange(collection === 'actualites' ? "publishedAt" : "date", e.target.value)}
-                    className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none ${collection === 'actualites' ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
-                    disabled={collection === 'actualites'}
-                  />
-              </div>
+                {collection !== 'lessons' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Date {collection === 'actualites' ? 'de publication' : ''}
+                    </label>
+                    <input
+                      type="date"
+                      value={item[collection === 'actualites' ? 'publishedAt' : 'date'] || ""}
+                      onChange={(e) => handleChange(collection === 'actualites' ? "publishedAt" : "date", e.target.value)}
+                      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none ${collection === 'actualites' ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                      disabled={collection === 'actualites'}
+                    />
+                  </div>
+                )}
               {collection === 'concerts' && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -568,7 +580,7 @@ function ItemEditorInner(props: ItemEditorProps) {
 
             <div className="h-[250px] md:h-[300px] mb-12 flex flex-col">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                {collection === 'actualites' ? 'Contenu complet' : 'Description courte'}
+                  {collection === 'lessons' ? 'Contenu du cours (Description)' : collection === 'actualites' ? 'Contenu complet' : 'Description courte'}
               </label>
               <div className="flex-grow bg-white quill-wrapper">
                 <JoditEditor
@@ -583,37 +595,39 @@ function ItemEditorInner(props: ItemEditorProps) {
               </div>
             </div>
 
-            <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 mt-8 shadow-sm">
-              <h3 className="font-medium text-gray-900 mb-3 block">
-                Bouton d'action (optionnel)
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Texte du bouton
-                  </label>
-                  <input
-                    type="text"
-                    value={item.buttonText || ""}
-                    onChange={(e) => handleChange("buttonText", e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
-                    placeholder="Ex: Réserver ma place"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Lien cible (URL)
-                  </label>
-                  <input
-                    type="text"
-                    value={item.buttonLink || ""}
-                    onChange={(e) => handleChange("buttonLink", e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none font-mono"
-                    placeholder="https://..."
-                  />
+            {collection !== 'lessons' && (
+              <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 mt-8 shadow-sm">
+                <h3 className="font-medium text-gray-900 mb-3 block">
+                  Bouton d'action (optionnel)
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Texte du bouton
+                    </label>
+                    <input
+                      type="text"
+                      value={item.buttonText || ""}
+                      onChange={(e) => handleChange("buttonText", e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                      placeholder="Ex: Réserver ma place"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Lien cible (URL)
+                    </label>
+                    <input
+                      type="text"
+                      value={item.buttonLink || ""}
+                      onChange={(e) => handleChange("buttonLink", e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none font-mono"
+                      placeholder="https://..."
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
