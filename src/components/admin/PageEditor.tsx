@@ -166,18 +166,34 @@ const JsonFormNode = ({
   if (type === "object") {
     return (
       <div className="space-y-4">
-        {Object.keys(data).map((key) => (
-          <div key={key}>
-            <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
-              {key.replace(/([A-Z])/g, " $1").trim()}
-            </label>
-            <JsonFormNode
-              path={[...path, key]}
-              data={data[key]}
-              onChange={onChange}
-            />
-          </div>
-        ))}
+        {Object.keys(data).map((key) => {
+          const isComplex = typeof data[key] === "object" && data[key] !== null;
+          return (
+            <div
+              key={key}
+              className={
+                isComplex
+                  ? "mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50/50"
+                  : ""
+              }
+            >
+              <label
+                className={`block capitalize mb-2 ${
+                  isComplex
+                    ? "text-lg font-bold text-gray-900 border-b border-gray-200 pb-2"
+                    : "text-sm font-medium text-gray-700"
+                }`}
+              >
+                {key.replace(/([A-Z])/g, " $1").trim()}
+              </label>
+              <JsonFormNode
+                path={[...path, key]}
+                data={data[key]}
+                onChange={onChange}
+              />
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -192,7 +208,6 @@ export default function PageEditor({ slug }: PageEditorProps) {
   const [jsonString, setJsonString] = useState<string>("{}");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<"visual" | "json">("visual");
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -304,20 +319,6 @@ export default function PageEditor({ slug }: PageEditorProps) {
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <div className="bg-gray-100 p-1 rounded-lg flex text-sm">
-            <button
-              onClick={() => setViewMode("visual")}
-              className={`px-4 py-2 rounded-md font-medium transition-colors ${viewMode === "visual" ? "bg-white shadow-sm text-blue-600" : "text-gray-600 hover:text-gray-900"}`}
-            >
-              <i className="pi pi-desktop mr-2"></i> Visuel
-            </button>
-            <button
-              onClick={() => setViewMode("json")}
-              className={`px-4 py-2 rounded-md font-medium transition-colors ${viewMode === "json" ? "bg-white shadow-sm text-blue-600" : "text-gray-600 hover:text-gray-900"}`}
-            >
-              <i className="pi pi-code mr-2"></i> JSON
-            </button>
-          </div>
           <button
             onClick={handleSave}
             disabled={isSaving}
@@ -349,43 +350,28 @@ export default function PageEditor({ slug }: PageEditorProps) {
         </div>
       )}
 
-      {isContentEmpty && viewMode === "visual" && (
+      {isContentEmpty && (
         <div className="bg-yellow-50 p-6 rounded-xl border border-yellow-200 text-yellow-800 text-center mb-6">
           <i className="pi pi-info-circle text-3xl mb-3"></i>
           <h3 className="font-bold text-lg mb-2">Aucun contenu trouvé</h3>
           <p className="mb-4">
             Cette page n'a pas encore de structure définie en base de données.
           </p>
-          <button
-            onClick={() => setViewMode("json")}
-            className="px-4 py-2 bg-yellow-100 hover:bg-yellow-200 text-yellow-900 rounded font-medium transition-colors"
-          >
-            Passer en mode Code (JSON) pour initialiser la structure
-          </button>
         </div>
       )}
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        {viewMode === "visual" ? (
-          <div className="p-8">
-            {!isContentEmpty && (
-              <ErrorBoundary>
-                <JsonFormNode
-                  path={[]}
-                  data={content}
-                  onChange={handleFieldChange}
-                />
-              </ErrorBoundary>
-            )}
-          </div>
-        ) : (
-          <textarea
-            className="w-full h-[70vh] p-6 text-sm font-mono bg-gray-50 focus:bg-white border-0 focus:ring-0 resize-none outline-none leading-relaxed"
-            value={jsonString}
-            onChange={(e) => handleJsonStringChange(e.target.value)}
-            spellCheck="false"
-          ></textarea>
-        )}
+        <div className="p-8">
+          {!isContentEmpty && (
+            <ErrorBoundary>
+              <JsonFormNode
+                path={[]}
+                data={content}
+                onChange={handleFieldChange}
+              />
+            </ErrorBoundary>
+          )}
+        </div>
       </div>
     </div>
   );
