@@ -167,9 +167,32 @@ const JsonFormNode = ({
   }
 
   if (type === "object") {
+    // Liste optionnelle pour forcer un ordre d'affichage cohérent
+    // car la base de données (PostgreSQL jsonb) ne préserve pas l'ordre des clés d'origine.
+    const PREFERRED_ORDER = [
+      "title", "titlePart1", "titlePart2",
+      "visionHtml", "description",
+      "reservationHtml", "horaires",
+      "tarifsAdhesionPrice", "tarifsAdhesionPeriod", "tarifsLocation", "tarifAlert",
+      "services", "planningHtml", "contacts"
+    ];
+
+    const sortedKeys = Object.keys(data).sort((a, b) => {
+      const idxA = PREFERRED_ORDER.indexOf(a);
+      const idxB = PREFERRED_ORDER.indexOf(b);
+      // Les deux sont dans la liste : on respecte l'ordre défini
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      // Seulement A est dans la liste : A passe en premier
+      if (idxA !== -1) return -1;
+      // Seulement B est dans la liste : B passe en premier
+      if (idxB !== -1) return 1;
+      // Aucun des deux : on les laisse dans l'ordre naturel
+      return 0;
+    });
+
     return (
       <div className="space-y-4">
-        {Object.keys(data).map((key) => {
+        {sortedKeys.map((key) => {
           if (
             path.length === 0 &&
             key === "contacts" &&
