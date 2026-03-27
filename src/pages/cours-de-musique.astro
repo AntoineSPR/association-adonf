@@ -111,22 +111,18 @@ lessons = lessons.map((lesson) => ({
     </section>
 
     <!-- Contacts Section -->
-    {(content.contacts && content.contacts.length > 0) && (
-      <section class="contacts-section">
-        <h2 class="section-title">CONTACTS</h2>
-        <div class="contacts-grid">
-          {content.contacts.map((contact: any) => (
-            <ContactCard
-              image={contact.image}
-              name={contact.name}
-              role={contact.role}
-              email={contact.email}
-              phone={contact.phone}
-            />
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      content.contacts && content.contacts.length > 0 && (
+        <section class="contacts-section">
+          <h2 class="section-title">CONTACTS</h2>
+          <div class="contacts-grid">
+            {content.contacts.map((contact: any) => (
+              <ContactCard image={contact.image} name={contact.name} role={contact.role} email={contact.email} phone={contact.phone} />
+            ))}
+          </div>
+        </section>
+      )
+    }
   </div>
 </Layout>
 
