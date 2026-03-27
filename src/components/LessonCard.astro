@@ -16,10 +16,10 @@ const { lesson, baseUrl = resolvePath("/cours-de-musique") } = Astro.props;
 <a href={`${baseUrl}/${lesson.slug}`} class="block">
   <div class="lesson-card">
     <div class="image-container">
-      <img src={resolvePath(lesson.image)} alt={lesson.title} loading="lazy" />
+      <img src={resolvePath(lesson.image)} alt={lesson.titre} loading="lazy" />
     </div>
     <div class="card-label">
-      <h3>{lesson.title}</h3>
+      <h3>{lesson.titre}</h3>
     </div>
   </div>
 </a>

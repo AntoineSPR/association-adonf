@@ -29,7 +29,7 @@ if (!projectData) {
 
 const project = {
   ...projectData,
-  image: projectData.imageUrl || projectData.image,
+  image: projectData.image,
   introduction: projectData.content || projectData.introduction || "",
   sections: projectData.sections?.map((s: any) => ({
     ...s,
@@ -38,23 +38,23 @@ const project = {
 };
 ---
 
-<Layout title={`${project.title} - Projet Pédagogique Adonf`}>
+<Layout title={`${project.titre} - Projet Pédagogique Adonf`}>
   <div class="page-container">
     <div class="header-spacing"></div>
 
     <div class="project-detail-container">
       <div class="image-container">
-        <img src={project.image} alt={project.title} transition:name={`project-image-${project.slug}`} />
+        <img src={project.image} alt={project.titre} transition:name={`project-image-${project.slug}`} />
         <div class="project-title-overlay">
-          <h1>{project.title}</h1>
+          <h1>{project.titre}</h1>
         </div>
       </div>
 
       <div class="project-content">
         {
-          project.introduction && (
+          project.contenu && (
             <div class="main-text text-lg">
-              <div set:html={project.introduction} />
+              <div set:html={project.contenu} />
             </div>
           )
         }
@@ -63,9 +63,9 @@ const project = {
           project.sections &&
             project.sections.map((section: any) => (
               <div class="custom-section">
-                <h2 class="section-title">{section.title}</h2>
+                <h2 class="section-title">{section.titre}</h2>
                 <div class="section-text text-lg">
-                  <div set:html={section.content} />
+                  <div set:html={section.contenu} />
                 </div>
               </div>
             ))

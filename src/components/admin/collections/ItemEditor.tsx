@@ -5,8 +5,11 @@ import { Loader2, Plus, Trash2, ArrowLeft, Upload } from "lucide-react";
 import { getApiUrl } from "../../../lib/api";
 
 interface Section {
-  title: string;
-  description: string;
+  title?: string;
+  titre?: string;
+  description?: string;
+  contenu?: string;
+  content?: string;
 }
 
 interface Item {
@@ -20,7 +23,7 @@ interface Item {
   venue?: string;
   price?: string;
   imageUrl?: string;
-  description?: string;
+  image?: string;
   excerpt?: string;
   content?: string;
   buttonText?: string;
@@ -257,7 +260,12 @@ function ItemEditorInner(props: ItemEditorProps) {
       });
       const relativeUrl = response.data;
       const fullUrl = `${getApiUrl().replace(/\/$/, "")}${relativeUrl}`;
-      setItem({ ...item, imageUrl: fullUrl });
+      setItem({
+        ...item,
+        [collection === "lessons" || collection === "projets-pedagogiques"
+          ? "image"
+          : "imageUrl"]: fullUrl,
+      });
     } catch (err) {
       console.error("Erreur d'upload", err);
       alert("Échec de l'upload de l'image");
@@ -324,9 +332,10 @@ function ItemEditorInner(props: ItemEditorProps) {
         itemToSave.slug === "nouvel-element" ||
         itemToSave.slug === "nouvelle-actualite"
       ) {
-        const itemTitle = itemToSave.name || itemToSave.title;
+        const itemTitle =
+          itemToSave.name || itemToSave.title || itemToSave.titre;
         const generatedSlug = itemTitle
-          ? itemTitle
+          ? String(itemTitle)
               .toLowerCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "") // Remove accents
@@ -453,7 +462,7 @@ function ItemEditorInner(props: ItemEditorProps) {
                   ["actualites", "lessons", "projets-pedagogiques"].includes(
                     collection || "",
                   )
-                    ? item.title || ""
+                    ? item.title || item.titre || ""
                     : item.name || ""
                 }
                 onChange={(e) =>
@@ -461,7 +470,10 @@ function ItemEditorInner(props: ItemEditorProps) {
                     ["actualites", "lessons", "projets-pedagogiques"].includes(
                       collection || "",
                     )
-                      ? "title"
+                      ? collection === "lessons" ||
+                        collection === "projets-pedagogiques"
+                        ? "titre"
+                        : "title"
                       : "name",
                     e.target.value,
                   )
@@ -513,10 +525,10 @@ function ItemEditorInner(props: ItemEditorProps) {
                   )}
                 </button>
               </div>
-              {item.imageUrl && (
+              {(item.imageUrl || item.image) && (
                 <div className="mt-3 relative rounded-lg overflow-hidden h-40 bg-gray-100 border flex items-center justify-center">
                   <img
-                    src={item.imageUrl}
+                    src={item.imageUrl || item.image}
                     alt="Aperçu"
                     className="w-full h-full object-cover z-10"
                     onError={(e) => (e.currentTarget.style.display = "none")}
@@ -614,26 +626,26 @@ function ItemEditorInner(props: ItemEditorProps) {
                   Extrait (Résumé court)
                 </label>
                 <textarea
-                  value={item.excerpt || ""}
-                  onChange={(e) => handleChange("excerpt", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                  rows={3}
-                  placeholder={`Texte court affiché dans les listes${collection === "actualites" ? " d'actualités" : ""}...`}
+                  value={item.excerpt || item.extrait || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      collection === "lessons" ||
+                        collection === "projets-pedagogiques"
+                        ? "extrait"
+                        : "excerpt",
+                      e.target.value,
+                    )
+                  }
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none h-24"
                 />
               </div>
             )}
 
-            <div className="h-[250px] md:h-[300px] mb-12 flex flex-col">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                {collection === "lessons"
-                  ? "Contenu du cours (Description)"
-                  : collection === "actualites"
-                    ? "Contenu complet"
-                    : collection === "projets-pedagogiques"
-                      ? "Introduction"
-                      : "Description courte"}
+                Le contenu de la page
               </label>
-              <div className="flex-grow bg-white quill-wrapper">
+              <div className="bg-white">
                 <JoditEditor
                   ref={editorRef}
                   value={

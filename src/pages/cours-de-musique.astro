@@ -67,9 +67,9 @@ lessons = lessons.map((lesson) => ({
     <!-- Vision -->
     <section class="vision-section">
       <div class="vision-title-col">
-        <h2 set:html={content.vision.titleHtml} />
+        <h2 set:html={content.presentation.titreHtml} />
       </div>
-      <div class="vision-text-col" set:html={content.vision.descriptionHtml} />
+      <div class="vision-text-col" set:html={content.presentation.descriptionHtml} />
     </section>
 
     <!-- Unified Infos Section -->
@@ -77,25 +77,25 @@ lessons = lessons.map((lesson) => ({
       <div class="infos-container">
         <!-- Tarifs (White) -->
         <div class="tarifs-block">
-          <h3>{content.pricing.title}</h3>
+          <h3>{content.tarification.titre}</h3>
 
           <div class="tarifs-list">
             {
-              content.pricing.tariffs.map((t: any, index: number) => (
+              content.tarification.tarifs.map((t: any, index: number) => (
                 <>
                   <div class="tarif-item">
-                    <h4>{t.title}</h4>
+                    <h4>{t.titre}</h4>
                     <p set:html={t.descriptionHtml} />
                   </div>
-                  {index < content.pricing.tariffs.length - 1 && <div class="divider" />}
+                  {index < content.tarification.tarifs.length - 1 && <div class="divider" />}
                 </>
               ))
             }
           </div>
 
           <div class="payment-methods">
-            <h3>{content.pricing.paymentMethods.title}</h3>
-            <div set:html={content.pricing.paymentMethods.methodsHtml} />
+            <h3>{content.tarification.moyensPaiement.titre}</h3>
+            <div set:html={content.tarification.moyensPaiement.methodesHtml} />
           </div>
         </div>
 
@@ -103,9 +103,9 @@ lessons = lessons.map((lesson) => ({
         <div class="inscriptions-block">
           <div class="bg-decoration"></div>
 
-          <h3>{content.inscriptions.title}</h3>
+          <h3>{content.inscriptions.titre}</h3>
 
-          <div class="inscriptions-content" set:html={content.inscriptions.contentHtml} />
+          <div class="inscriptions-content" set:html={content.inscriptions.contenuHtml} />
         </div>
       </div>
     </section>

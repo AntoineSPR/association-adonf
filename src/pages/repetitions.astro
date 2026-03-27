@@ -19,7 +19,6 @@ try {
 } catch (err) {
   console.error("Failed to fetch repetitions content", err);
 }
-
 ---
 
 <Layout title="Répétitions - Association Adonf">
@@ -27,14 +26,15 @@ try {
     <!-- Header -->
     <header class="page-header">
       <h1 class="main-title">
-        {pageContent.titlePart1 || "SALLE DE"} <span>{pageContent.titlePart2 || "RÉPÉTITION"}</span>
+        {pageContent.titrePartie1 || "SALLE DE"}
+        <span>{pageContent.titrePartie2 || "RÉPÉTITION"}</span>
       </h1>
       <div class="title-underline"></div>
     </header>
 
     <!-- Intro / Vision Section -->
     <section class="vision-section">
-      <div class="vision-text" set:html={pageContent.visionHtml} />
+      <div class="vision-text" set:html={pageContent.presentationHtml} />
     </section>
 
     <!-- Info Grid (Horaires, Tarifs) -->
@@ -46,9 +46,14 @@ try {
           <div class="reservation-text" set:html={pageContent.reservationHtml} />
 
           <div class="schedule-block">
-            {pageContent.horaires && pageContent.horaires.map((h: any) => (
-              <div class="schedule-row"><span>{h.day}</span> <strong>{h.hours}</strong></div>
-            ))}
+            {
+              pageContent.horaires &&
+                pageContent.horaires.map((h: any) => (
+                  <div class="schedule-row">
+                    <span>{h.day}</span> <strong>{h.hours}</strong>
+                  </div>
+                ))
+            }
           </div>
         </div>
       </div>
@@ -59,22 +64,25 @@ try {
         <div class="card-content">
           <div class="tarif-simple-group">
             <h3>ADHÉSION</h3>
-            <p><strong>{pageContent.tarifsAdhesionPrice}</strong> {pageContent.tarifsAdhesionPeriod}</p>
+            <p><strong>{pageContent.prixAdhesion}</strong> {pageContent.periodeAdhesion}</p>
           </div>
 
           <div class="tarif-simple-group">
             <h3>LOCATION DU LOCAL</h3>
             <ul class="tarifs-simple-list">
-              {pageContent.tarifsLocation && pageContent.tarifsLocation.map((t: any) => (
-                <li>
-                  <span>{t.label}</span>
-                  <span class="price">{t.price}</span>
-                </li>
-              ))}
+              {
+                pageContent.tarifsLocation &&
+                  pageContent.tarifsLocation.map((t: any) => (
+                    <li>
+                      <span>{t.label}</span>
+                      <span class="price">{t.price}</span>
+                    </li>
+                  ))
+              }
             </ul>
           </div>
 
-          <div class="tarif-alert">{pageContent.tarifAlert}</div>
+          <div class="tarif-alert">{pageContent.alerteTarifs}</div>
         </div>
       </div>
     </section>
@@ -85,9 +93,7 @@ try {
       <div class="services-container">
         <div class="service-col">
           <ul class="check-list">
-            {pageContent.services && pageContent.services.map((s: any) => (
-              <li>{s.label}</li>
-            ))}
+            {pageContent.services && pageContent.services.map((s: any) => <li>{s.label}</li>)}
           </ul>
         </div>
       </div>
@@ -100,22 +106,24 @@ try {
     </section>
 
     <!-- Contacts Section -->
-    {pageContent.contacts && pageContent.contacts.length > 0 && (
-      <section class="contacts-section">
-        <h2 class="section-title">CONTACTS</h2>
-        <div class="contacts-grid">
-          {pageContent.contacts.map((contact: any) => (
-            <ContactCard
-              image={contact.image || contact.imageUrl || "/assets/logo-adonf.png"}
-              name={contact.name}
-              role={contact.role}
-              email={contact.email}
-              phone={contact.phone}
-            />
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      pageContent.contacts && pageContent.contacts.length > 0 && (
+        <section class="contacts-section">
+          <h2 class="section-title">CONTACTS</h2>
+          <div class="contacts-grid">
+            {pageContent.contacts.map((contact: any) => (
+              <ContactCard
+                image={contact.image || contact.imageUrl || "/assets/logo-adonf.png"}
+                name={contact.name}
+                role={contact.role}
+                email={contact.email}
+                phone={contact.phone}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
   </div>
 </Layout>
 

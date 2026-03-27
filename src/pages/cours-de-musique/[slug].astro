@@ -30,7 +30,7 @@ if (!lessonData) {
 
 const lesson = {
   ...lessonData,
-  image: lessonData.imageUrl || lessonData.image,
+  image: lessonData.image,
   sections: lessonData.sections?.map((s: any) => ({
     ...s,
     content: s.content || s.description || "",
@@ -38,15 +38,15 @@ const lesson = {
 };
 ---
 
-<Layout title={`Cours de ${lesson.title} - École de Musique Adonf`}>
+<Layout title={`Cours de ${lesson.titre} - École de Musique Adonf`}>
   <div class="page-container">
     <div class="header-spacing"></div>
 
     <div class="lesson-detail-container">
       <div class="image-container">
-        <img src={lesson.image} alt={`Cours de ${lesson.title}`} transition:name={`lesson-image-${lesson.slug}`} />
+        <img src={lesson.image} alt={`Cours de ${lesson.titre}`} transition:name={`lesson-image-${lesson.slug}`} />
         <div class="lesson-title-overlay">
-          <h1>{lesson.title}</h1>
+          <h1>{lesson.titre}</h1>
         </div>
       </div>
 
@@ -63,9 +63,9 @@ const lesson = {
           lesson.sections &&
             lesson.sections.map((section: any) => (
               <div class="custom-section">
-                <h2 class="section-title">{section.title}</h2>
+                <h2 class="section-title">{section.titre}</h2>
                 <div class="section-text">
-                  <div set:html={section.content} />
+                  <div set:html={section.description} />
                 </div>
               </div>
             ))

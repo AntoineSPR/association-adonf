@@ -115,16 +115,16 @@ export default function CollectionEditor({
               className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
             >
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full">
-                {item.imageUrl && (
+                {(item.imageUrl || item.image) && (
                   <img
-                    src={item.imageUrl}
+                    src={(item.imageUrl || item.image)}
                     className="w-full sm:w-24 h-48 sm:h-16 object-cover rounded"
                     alt="cover"
                   />
                 )}
                 <div>
                   <h3 className="font-bold text-lg">
-                    {item.name || item.title}
+                    {item.name || item.title || item.titre}
                   </h3>
                   <p className="text-sm text-gray-500">
                     {(item.date || item.publishedAt) &&

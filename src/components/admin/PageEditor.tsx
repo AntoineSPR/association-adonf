@@ -170,11 +170,24 @@ const JsonFormNode = ({
     // Liste optionnelle pour forcer un ordre d'affichage cohérent
     // car la base de données (PostgreSQL jsonb) ne préserve pas l'ordre des clés d'origine.
     const PREFERRED_ORDER = [
-      "title", "titlePart1", "titlePart2",
-      "visionHtml", "description",
-      "reservationHtml", "horaires",
-      "tarifsAdhesionPrice", "tarifsAdhesionPeriod", "tarifsLocation", "tarifAlert",
-      "services", "planningHtml", "contacts"
+      "titre",
+      "titrePartie1",
+      "titrePartie2",
+      "presentation",
+      "presentation",
+      "description",
+      "reservation",
+      "horaires",
+      "prixAdhesion",
+      "periodeAdhesion",
+      "tarifsLocation",
+      "alerteTarifs",
+      "tarification",
+      "inscriptions",
+      "services",
+      "planning",
+      "contacts",
+      "sections",
     ];
 
     const sortedKeys = Object.keys(data).sort((a, b) => {
@@ -218,7 +231,10 @@ const JsonFormNode = ({
                     : "text-sm font-medium text-gray-700"
                 }`}
               >
-                {key.replace(/([A-Z])/g, " $1").trim()}
+                {key
+                  .replace(/Html/gi, "")
+                  .replace(/([A-Z])/g, " $1")
+                  .trim()}
               </label>
               <JsonFormNode
                 path={[...path, key]}
