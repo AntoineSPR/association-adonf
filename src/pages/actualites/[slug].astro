@@ -59,6 +59,16 @@ if (!actualite) {
               </div>
             ))
         }
+
+        {
+          actualite.buttonLink && (
+            <div class="action-area">
+              <a href={actualite.buttonLink} target={actualite.buttonLink.startsWith('http') ? "_blank" : "_self"} class="btn-primary">
+                {actualite.buttonText || "En savoir plus"}
+              </a>
+            </div>
+          )
+        }
       </div>
     </div>
 
@@ -153,6 +163,29 @@ if (!actualite) {
     font-size: 1.05rem;
     line-height: 1.7;
     color: #555;
+  }
+
+  .action-area {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--primary-color, #dc143c);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #b01030;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);
   }
 
   .back-link {
