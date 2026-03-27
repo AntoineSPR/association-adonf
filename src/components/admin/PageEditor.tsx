@@ -281,7 +281,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
       });
 
       setSuccess("Contenu de la page enregistré avec succès.");
-      
+
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
       if (err instanceof SyntaxError) {
@@ -383,65 +383,62 @@ export default function PageEditor({ slug }: PageEditorProps) {
             </ErrorBoundary>
           )}
 
-          {slug !== "contacts" &&
-            availableContacts.length > 0 && (
-              <div className="mt-12 pt-8 border-t border-gray-200">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-gray-900 border-b border-gray-200 pb-2">
-                    Contacts associés à cette page
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Sélectionnez les personnes à afficher en bas de la page.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 p-4 bg-gray-50/50 rounded-lg border border-gray-200">
-                  {availableContacts.map((contact: any, idx: number) => {
-                    const isChecked =
-                      Array.isArray(content.contacts) &&
-                      content.contacts.some(
-                        (c: any) => c.name === contact.name,
-                      );
-                    return (
-                      <label
-                        key={idx}
-                        className="flex items-center gap-3 cursor-pointer p-3 hover:bg-white rounded-md transition-shadow border border-gray-200 hover:shadow-sm bg-white/50"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={(e) => {
-                            const currentContacts = Array.isArray(
-                              content.contacts,
-                            )
-                              ? content.contacts
-                              : [];
-                            let newContacts;
-                            if (e.target.checked) {
-                              newContacts = [...currentContacts, contact];
-                            } else {
-                              newContacts = currentContacts.filter(
-                                (c: any) => c.name !== contact.name,
-                              );
-                            }
-                            handleFieldChange(["contacts"], newContacts);
-                          }}
-                          className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                        />
-                        <div className="flex flex-col">
-                          <span className="text-sm font-semibold text-gray-900">
-                            {contact.name}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {contact.role}{" "}
-                            {contact.email ? `• ${contact.email}` : ""}
-                          </span>
-                        </div>
-                      </label>
-                    );
-                  })}
-                </div>
+          {slug !== "contacts" && availableContacts.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-gray-900 border-b border-gray-200 pb-2">
+                  Contacts associés à cette page
+                </h3>
+                <p className="text-sm text-gray-500 mt-2">
+                  Sélectionnez les personnes à afficher en bas de la page.
+                </p>
               </div>
-            )}
+              <div className="flex flex-col gap-3 p-4 bg-gray-50/50 rounded-lg border border-gray-200">
+                {availableContacts.map((contact: any, idx: number) => {
+                  const isChecked =
+                    Array.isArray(content.contacts) &&
+                    content.contacts.some((c: any) => c.name === contact.name);
+                  return (
+                    <label
+                      key={idx}
+                      className="flex items-center gap-3 cursor-pointer p-3 hover:bg-white rounded-md transition-shadow border border-gray-200 hover:shadow-sm bg-white/50"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={(e) => {
+                          const currentContacts = Array.isArray(
+                            content.contacts,
+                          )
+                            ? content.contacts
+                            : [];
+                          let newContacts;
+                          if (e.target.checked) {
+                            newContacts = [...currentContacts, contact];
+                          } else {
+                            newContacts = currentContacts.filter(
+                              (c: any) => c.name !== contact.name,
+                            );
+                          }
+                          handleFieldChange(["contacts"], newContacts);
+                        }}
+                        className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-900">
+                          {contact.name}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {contact.role}{" "}
+                          {contact.email ? `• ${contact.email}` : ""}
+                        </span>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

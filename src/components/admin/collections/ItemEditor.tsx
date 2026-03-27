@@ -190,10 +190,13 @@ function ItemEditorInner(props: ItemEditorProps) {
 
       // Initialize content structure if missing
       let content = doc.content;
+      if (typeof content === "string") {
+        try {
+          content = JSON.parse(content);
+        } catch (e) {}
+      }
       if (!content || typeof content !== "object") {
         content = { items: [] };
-      }
-      if (!Array.isArray(content.items)) {
         content.items = [];
       }
 

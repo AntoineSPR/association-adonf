@@ -22,8 +22,14 @@ export default function CollectionEditor({
     const fetchData = async () => {
       try {
         const response = await api.get(`/api/pagecontent/${collection}`);
-        if (response.data?.content?.items) {
-          setItems(response.data.content.items);
+        let contentData = response.data?.content;
+        if (typeof contentData === "string") {
+          try {
+            contentData = JSON.parse(contentData);
+          } catch (e) {}
+        }
+        if (contentData?.items) {
+          setItems(contentData.items);
         }
       } catch (err) {
         console.error(err);

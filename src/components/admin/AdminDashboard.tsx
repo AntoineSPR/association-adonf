@@ -51,6 +51,12 @@ const pages: PageItem[] = [
     icon: "pi pi-book",
   },
   {
+    title: "Projet pédagogique (Page)",
+    path: "/admin/pages/projet-pedagogique",
+    description: "Présentation de la page et contacts",
+    icon: "pi pi-file",
+  },
+  {
     title: "Régie",
     path: "/admin/pages/regie",
     description: "Prestations de régie",
