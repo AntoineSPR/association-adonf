@@ -105,12 +105,6 @@ const categories: Category[] = [
         icon: "pi pi-users",
       },
       {
-        titre: "Contacts",
-        path: "/admin/pages/contacts",
-        content: "Informations de contact",
-        icon: "pi pi-envelope",
-      },
-      {
         titre: "Plan d'accès",
         path: "/admin/pages/plan-acces",
         content: "Page plan d'accès",
@@ -150,6 +144,12 @@ const categories: Category[] = [
         path: "/admin/pages/contenu-global",
         content: "Logo, adresse, réseaux sociaux, billetterie...",
         icon: "pi pi-globe",
+      },
+      {
+        titre: "Contacts",
+        path: "/admin/pages/contacts",
+        content: "Informations de contact",
+        icon: "pi pi-envelope",
       },
     ],
   },

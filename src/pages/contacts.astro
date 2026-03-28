@@ -1,6 +1,30 @@
----
+﻿---
 import Layout from "../layouts/Layout.astro";
 import ContactCard from "../components/ContactCard.astro";
+import { getApiUrl } from "../lib/api";
+
+const API_URL = getApiUrl();
+let contacts = [];
+
+if (typeof process !== "undefined" && import.meta.env.DEV) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
+try {
+  const res = await fetch(`${API_URL}/api/PageContent/contacts`);
+  if (res.ok) {
+    const data = await res.json();
+    let parsedContent = data.content;
+    if (typeof parsedContent === "string") {
+      parsedContent = JSON.parse(parsedContent);
+    }
+    if (parsedContent && Array.isArray(parsedContent.contacts)) {
+      contacts = parsedContent.contacts;
+    }
+  }
+} catch (e) {
+  console.error("Failed to load contacts", e);
+}
 ---
 
 <Layout title="Contacts - Association Adonf">
@@ -11,60 +35,20 @@ import ContactCard from "../components/ContactCard.astro";
     </header>
 
     <div class="contacts-grid">
-      <!-- Direction / Association -->
-      <ContactCard
-        image="/assets/logo-adonf.png"
-        nom="Direction / Programmation"
-        role="Association Adonf"
-        email="concert@rockschool-barbey.com"
-        telephone="05 56 33 66 00"
-      />
-
-      <!-- Cours de Musique -->
-      <ContactCard
-        image="/assets/logo-adonf.png"
-        nom="Secrétariat / Inscriptions"
-        role="École de Musique"
-        email="transmission@rockschool-barbey.com"
-        telephone="05 56 33 66 00"
-      />
-
-      <!-- Répétitions -->
-      <ContactCard
-        image="/assets/logo-adonf.png"
-        nom="Régisseur Studio"
-        role="Répétitions"
-        email="repet@rockschool-barbey.com"
-        telephone="05 56 33 66 00"
-      />
-
-      <!-- Studio Enregistrement -->
-      <ContactCard
-        image="/assets/logo-adonf.png"
-        nom="Ingénieur Son"
-        role="Studio d'Enregistrement"
-        email="contact@association-adonf.fr"
-        telephone="05 56 33 66 00"
-      />
-
-      <!-- Prestations Techniques -->
-      <ContactCard
-        image="/assets/logo-adonf.png"
-        nom="Direction Technique"
-        role="Prestations / Festivals"
-        email="contact@association-adonf.fr"
-        telephone="05 56 33 66 00"
-      />
-
-      <!-- Accompagnement -->
-      <ContactCard
-        image="/assets/logo-adonf.png"
-        nom="Coordinateur Pédagogique"
-        role="Accompagnement Artistique"
-        email="contact@association-adonf.fr"
-        telephone="05 56 33 66 00"
-      />
+      {
+        contacts.map((contact: any) => (
+          <ContactCard
+            image={contact.image || "/assets/logo-adonf.png"}
+            nom={contact.nom}
+            role={contact.role}
+            email={contact.email}
+            telephone={contact.telephone}
+          />
+        ))
+      }
     </div>
+
+    {contacts.length === 0 && <p style="text-align: center; color: #666;">Aucun contact disponible pour le moment.</p>}
   </div>
 </Layout>
 
