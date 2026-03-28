@@ -398,7 +398,9 @@ export default function PageEditor({ slug }: PageEditorProps) {
         setIsLoading(true);
         const [response, contactsResponse] = await Promise.all([
           api.get(`/api/pagecontent/${slug}`),
-          slug !== "contacts" && slug !== "contenu-global",
+          slug !== "contacts" && slug !== "contenu-global"
+            ? api.get(`/api/pagecontent/contacts`)
+            : Promise.resolve(null),
         ]);
 
         let pageData = response.data?.content || {};
@@ -411,8 +413,18 @@ export default function PageEditor({ slug }: PageEditorProps) {
         }
         setContent(pageData);
 
-        if (contactsResponse && contactsResponse.data?.content?.contacts) {
-          setAvailableContacts(contactsResponse.data.content.contacts);
+        if (contactsResponse && contactsResponse.data?.content) {
+          let contactsData = contactsResponse.data.content;
+          if (typeof contactsData === "string") {
+            try {
+              contactsData = JSON.parse(contactsData);
+            } catch (e) {
+              console.error("Failed to parse contacts data", e);
+            }
+          }
+          if (contactsData?.contacts) {
+            setAvailableContacts(contactsData.contacts);
+          }
         }
       } catch (err: any) {
         console.error(err);
