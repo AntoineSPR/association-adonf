@@ -1,10 +1,104 @@
 import React, { useEffect, useState } from "react";
-import api from "../../lib/api";
+import api, { getApiUrl } from "../../lib/api";
+import { Loader2, Upload } from "lucide-react";
 import JoditEditor from "jodit-react";
 
 interface PageEditorProps {
   slug: string;
 }
+
+const ImageUploader = ({ data, onChange }: { data: string; onChange: (val: string) => void }) => {
+  const [uploading, setUploading] = useState(false);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await api.post("/File", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const relativeUrl = response.data;
+      const fullUrl = `${getApiUrl().replace(/\/$/, "")}${relativeUrl}`;
+      onChange(fullUrl);
+    } catch (err) {
+      console.error("Erreur d'upload", err);
+      alert("Échec de l'upload de l'image");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="relative">
+        <input
+          type="file"
+          onChange={handleUpload}
+          accept="image/*"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+          disabled={uploading}
+        />
+        <button
+          type="button"
+          disabled={uploading}
+          className="w-full flex items-center justify-center gap-2 bg-gray-50 hover:bg-gray-100 border-2 border-dashed border-gray-300 text-gray-700 py-3 rounded-lg transition-colors disabled:opacity-50 relative z-10"
+        >
+          {uploading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Téléchargement...</span>
+            </>
+          ) : (
+            <>
+              <Upload className="w-5 h-5" />
+              <span>{data ? "Changer l'image" : "Sélectionner une image"}</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+          value={data || ""}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Ou collez une URL d'image ici..."
+        />
+      </div>
+
+      {data && (
+        <div className="mt-2 relative rounded-lg overflow-hidden h-40 bg-gray-100 border flex items-center justify-center max-w-sm">
+          <img
+            src={data}
+            alt="Aperçu"
+            className="w-full h-full object-contain z-10 relative"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+              if (e.currentTarget.nextElementSibling) (e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex";
+            }}
+            onLoad={(e) => {
+              e.currentTarget.style.display = "block";
+              if (e.currentTarget.nextElementSibling) (e.currentTarget.nextElementSibling as HTMLElement).style.display = "none";
+            }}
+          />
+          <div 
+            className="absolute inset-0 bg-black/5 items-center justify-center font-sm text-gray-500"
+            style={{ display: "none" }}
+          >
+            [Image invalide]
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 class ErrorBoundary extends React.Component<
   { children: any },
@@ -54,6 +148,15 @@ const JsonFormNode = ({
     const isImage =
       path[path.length - 1]?.toLowerCase().includes("image") ||
       path[path.length - 1]?.toLowerCase().includes("url");
+
+    if (isImage) {
+      return (
+        <ImageUploader 
+          data={data as string} 
+          onChange={(val) => onChange(path, val)} 
+        />
+      );
+    }
 
     if (isHtml) {
       return (
