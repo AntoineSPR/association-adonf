@@ -542,14 +542,20 @@ function ItemEditorInner(props: ItemEditorProps) {
                     className="w-full h-full object-contain z-10 relative"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
-                      if (e.currentTarget.nextElementSibling) (e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex";
+                      if (e.currentTarget.nextElementSibling)
+                        (
+                          e.currentTarget.nextElementSibling as HTMLElement
+                        ).style.display = "flex";
                     }}
                     onLoad={(e) => {
                       e.currentTarget.style.display = "block";
-                      if (e.currentTarget.nextElementSibling) (e.currentTarget.nextElementSibling as HTMLElement).style.display = "none";
+                      if (e.currentTarget.nextElementSibling)
+                        (
+                          e.currentTarget.nextElementSibling as HTMLElement
+                        ).style.display = "none";
                     }}
                   />
-                  <div 
+                  <div
                     className="absolute inset-0 bg-black/5 items-center justify-center font-sm text-gray-500"
                     style={{ display: "none" }}
                   >

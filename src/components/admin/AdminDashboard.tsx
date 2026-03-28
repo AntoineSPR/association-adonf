@@ -98,6 +98,12 @@ const pages: PageItem[] = [
     content: "Informations de contact",
     icon: "pi pi-envelope",
   },
+  {
+    titre: "Contenu global",
+    path: "/admin/pages/contenu-global",
+    content: "Logo, adresse, réseaux sociaux, billetterie...",
+    icon: "pi pi-cog",
+  },
 ];
 
 export default function AdminDashboard() {

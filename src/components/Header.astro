@@ -3,6 +3,10 @@ import {
   FacebookIcon,
   InstagramIcon,
   YoutubeIcon,
+  TwitterIcon,
+  TiktokIcon,
+  SoundcloudIcon,
+  SpotifyIcon,
   ChevronDownIcon,
   HomeIcon,
   TicketIcon,
@@ -10,6 +14,7 @@ import {
   CloseIcon,
 } from "../components/ui/icons";
 import { resolvePath } from "../lib/utils";
+
 
 const menuItems = [
   { label: "", href: "/", icon: "home", isHome: true },
@@ -38,23 +43,24 @@ const menuItems = [
   },
 ];
 
-const socials = [
-  {
-    icon: FacebookIcon,
-    url: "https://www.facebook.com/AssociationADonf/",
-    label: "Facebook",
-  },
-  {
-    icon: InstagramIcon,
-    url: "https://www.instagram.com/association_adonf/",
-    label: "Instagram",
-  },
-  {
-    icon: YoutubeIcon,
-    url: "https://www.youtube.com/@rockschooladonf7634",
-    label: "YouTube",
-  },
-];
+const { parametres } = Astro.props;
+
+const getIcon = (id: string = "") => {
+  const n = id.toLowerCase();
+  if (n.includes("face")) return FacebookIcon;
+  if (n.includes("insta")) return InstagramIcon;
+  if (n.includes("you")) return YoutubeIcon;
+  if (n.includes("twitter") || n.includes("x")) return TwitterIcon;
+  if (n.includes("tiktok")) return TiktokIcon;
+  if (n.includes("soundcloud")) return SoundcloudIcon;
+  if (n.includes("spotify")) return SpotifyIcon;
+  return FacebookIcon;
+};
+
+const socials = (parametres.reseauxSociaux || []).map((s: any) => ({
+  ...s,
+  icon: getIcon(s.iconId),
+}));
 
 const currentPath = Astro.url.pathname;
 ---
@@ -68,7 +74,7 @@ const currentPath = Astro.url.pathname;
       <!-- Logo -->
       <a href={resolvePath("/")} class="block shrink-0">
         <img
-          src={resolvePath("/assets/logo-adonf.png")}
+          src={resolvePath(parametres.logoImage || "/assets/logo-adonf.png")}
           alt="Association A Donf"
           class="w-[150px] md:w-[200px] h-auto"
         />
@@ -135,7 +141,7 @@ const currentPath = Astro.url.pathname;
       <!-- Billetterie Button -->
       <div class="hidden min-[1150px]:block shrink-0 ml-4">
         <a
-            href="https://www.helloasso.com/"
+            href={parametres.billetterieUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center justify-center bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white rounded-full px-6 py-2 font-bold uppercase tracking-wider text-sm shadow-lg transition-transform hover:-translate-y-0.5 no-underline gap-2 h-10"
@@ -226,7 +232,7 @@ const currentPath = Astro.url.pathname;
 
         <div class="mt-4">
             <a
-                href="https://www.helloasso.com/"
+                href={parametres.billetterieUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="w-full flex items-center justify-center gap-2 bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white hover:text-white rounded-full font-bold uppercase py-3 no-underline shadow-md"
@@ -282,4 +288,9 @@ const currentPath = Astro.url.pathname;
     closeBtn?.addEventListener('click', closeMenu);
     overlay?.addEventListener('click', closeMenu);
 </script>
+
+
+
+
+
 

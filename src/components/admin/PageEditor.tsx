@@ -7,7 +7,13 @@ interface PageEditorProps {
   slug: string;
 }
 
-const ImageUploader = ({ data, onChange }: { data: string; onChange: (val: string) => void }) => {
+const ImageUploader = ({
+  data,
+  onChange,
+}: {
+  data: string;
+  onChange: (val: string) => void;
+}) => {
   const [uploading, setUploading] = useState(false);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,14 +87,20 @@ const ImageUploader = ({ data, onChange }: { data: string; onChange: (val: strin
             className="w-full h-full object-contain z-10 relative"
             onError={(e) => {
               e.currentTarget.style.display = "none";
-              if (e.currentTarget.nextElementSibling) (e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex";
+              if (e.currentTarget.nextElementSibling)
+                (
+                  e.currentTarget.nextElementSibling as HTMLElement
+                ).style.display = "flex";
             }}
             onLoad={(e) => {
               e.currentTarget.style.display = "block";
-              if (e.currentTarget.nextElementSibling) (e.currentTarget.nextElementSibling as HTMLElement).style.display = "none";
+              if (e.currentTarget.nextElementSibling)
+                (
+                  e.currentTarget.nextElementSibling as HTMLElement
+                ).style.display = "none";
             }}
           />
-          <div 
+          <div
             className="absolute inset-0 bg-black/5 items-center justify-center font-sm text-gray-500"
             style={{ display: "none" }}
           >
@@ -144,17 +156,34 @@ const JsonFormNode = ({
   const type = typeof data;
 
   if (type === "string") {
+    const isIcon = path[path.length - 1] === "iconId";
+    if (isIcon) {
+      return (
+        <select
+          className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+          value={data}
+          onChange={(e) => onChange(path, e.target.value)}
+        >
+          <option value="FacebookIcon">Facebook</option>
+          <option value="InstagramIcon">Instagram</option>
+          <option value="YoutubeIcon">YouTube</option>
+          <option value="TwitterIcon">Twitter / X</option>
+          <option value="TiktokIcon">TikTok</option>
+          <option value="SoundcloudIcon">Soundcloud</option>
+          <option value="SpotifyIcon">Spotify</option>
+        </select>
+      );
+    }
+
     const isHtml = path[path.length - 1]?.toLowerCase().includes("html");
     const isImage =
       path[path.length - 1]?.toLowerCase().includes("image") ||
-      path[path.length - 1]?.toLowerCase().includes("url");
+      path[path.length - 1]?.toLowerCase().includes("photo") ||
+      path[path.length - 1]?.toLowerCase() === "logo";
 
     if (isImage) {
       return (
-        <ImageUploader 
-          data={data as string} 
-          onChange={(val) => onChange(path, val)} 
-        />
+        <ImageUploader data={data} onChange={(val) => onChange(path, val)} />
       );
     }
 
@@ -369,9 +398,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
         setIsLoading(true);
         const [response, contactsResponse] = await Promise.all([
           api.get(`/api/pagecontent/${slug}`),
-          slug !== "contacts"
-            ? api.get("/api/pagecontent/contacts").catch(() => null)
-            : Promise.resolve(null),
+          slug !== "contacts" && slug !== "contenu-global",
         ]);
 
         let pageData = response.data?.content || {};
@@ -533,62 +560,64 @@ export default function PageEditor({ slug }: PageEditorProps) {
             </ErrorBoundary>
           )}
 
-          {slug !== "contacts" && availableContacts.length > 0 && (
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <div className="mb-4">
-                <h3 className="text-xl font-bold text-gray-900 border-b border-gray-200 pb-2">
-                  Contacts associés à cette page
-                </h3>
-                <p className="text-sm text-gray-500 mt-2">
-                  Sélectionnez les personnes à afficher en bas de la page.
-                </p>
+          {slug !== "contacts" &&
+            slug !== "contenu-global" &&
+            availableContacts.length > 0 && (
+              <div className="mt-12 pt-8 border-t border-gray-200">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 border-b border-gray-200 pb-2">
+                    Contacts associés à cette page
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-2">
+                    Sélectionnez les personnes à afficher en bas de la page.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 p-4 bg-gray-50/50 rounded-lg border border-gray-200">
+                  {availableContacts.map((contact: any, idx: number) => {
+                    const isChecked =
+                      Array.isArray(content.contacts) &&
+                      content.contacts.some((c: any) => c.nom === contact.nom);
+                    return (
+                      <label
+                        key={idx}
+                        className="flex items-center gap-3 cursor-pointer p-3 hover:bg-white rounded-md transition-shadow border border-gray-200 hover:shadow-sm bg-white/50"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            const currentContacts = Array.isArray(
+                              content.contacts,
+                            )
+                              ? content.contacts
+                              : [];
+                            let newContacts;
+                            if (e.target.checked) {
+                              newContacts = [...currentContacts, contact];
+                            } else {
+                              newContacts = currentContacts.filter(
+                                (c: any) => c.nom !== contact.nom,
+                              );
+                            }
+                            handleFieldChange(["contacts"], newContacts);
+                          }}
+                          className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                        />
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-gray-900">
+                            {contact.nom}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {contact.role}{" "}
+                            {contact.email ? `• ${contact.email}` : ""}
+                          </span>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="flex flex-col gap-3 p-4 bg-gray-50/50 rounded-lg border border-gray-200">
-                {availableContacts.map((contact: any, idx: number) => {
-                  const isChecked =
-                    Array.isArray(content.contacts) &&
-                    content.contacts.some((c: any) => c.nom === contact.nom);
-                  return (
-                    <label
-                      key={idx}
-                      className="flex items-center gap-3 cursor-pointer p-3 hover:bg-white rounded-md transition-shadow border border-gray-200 hover:shadow-sm bg-white/50"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={(e) => {
-                          const currentContacts = Array.isArray(
-                            content.contacts,
-                          )
-                            ? content.contacts
-                            : [];
-                          let newContacts;
-                          if (e.target.checked) {
-                            newContacts = [...currentContacts, contact];
-                          } else {
-                            newContacts = currentContacts.filter(
-                              (c: any) => c.nom !== contact.nom,
-                            );
-                          }
-                          handleFieldChange(["contacts"], newContacts);
-                        }}
-                        className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                      />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-900">
-                          {contact.nom}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {contact.role}{" "}
-                          {contact.email ? `• ${contact.email}` : ""}
-                        </span>
-                      </div>
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     </div>
