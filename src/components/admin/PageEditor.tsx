@@ -354,15 +354,18 @@ export default function PageEditor({ slug }: PageEditorProps) {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 relative">
       <div className="sticky top-24 min-[1150px]:top-32 z-40 space-y-4 mb-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
-          <div>
-            <a
-              href="/admin"
-              className="text-sm font-medium text-gray-500 hover:text-gray-800 flex items-center mb-2 transition-colors"
-            >
-              <i className="pi pi-arrow-left mr-1"></i> Retour au tableau de bord
-            </a>
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800 capitalize">
-              Édition : {slug.replace(/-/g, " ")}
+          <div className="w-full max-w-[calc(100%-150px)] overflow-hidden">
+            <nav className="flex items-center text-sm font-medium text-gray-500 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">
+              <a href="/admin" className="hover:text-blue-600 transition-colors flex-shrink-0">
+                Tableau de bord
+              </a>
+              <i className="pi pi-chevron-right text-xs mx-2 flex-shrink-0 text-gray-400"></i>
+              <span className="text-gray-800 capitalize truncate" title={slug.replace(/-/g, " ")}>
+                {slug.replace(/-/g, " ")}
+              </span>
+            </nav>
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800 capitalize truncate">
+              {slug.replace(/-/g, " ")}
             </h1>
           </div>
           <div className="flex items-center gap-4 w-full sm:w-auto">
