@@ -351,53 +351,52 @@ export default function PageEditor({ slug }: PageEditorProps) {
     (typeof content === "object" && Object.keys(content).length === 0);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <a
-            href="/admin"
-            className="text-blue-600 hover:underline flex items-center gap-2 mb-4 text-sm"
-          >
-            <i className="pi pi-arrow-left"></i> Retour au tableau de bord
-          </a>
-          <h1 className="text-3xl font-bold text-gray-900 capitalize">
-            Édition : {slug.replace(/-/g, " ")}
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Modifiez le contenu dynamique de la page
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg font-medium transition-colors flex items-center gap-2 disabled:bg-blue-300 shadow-sm"
-          >
-            {isSaving ? (
-              <i className="pi pi-spin pi-spinner"></i>
-            ) : (
-              <i className="pi pi-save"></i>
-            )}
-            Enregistrer
-          </button>
-        </div>
-      </div>
-
-      {error && (
-        <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6 border border-red-200 flex items-center gap-3">
-          <i className="pi pi-exclamation-triangle text-xl"></i>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 relative">
+      <div className="sticky top-24 min-[1150px]:top-32 z-40 space-y-4 mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
           <div>
-            <strong>Erreur :</strong> {error}
+            <a
+              href="/admin"
+              className="text-sm font-medium text-gray-500 hover:text-gray-800 flex items-center mb-2 transition-colors"
+            >
+              <i className="pi pi-arrow-left mr-1"></i> Retour au tableau de bord
+            </a>
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800 capitalize">
+              Édition : {slug.replace(/-/g, " ")}
+            </h1>
+          </div>
+          <div className="flex items-center gap-4 w-full sm:w-auto">
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              className="w-full sm:w-auto flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition disabled:opacity-50 font-medium shadow-sm active:scale-95"
+            >
+              {isSaving ? (
+                <i className="pi pi-spin pi-spinner mr-2"></i>
+              ) : (
+                <i className="pi pi-save mr-2"></i>
+              )}
+              {isSaving ? "Sauvegarde..." : "Enregistrer"}
+            </button>
           </div>
         </div>
-      )}
 
-      {success && (
-        <div className="bg-green-50 text-green-600 p-4 rounded-lg mb-6 border border-green-200 flex items-center gap-3">
-          <i className="pi pi-check-circle text-xl"></i>
-          <div>{success}</div>
-        </div>
-      )}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg shadow-sm flex items-center gap-3">
+            <i className="pi pi-exclamation-triangle mt-1 text-xl"></i>
+            <div>
+              <strong>Erreur :</strong> {error}
+            </div>
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg shadow-sm flex items-center gap-3">
+            <i className="pi pi-check-circle mt-1 text-xl"></i>
+            <div>{success}</div>
+          </div>
+        )}
+      </div>
 
       {isContentEmpty && (
         <div className="bg-yellow-50 p-6 rounded-xl border border-yellow-200 text-yellow-800 text-center mb-6">

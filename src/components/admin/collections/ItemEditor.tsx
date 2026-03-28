@@ -136,6 +136,7 @@ function ItemEditorInner(props: ItemEditorProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const editorRef = useRef(null);
@@ -263,7 +264,8 @@ function ItemEditorInner(props: ItemEditorProps) {
       });
     } catch (err) {
       console.error("Erreur d'upload", err);
-      alert("Échec de l'upload de l'image");
+      setError("Échec de l'upload de l'image");
+      setTimeout(() => setError(null), 3000);
     } finally {
       setUploadingImage(false);
       // Reset input
@@ -360,7 +362,8 @@ function ItemEditorInner(props: ItemEditorProps) {
 
       await api.put(`/api/PageContent/${collection}`, payload);
 
-      alert("Sauvegardé avec succès !");
+      setSuccess("Sauvegardé avec succès !");
+      setTimeout(() => setSuccess(null), 3000);
 
       // Update UI URL if we just created a new one so it doesn't duplicate on next save
       if (itemId === "new") {
@@ -409,34 +412,42 @@ function ItemEditorInner(props: ItemEditorProps) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-20 relative">
-      <div className="sticky top-24 min-[1150px]:top-32 z-40 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
-        <div>
-          <a
-            href={`/admin/collections/${collection}`}
-            className="text-sm font-medium text-gray-500 hover:text-gray-800 flex items-center mb-2 transition-colors"
+      <div className="sticky top-24 min-[1150px]:top-32 z-40 space-y-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
+          <div>
+            <a
+              href={`/admin/collections/${collection}`}
+              className="text-sm font-medium text-gray-500 hover:text-gray-800 flex items-center mb-2 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 mr-1" />
+              Retour {collection}
+            </a>
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+              Modifier: {item.titre || "Nouveau"}
+            </h1>
+          </div>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition disabled:opacity-50 font-medium shadow-sm active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            Retour {collection}
-          </a>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
-            Modifier: {item.titre || "Nouveau"}
-          </h1>
+            {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+            {saving ? "Sauvegarde..." : "Enregistrer"}
+          </button>
         </div>
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition disabled:opacity-50 font-medium shadow-sm active:scale-95"
-        >
-          {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-          {saving ? "Sauvegarde..." : "Enregistrer"}
-        </button>
-      </div>
 
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg">
-          {error}
-        </div>
-      )}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg shadow-sm">
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg shadow-sm">
+            {success}
+          </div>
+        )}
+      </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
