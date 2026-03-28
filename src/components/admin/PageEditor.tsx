@@ -356,11 +356,17 @@ export default function PageEditor({ slug }: PageEditorProps) {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
           <div className="w-full max-w-[calc(100%-150px)] overflow-hidden">
             <nav className="flex items-center text-sm font-medium text-gray-500 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">
-              <a href="/admin" className="hover:text-blue-600 transition-colors flex-shrink-0">
+              <a
+                href="/admin"
+                className="hover:text-blue-600 transition-colors flex-shrink-0"
+              >
                 Tableau de bord
               </a>
               <i className="pi pi-chevron-right text-xs mx-2 flex-shrink-0 text-gray-400"></i>
-              <span className="text-gray-800 capitalize truncate" title={slug.replace(/-/g, " ")}>
+              <span
+                className="text-gray-800 capitalize truncate"
+                title={slug.replace(/-/g, " ")}
+              >
                 {slug.replace(/-/g, " ")}
               </span>
             </nav>

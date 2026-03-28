@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import api from "../../../lib/api";
 import JoditEditor from "jodit-react";
-import { Loader2, Plus, Trash2, ArrowLeft, Upload, ChevronRight } from "lucide-react";
+import {
+  Loader2,
+  Plus,
+  Trash2,
+  ArrowLeft,
+  Upload,
+  ChevronRight,
+} from "lucide-react";
 import { getApiUrl } from "../../../lib/api";
 
 interface Section {
@@ -416,15 +423,24 @@ function ItemEditorInner(props: ItemEditorProps) {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100">
           <div className="w-full max-w-[calc(100%-150px)] overflow-hidden">
             <nav className="flex items-center text-sm font-medium text-gray-500 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">
-              <a href="/admin" className="hover:text-purple-600 transition-colors flex-shrink-0">
+              <a
+                href="/admin"
+                className="hover:text-purple-600 transition-colors flex-shrink-0"
+              >
                 Tableau de bord
               </a>
               <ChevronRight className="w-4 h-4 mx-1 flex-shrink-0 text-gray-400" />
-              <a href={`/admin/collections/${collection}`} className="hover:text-purple-600 transition-colors capitalize flex-shrink-0">
+              <a
+                href={`/admin/collections/${collection}`}
+                className="hover:text-purple-600 transition-colors capitalize flex-shrink-0"
+              >
                 {collection.replace(/-/g, " ")}
               </a>
               <ChevronRight className="w-4 h-4 mx-1 flex-shrink-0 text-gray-400" />
-              <span className="text-gray-800 truncate" title={item.titre || "Nouvel élément"}>
+              <span
+                className="text-gray-800 truncate"
+                title={item.titre || "Nouvel élément"}
+              >
                 {item.titre || "Nouveau"}
               </span>
             </nav>

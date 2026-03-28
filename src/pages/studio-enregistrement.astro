@@ -1,46 +1,83 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ContactCard from "../components/ContactCard.astro";
-import { resolvePath } from "@/lib/utils";
+import { getApiUrl } from "../lib/api";
+
+const API_URL = getApiUrl();
+let pageContent = null;
+
+try {
+  const res = await fetch(`${API_URL}/api/PageContent/studio-enregistrement`);
+  if (res.ok) {
+    const data = await res.json();
+    let parsedContent = data.content;
+    if (typeof parsedContent === "string") {
+      parsedContent = JSON.parse(parsedContent);
+    }
+    pageContent = parsedContent;
+  }
+} catch (e) {
+  console.error("Failed to load page content", e);
+}
+
+const content = pageContent || {
+  titrePartie1: "STUDIO",
+  titrePartie2: "D'ENREGISTREMENT",
+  presentation: {
+    titre: "ENREGISTREMENT ET MIXAGE SUR PROTOOLS 10",
+    descriptionHtml: "<ul><li>Préamplis RME Octamic ( 16 pistes en simultané / 24 bits 48Khz )</li><li>2 Préamplis compresseur à lampe AVALON</li><li>Écoutes Genelec / Ns10 Yamaha</li><li>Parc micro batterie Audix , micros instruments Shure , micro voix Neumann + divers DI</li></ul>"
+  },
+  contacts: [
+    {
+      nom: "Ingénieur Son",
+      role: "Studio d'Enregistrement",
+      email: "contact@association-adonf.fr",
+      telephone: "06 12 34 56 78",
+      image: "/assets/logo-adonf.png"
+    }
+  ]
+};
 ---
 
-<Layout title="Studio d'Enregistrement - Association Adonf">
+<Layout title={`${content.titrePartie1} ${content.titrePartie2} - Association Adonf`}>
   <div class="page-container">
     <!-- Header -->
     <header class="page-header">
       <h1 class="main-title">
-        STUDIO <span>D'ENREGISTREMENT</span>
+        {content.titrePartie1} <span>{content.titrePartie2}</span>
       </h1>
       <div class="title-underline"></div>
     </header>
 
     <!-- Equipment List -->
     <section class="equipment-section">
-      <h2 class="section-title">ENREGISTREMENT ET MIXAGE SUR PROTOOLS 10</h2>
+      <h2 class="section-title">{content.presentation.titre}</h2>
 
       <div class="equipment-container">
-        <ul class="check-list">
-          <li>Préamplis RME Octamic ( 16 pistes en simultané / 24 bits 48Khz )</li>
-          <li>2 Préamplis compresseur à lampe AVALON</li>
-          <li>Écoutes Genelec / Ns10 Yamaha</li>
-          <li>Parc micro batterie Audix , micros instruments Shure , micro voix Neumann + divers DI</li>
-        </ul>
+        <!-- Assuming descriptionHtml contains ul/li structure -->
+        <div class="check-list-container" set:html={content.presentation.descriptionHtml} />
       </div>
     </section>
 
     <!-- Contacts Section -->
-    <section class="contacts-section">
-      <h2 class="section-title">CONTACTS</h2>
-      <div class="contacts-grid">
-        <ContactCard
-          image="/assets/logo-adonf.png"
-          nom="Ingénieur Son"
-          role="Studio d'Enregistrement"
-          email="contact@association-adonf.fr"
-          telephone="06 12 34 56 78"
-        />
-      </div>
-    </section>
+    {
+      content.contacts && content.contacts.length > 0 && (
+        <section class="contacts-section">
+          <h2 class="section-title">CONTACTS</h2>
+          <div class="contacts-grid">
+            {content.contacts.map((contact: any) => (
+              <ContactCard 
+                image={contact.image} 
+                nom={contact.nom} 
+                role={contact.role} 
+                email={contact.email} 
+                telephone={contact.telephone} 
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
   </div>
 </Layout>
 
@@ -59,5 +96,32 @@ import { resolvePath } from "@/lib/utils";
     .equipment-container {
       padding: 3rem;
     }
+  }
+
+  /* Since the descriptionHtml injects standard UL/LI, we style it to look like the checklist */
+  .check-list-container :global(ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .check-list-container :global(li) {
+    position: relative;
+    padding-left: 2rem;
+    font-size: 1.1rem;
+    color: #4b5563;
+    line-height: 1.6;
+  }
+
+  .check-list-container :global(li::before) {
+    content: "✓"; /* This was previously rendered by a class, now we render via CSS */
+    position: absolute;
+    left: 0;
+    color: #6366f1; /* the purple/blue color */
+    font-weight: bold;
+    font-size: 1.2rem;
   }
 </style>
