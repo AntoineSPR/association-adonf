@@ -18,7 +18,6 @@ const { actualite, featured } = Astro.props;
     </div>
   </div>
   <div class="card-content">
-    <div class="card-date">{actualite.datePublication.toLocaleDateString("fr-FR")}</div>
     <h3 class="card-title">{actualite.titre}</h3>
     <p class="card-excerpt">{actualite.extrait}</p>
   </div>

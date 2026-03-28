@@ -80,6 +80,22 @@ const formatDate = (date: Date) => {
             <i class="pi pi-calendar"></i>
             <span>{formatDate(concert.date)}</span>
           </div>
+          {
+            concert.lieu && (
+              <div class="meta-item">
+                <i class="pi pi-map-marker" />
+                <span>{concert.lieu}</span>
+              </div>
+            )
+          }
+          {
+            concert.prix != null && concert.prix !== "" && (
+              <div class="meta-item">
+                <i class="pi pi-euro" />
+                <span>{concert.prix || "Gratuit"}</span>
+              </div>
+            )
+          }
           <div class="meta-item">
             <i class="pi pi-map-marker"></i>
             <span>{concert.lieu}</span>

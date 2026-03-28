@@ -41,8 +41,20 @@ const { concert } = Astro.props;
     <div class="card-info">
       <h3>{concert.titre}</h3>
       <div class="concert-details">
-        <p><i class="pi pi-map-marker"></i> {concert.lieu}</p>
-        <p><i class="pi pi-euro"></i> {concert.prix || "Gratuit"}</p>
+        {
+          concert.lieu && (
+            <p>
+              <i class="pi pi-map-marker" /> {concert.lieu}
+            </p>
+          )
+        }
+        {
+          concert.prix != null && (
+            <p>
+              <i class="pi pi-euro" /> {concert.prix || "Gratuit"}
+            </p>
+          )
+        }
       </div>
     </div>
   </a>
