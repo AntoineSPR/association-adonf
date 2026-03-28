@@ -19,7 +19,7 @@ try {
       if (found) {
         // Construct standard ISO string assuming local time (e.g. "2026-03-25T20:30:00")
         const dateStr = found.date || new Date().toISOString().split("T")[0];
-        const timeStr = found.time && found.time.includes(":") ? found.time : "00:00";
+        const timeStr = found.heure && found.heure.includes(":") ? found.heure : "00:00";
         const parsedDate = new Date(`${dateStr}T${timeStr}:00`);
 
         concert = {
@@ -51,13 +51,13 @@ const formatDate = (date: Date) => {
 };
 ---
 
-<Layout title={`${concert.name} - Concerts Adonf`}>
+<Layout title={`${concert.titre} - Concerts Adonf`}>
   <div class="page-container">
     <div class="header-spacing"></div>
 
     <div class="concert-detail-container">
       <div class="image-container">
-        <img src={concert.imageUrl} alt={concert.name} transition:name={`concert-image-${concert.id}`} />
+        <img src={concert.image} alt={concert.titre} transition:name={`concert-image-${concert.id}`} />
         {
           concert.status && (
             <div
@@ -73,7 +73,7 @@ const formatDate = (date: Date) => {
       </div>
 
       <div class="concert-content">
-        <h1 class="concert-title">{concert.name}</h1>
+        <h1 class="concert-title">{concert.titre}</h1>
 
         <div class="concert-meta">
           <div class="meta-item">
@@ -82,31 +82,31 @@ const formatDate = (date: Date) => {
           </div>
           <div class="meta-item">
             <i class="pi pi-map-marker"></i>
-            <span>{concert.venue}</span>
+            <span>{concert.lieu}</span>
           </div>
           <div class="meta-item">
             <i class="pi pi-euro"></i>
-            <span>{concert.price || "Gratuit"}</span>
+            <span>{concert.prix || "Gratuit"}</span>
           </div>
         </div>
 
-        {concert.description && <div class="main-text text-lg" set:html={concert.description} />}
+        {concert.contenuHtml && <div class="main-text text-lg" set:html={concert.contenuHtml} />}
 
         {
           concert.sections &&
             concert.sections.map((section: any) => (
               <div class="custom-section">
-                <h2 class="section-title">{section.title}</h2>
-                <div class="text-lg" set:html={section.description || section.content} />
+                <h2 class="section-title">{section.titre}</h2>
+                <div class="text-lg" set:html={section.contenuHtml || section.contenuHtml} />
               </div>
             ))
         }
 
         {
-          concert.buttonLink && (
+          concert.lienBouton && (
             <div class="action-area">
-              <a href={concert.buttonLink} target="_blank" class="btn-primary">
-                {concert.buttonText || "Réserver ma place"}
+              <a href={concert.lienBouton} target="_blank" class="btn-primary">
+                {concert.texteBouton || "Réserver ma place"}
               </a>
             </div>
           )
@@ -230,7 +230,7 @@ const formatDate = (date: Date) => {
     display: inline-block;
   }
 
-  .section-title::after {
+  .section-titre::after {
     content: "";
     position: absolute;
     bottom: -5px;

@@ -17,7 +17,7 @@ try {
     if (content && Array.isArray(content.items)) {
       concerts = content.items.map((c: any) => {
         const dateStr = c.date || new Date().toISOString().split('T')[0];
-        const timeStr = c.time && c.time.includes(':') ? c.time : '00:00';
+        const timeStr = c.heure && c.heure.includes(':') ? c.heure : '00:00';
         return {
           ...c,
           date: new Date(`${dateStr}T${timeStr}:00`),
@@ -39,11 +39,11 @@ try {
       actualites = content.items.map((a: any) => {
         return {
           ...a,
-          publishedAt: new Date(a.publishedAt || new Date()),
+          datePublication: new Date(a.datePublication || new Date()),
           slug: a.slug || String(a.id),
         };
       });
-      actualites.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+      actualites.sort((a, b) => b.datePublication.getTime() - a.datePublication.getTime());
     }
   }
 } catch (e) {

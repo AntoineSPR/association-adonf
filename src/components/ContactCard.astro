@@ -1,23 +1,23 @@
 ---
 interface Props {
   image: string;
-  name: string;
+  nom: string;
   role: string;
   email: string;
-  phone: string;
+  telephone: string;
 }
 
-const { image, name, role, email, phone } = Astro.props;
+const { image, nom, role, email, telephone } = Astro.props;
 
 import { resolvePath } from "../lib/utils";
 ---
 
 <div class="contact-card">
   <div class="image-col">
-    <img src={resolvePath(image)} alt={name} />
+    <img src={resolvePath(image)} alt={nom} />
   </div>
   <div class="info-col">
-    <h3>{name}</h3>
+    <h3>{nom}</h3>
     <p class="role">{role}</p>
     <div class="contact-details">
       <a href={`mailto:${email}`} class="contact-link">
@@ -38,7 +38,7 @@ import { resolvePath } from "../lib/utils";
         </span>
         {email}
       </a>
-      <a href={`tel:${phone}`} class="contact-link">
+      <a href={`tel:${telephone}`} class="contact-link">
         <span class="icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ import { resolvePath } from "../lib/utils";
             ></path></svg
           >
         </span>
-        {phone}
+        {telephone}
       </a>
     </div>
   </div>

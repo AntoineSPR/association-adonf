@@ -8,7 +8,7 @@ const { slug } = Astro.params;
 
 let lessons = [];
 try {
-  const res = await fetch(`${getApiUrl()}/api/PageContent/lessons`);
+  const res = await fetch(`${getApiUrl()}/api/PageContent/cours`);
   if (res.ok) {
     const doc = await res.json();
     let content = doc.content;
@@ -33,7 +33,7 @@ const lesson = {
   image: lessonData.image,
   sections: lessonData.sections?.map((s: any) => ({
     ...s,
-    content: s.content || s.description || "",
+    content: s.contenuHtml || s.contenuHtml || "",
   })),
 };
 ---
@@ -52,9 +52,9 @@ const lesson = {
 
       <div class="lesson-content">
         {
-          lesson.description && (
+          lesson.contenuHtml && (
             <div class="main-text">
-              <div set:html={lesson.description} />
+              <div set:html={lesson.contenuHtml} />
             </div>
           )
         }
@@ -65,7 +65,7 @@ const lesson = {
               <div class="custom-section">
                 <h2 class="section-title">{section.titre}</h2>
                 <div class="section-text">
-                  <div set:html={section.description} />
+                  <div set:html={section.contenuHtml} />
                 </div>
               </div>
             ))
@@ -79,10 +79,10 @@ const lesson = {
       <div class="contact-wrapper">
         <ContactCard
           image="/assets/logo-adonf.png"
-          name="Secrétariat / Inscriptions"
+          nom="Secrétariat / Inscriptions"
           role="École de Musique"
           email="transmission@rockschool-barbey.com"
-          phone="05 56 33 66 00"
+          telephone="05 56 33 66 00"
         />
       </div>
     </div>
@@ -167,7 +167,7 @@ const lesson = {
     display: inline-block;
   }
 
-  .section-title::after {
+  .section-titre::after {
     content: "";
     position: absolute;
     bottom: -5px;

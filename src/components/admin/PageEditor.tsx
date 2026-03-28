@@ -436,7 +436,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
                 {availableContacts.map((contact: any, idx: number) => {
                   const isChecked =
                     Array.isArray(content.contacts) &&
-                    content.contacts.some((c: any) => c.name === contact.name);
+                    content.contacts.some((c: any) => c.nom === contact.nom);
                   return (
                     <label
                       key={idx}
@@ -456,7 +456,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
                             newContacts = [...currentContacts, contact];
                           } else {
                             newContacts = currentContacts.filter(
-                              (c: any) => c.name !== contact.name,
+                              (c: any) => c.nom !== contact.nom,
                             );
                           }
                           handleFieldChange(["contacts"], newContacts);
@@ -465,7 +465,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
                       />
                       <div className="flex flex-col">
                         <span className="text-sm font-semibold text-gray-900">
-                          {contact.name}
+                          {contact.nom}
                         </span>
                         <span className="text-xs text-gray-500">
                           {contact.role}{" "}

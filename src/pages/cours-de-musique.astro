@@ -26,7 +26,7 @@ const content = pageContent;
 
 let lessons: any[] = [];
 try {
-  const res = await fetch(`${getApiUrl()}/api/PageContent/lessons`);
+  const res = await fetch(`${getApiUrl()}/api/PageContent/cours`);
   if (res.ok) {
     const doc = await res.json();
     let content = doc.content;
@@ -43,7 +43,7 @@ try {
 
 lessons = lessons.map((lesson) => ({
   ...lesson,
-  image: lesson.imageUrl || lesson.image,
+  image: lesson.image || lesson.image,
 }));
 ---
 
@@ -117,7 +117,7 @@ lessons = lessons.map((lesson) => ({
           <h2 class="section-title">CONTACTS</h2>
           <div class="contacts-grid">
             {content.contacts.map((contact: any) => (
-              <ContactCard image={contact.image} name={contact.name} role={contact.role} email={contact.email} phone={contact.phone} />
+              <ContactCard image={contact.image} nom={contact.nom} role={contact.role} email={contact.email} telephone={contact.telephone} />
             ))}
           </div>
         </section>
@@ -200,7 +200,7 @@ lessons = lessons.map((lesson) => ({
     line-height: 1.5;
   }
 
-  .tarif-item .price {
+  .tarif-item .prix {
     color: var(--primary-color, #dc143c);
     font-weight: 700;
     font-size: 1.1rem;

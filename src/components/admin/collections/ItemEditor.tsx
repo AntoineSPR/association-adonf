@@ -5,29 +5,26 @@ import { Loader2, Plus, Trash2, ArrowLeft, Upload } from "lucide-react";
 import { getApiUrl } from "../../../lib/api";
 
 interface Section {
-  title?: string;
   titre?: string;
-  description?: string;
-  contenu?: string;
-  content?: string;
+  contenuHtml?: string;
 }
 
 interface Item {
   id: string | number;
-  name?: string;
-  title?: string;
+  titre?: string;
   slug?: string;
   date?: string;
-  publishedAt?: string;
-  time?: string;
-  venue?: string;
-  price?: string;
-  imageUrl?: string;
+  datePublication?: string;
+  heure?: string;
+  lieu?: string;
+  prix?: string;
   image?: string;
-  excerpt?: string;
-  content?: string;
-  buttonText?: string;
-  buttonLink?: string;
+  extrait?: string;
+  contenuHtml?: string;
+  texteBouton?: string;
+  lienBouton?: string;
+  statut?: string;
+  enAvant?: boolean;
   sections?: Section[];
   [key: string]: any;
 }
@@ -42,27 +39,27 @@ const getEmptyTemplate = (type: string): Item => {
     return {
       id: "new",
       slug: "nouveau-concert",
-      name: "",
+      titre: "",
       date: new Date().toISOString().split("T")[0],
-      time: "20:00",
-      venue: "Le Parallèle",
-      price: "Gratuit",
-      imageUrl: "",
-      description: "",
-      buttonText: "",
-      buttonLink: "",
-      status: "",
-      featured: false,
+      heure: "20:00",
+      lieu: "Le Parallèle",
+      prix: "Gratuit",
+      image: "",
+      contenuHtml: "",
+      texteBouton: "",
+      lienBouton: "",
+      statut: "",
+      enAvant: false,
       sections: [],
     };
   }
-  if (type === "lessons") {
+  if (type === "cours") {
     return {
       id: "new",
       slug: "nouveau-cours",
-      title: "",
-      imageUrl: "",
-      description: "",
+      titre: "",
+      image: "",
+      contenuHtml: "",
       sections: [],
     };
   }
@@ -71,10 +68,10 @@ const getEmptyTemplate = (type: string): Item => {
     return {
       id: "new",
       slug: "nouveau-projet",
-      title: "",
-      imageUrl: "",
-      excerpt: "",
-      content: "",
+      titre: "",
+      image: "",
+      extrait: "",
+      contenuHtml: "",
       sections: [],
     };
   }
@@ -82,16 +79,16 @@ const getEmptyTemplate = (type: string): Item => {
     return {
       id: "new",
       slug: "nouvelle-actualite",
-      title: "",
-      publishedAt: new Date().toISOString().split("T")[0],
-      excerpt: "",
-      content: "",
-      imageUrl: "",
-      featured: false,
+      titre: "",
+      datePublication: new Date().toISOString().split("T")[0],
+      extrait: "",
+      contenuHtml: "",
+      image: "",
+      enAvant: false,
       sections: [],
     };
   }
-  return { id: "new", name: "Nouvel élément" };
+  return { id: "new", titre: "Nouvel élément" };
 };
 
 class ErrorBoundary extends React.Component<
@@ -226,7 +223,7 @@ function ItemEditorInner(props: ItemEditorProps) {
           // Parent document doesn't exist yet, we can scaffold it
           setDocument({
             slug: collection,
-            title: collection,
+            titre: collection,
             content: { items: [] },
           });
           setItem(getEmptyTemplate(collection));
@@ -262,9 +259,7 @@ function ItemEditorInner(props: ItemEditorProps) {
       const fullUrl = `${getApiUrl().replace(/\/$/, "")}${relativeUrl}`;
       setItem({
         ...item,
-        [collection === "lessons" || collection === "projets-pedagogiques"
-          ? "image"
-          : "imageUrl"]: fullUrl,
+        image: fullUrl,
       });
     } catch (err) {
       console.error("Erreur d'upload", err);
@@ -292,7 +287,7 @@ function ItemEditorInner(props: ItemEditorProps) {
     const currentSections = item.sections || [];
     setItem({
       ...item,
-      sections: [...currentSections, { title: "", description: "" }],
+      sections: [...currentSections, { titre: "", contenuHtml: "" }],
     });
   };
 
@@ -332,8 +327,7 @@ function ItemEditorInner(props: ItemEditorProps) {
         itemToSave.slug === "nouvel-element" ||
         itemToSave.slug === "nouvelle-actualite"
       ) {
-        const itemTitle =
-          itemToSave.name || itemToSave.title || itemToSave.titre;
+        const itemTitle = itemToSave.titre;
         const generatedSlug = itemTitle
           ? String(itemTitle)
               .toLowerCase()
@@ -425,7 +419,7 @@ function ItemEditorInner(props: ItemEditorProps) {
             Retour {collection}
           </a>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
-            Modifier: {item.name || "Nouveau"}
+            Modifier: {item.titre || "Nouveau"}
           </h1>
         </div>
         <button
@@ -458,29 +452,11 @@ function ItemEditorInner(props: ItemEditorProps) {
               </label>
               <input
                 type="text"
-                value={
-                  ["actualites", "lessons", "projets-pedagogiques"].includes(
-                    collection || "",
-                  )
-                    ? item.title || item.titre || ""
-                    : item.name || ""
-                }
-                onChange={(e) =>
-                  handleChange(
-                    ["actualites", "lessons", "projets-pedagogiques"].includes(
-                      collection || "",
-                    )
-                      ? collection === "lessons" ||
-                        collection === "projets-pedagogiques"
-                        ? "titre"
-                        : "title"
-                      : "name",
-                    e.target.value,
-                  )
-                }
+                value={item.titre || ""}
+                onChange={(e) => handleChange("titre", e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
                 placeholder={
-                  collection === "lessons"
+                  collection === "cours"
                     ? "Ex: Guitare"
                     : collection === "projets-pedagogiques"
                       ? "Ex: Eveil Musical"
@@ -517,7 +493,7 @@ function ItemEditorInner(props: ItemEditorProps) {
                     <>
                       <Upload className="w-5 h-5" />
                       <span>
-                        {item.imageUrl
+                        {item.image
                           ? "Changer l'image"
                           : "Sélectionner une image"}
                       </span>
@@ -525,10 +501,10 @@ function ItemEditorInner(props: ItemEditorProps) {
                   )}
                 </button>
               </div>
-              {(item.imageUrl || item.image) && (
+              {item.image && (
                 <div className="mt-3 relative rounded-lg overflow-hidden h-40 bg-gray-100 border flex items-center justify-center">
                   <img
-                    src={item.imageUrl || item.image}
+                    src={item.image}
                     alt="Aperçu"
                     className="w-full h-full object-cover z-10"
                     onError={(e) => (e.currentTarget.style.display = "none")}
@@ -541,7 +517,7 @@ function ItemEditorInner(props: ItemEditorProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {collection !== "lessons" &&
+              {collection !== "cours" &&
                 collection !== "projets-pedagogiques" && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -551,12 +527,16 @@ function ItemEditorInner(props: ItemEditorProps) {
                       type="date"
                       value={
                         item[
-                          collection === "actualites" ? "publishedAt" : "date"
+                          collection === "actualites"
+                            ? "datePublication"
+                            : "date"
                         ] || ""
                       }
                       onChange={(e) =>
                         handleChange(
-                          collection === "actualites" ? "publishedAt" : "date",
+                          collection === "actualites"
+                            ? "datePublication"
+                            : "date",
                           e.target.value,
                         )
                       }
@@ -572,8 +552,8 @@ function ItemEditorInner(props: ItemEditorProps) {
                   </label>
                   <input
                     type="time"
-                    value={item.time || ""}
-                    onChange={(e) => handleChange("time", e.target.value)}
+                    value={item.heure || ""}
+                    onChange={(e) => handleChange("heure", e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
                   />
                 </div>
@@ -588,8 +568,8 @@ function ItemEditorInner(props: ItemEditorProps) {
                   </label>
                   <input
                     type="text"
-                    value={item.venue || ""}
-                    onChange={(e) => handleChange("venue", e.target.value)}
+                    value={item.lieu || ""}
+                    onChange={(e) => handleChange("lieu", e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
                     placeholder="Ex: Salle des fêtes"
                   />
@@ -600,8 +580,8 @@ function ItemEditorInner(props: ItemEditorProps) {
                   </label>
                   <input
                     type="text"
-                    value={item.price || ""}
-                    onChange={(e) => handleChange("price", e.target.value)}
+                    value={item.prix || ""}
+                    onChange={(e) => handleChange("prix", e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
                     placeholder="Ex: 5€ ou Gratuit"
                   />
@@ -626,16 +606,8 @@ function ItemEditorInner(props: ItemEditorProps) {
                   Extrait (Résumé court)
                 </label>
                 <textarea
-                  value={item.excerpt || item.extrait || ""}
-                  onChange={(e) =>
-                    handleChange(
-                      collection === "lessons" ||
-                        collection === "projets-pedagogiques"
-                        ? "extrait"
-                        : "excerpt",
-                      e.target.value,
-                    )
-                  }
+                  value={item.extrait || ""}
+                  onChange={(e) => handleChange("extrait", e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none h-24"
                 />
               </div>
@@ -648,32 +620,17 @@ function ItemEditorInner(props: ItemEditorProps) {
               <div className="bg-white">
                 <JoditEditor
                   ref={editorRef}
-                  value={
-                    item[
-                      ["actualites", "projets-pedagogiques"].includes(
-                        collection || "",
-                      )
-                        ? "content"
-                        : "description"
-                    ] || ""
-                  }
+                  value={item["contenuHtml"] || ""}
                   config={joditConfig}
                   onBlur={(newContent) =>
-                    handleChange(
-                      ["actualites", "projets-pedagogiques"].includes(
-                        collection || "",
-                      )
-                        ? "content"
-                        : "description",
-                      newContent,
-                    )
+                    handleChange("contenuHtml", newContent)
                   }
                   onChange={(newContent) => {}}
                 />
               </div>
             </div>
 
-            {collection !== "lessons" &&
+            {collection !== "cours" &&
               collection !== "projets-pedagogiques" && (
                 <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 mt-8 shadow-sm">
                   <h3 className="font-medium text-gray-900 mb-3 block">
@@ -686,9 +643,9 @@ function ItemEditorInner(props: ItemEditorProps) {
                       </label>
                       <input
                         type="text"
-                        value={item.buttonText || ""}
+                        value={item.texteBouton || ""}
                         onChange={(e) =>
-                          handleChange("buttonText", e.target.value)
+                          handleChange("texteBouton", e.target.value)
                         }
                         className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
                         placeholder="Ex: Réserver ma place"
@@ -700,9 +657,9 @@ function ItemEditorInner(props: ItemEditorProps) {
                       </label>
                       <input
                         type="text"
-                        value={item.buttonLink || ""}
+                        value={item.lienBouton || ""}
                         onChange={(e) =>
-                          handleChange("buttonLink", e.target.value)
+                          handleChange("lienBouton", e.target.value)
                         }
                         className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none font-mono"
                         placeholder="https://..."
@@ -755,9 +712,9 @@ function ItemEditorInner(props: ItemEditorProps) {
                 </label>
                 <input
                   type="text"
-                  value={section.title || ""}
+                  value={section.titre || ""}
                   onChange={(e) =>
-                    handleSectionChange(index, "title", e.target.value)
+                    handleSectionChange(index, "titre", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
                   placeholder="Ex: Programme de la soirée"
@@ -771,10 +728,10 @@ function ItemEditorInner(props: ItemEditorProps) {
                 <div className="flex-grow bg-white">
                   <JoditEditor
                     ref={editorRef}
-                    value={section.description || ""}
+                    value={section.contenuHtml || ""}
                     config={joditConfig}
                     onBlur={(val) =>
-                      handleSectionChange(index, "description", val)
+                      handleSectionChange(index, "contenuHtml", val)
                     }
                     onChange={(newContent) => {}}
                   />

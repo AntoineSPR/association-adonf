@@ -50,7 +50,7 @@ try {
               pageContent.horaires &&
                 pageContent.horaires.map((h: any) => (
                   <div class="schedule-row">
-                    <span>{h.day}</span> <strong>{h.hours}</strong>
+                    <span>{h.jour}</span> <strong>{h.heures}</strong>
                   </div>
                 ))
             }
@@ -74,8 +74,8 @@ try {
                 pageContent.tarifsLocation &&
                   pageContent.tarifsLocation.map((t: any) => (
                     <li>
-                      <span>{t.label}</span>
-                      <span class="price">{t.price}</span>
+                      <span>{t.libelle}</span>
+                      <span class="price">{t.prix}</span>
                     </li>
                   ))
               }
@@ -93,7 +93,7 @@ try {
       <div class="services-container">
         <div class="service-col">
           <ul class="check-list">
-            {pageContent.services && pageContent.services.map((s: any) => <li>{s.label}</li>)}
+            {pageContent.services && pageContent.services.map((s: any) => <li>{s.libelle}</li>)}
           </ul>
         </div>
       </div>
@@ -113,11 +113,11 @@ try {
           <div class="contacts-grid">
             {pageContent.contacts.map((contact: any) => (
               <ContactCard
-                image={contact.image || contact.imageUrl || "/assets/logo-adonf.png"}
-                name={contact.name}
+                image={contact.image || contact.image || "/assets/logo-adonf.png"}
+                nom={contact.nom}
                 role={contact.role}
                 email={contact.email}
-                phone={contact.phone}
+                telephone={contact.telephone}
               />
             ))}
           </div>
@@ -138,7 +138,7 @@ try {
     position: relative;
     display: inline-block;
   }
-  .card-title::after {
+  .card-titre::after {
     content: "";
     position: absolute;
     bottom: -10px;
@@ -257,7 +257,7 @@ try {
     color: #444;
   }
 
-  .price {
+  .prix {
     font-weight: 800;
     color: var(--primary-color, #dc143c);
     font-size: 1.1rem;

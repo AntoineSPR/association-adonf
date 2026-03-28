@@ -1,101 +1,101 @@
 import React, { useEffect, useState } from "react";
 
 interface PageItem {
-  title: string;
+  titre: string;
   path: string;
-  description: string;
+  content: string;
   icon: string;
 }
 
 const pages: PageItem[] = [
   {
-    title: "Association",
+    titre: "Association",
     path: "/admin/pages/association",
-    description: "Présentation de l'association",
+    content: "Présentation de l'association",
     icon: "pi pi-users",
   },
   {
-    title: "Actualités",
+    titre: "Actualités",
     path: "/admin/collections/actualites",
-    description: "Gestion des articles d'actualité",
+    content: "Gestion des articles d'actualité",
     icon: "pi pi-megaphone",
   },
   {
-    title: "Concerts",
+    titre: "Concerts",
     path: "/admin/collections/concerts",
-    description: "Gestion des concerts",
+    content: "Gestion des concerts",
     icon: "pi pi-ticket",
   },
   {
-    title: "Mes Cours de musique",
-    path: "/admin/collections/lessons",
-    description: "Gestion des cours de musique",
+    titre: "Mes Cours de musique",
+    path: "/admin/collections/cours",
+    content: "Gestion des cours de musique",
     icon: "pi pi-list",
   },
   {
-    title: "Cours de musique (Page)",
+    titre: "Cours de musique (Page)",
     path: "/admin/pages/cours-de-musique",
-    description: "Présentation des cours",
+    content: "Présentation des cours",
     icon: "pi pi-play",
   },
   {
-    title: "Accompagnement artistique",
+    titre: "Accompagnement artistique",
     path: "/admin/pages/accompagnement-artistique",
-    description: "Page accompagnement",
+    content: "Page accompagnement",
     icon: "pi pi-star",
   },
   {
-    title: "Mes Projets pédagogiques",
+    titre: "Mes Projets pédagogiques",
     path: "/admin/collections/projets-pedagogiques",
-    description: "Gestion des projets pédagogiques",
+    content: "Gestion des projets pédagogiques",
     icon: "pi pi-book",
   },
   {
-    title: "Projet pédagogique (Page)",
+    titre: "Projet pédagogique (Page)",
     path: "/admin/pages/projet-pedagogique",
-    description: "Présentation de la page et contacts",
+    content: "Présentation de la page et contacts",
     icon: "pi pi-file",
   },
   {
-    title: "Régie",
+    titre: "Régie",
     path: "/admin/pages/regie",
-    description: "Prestations de régie",
+    content: "Prestations de régie",
     icon: "pi pi-cog",
   },
   {
-    title: "Répétitions",
+    titre: "Répétitions",
     path: "/admin/pages/repetitions",
-    description: "Locaux de répétition",
+    content: "Locaux de répétition",
     icon: "pi pi-volume-up",
   },
   {
-    title: "Sonorisation",
+    titre: "Sonorisation",
     path: "/admin/pages/sonorisation",
-    description: "Prestations de sonorisation",
+    content: "Prestations de sonorisation",
     icon: "pi pi-volume-down",
   },
   {
-    title: "Studio d'enregistrement",
+    titre: "Studio d'enregistrement",
     path: "/admin/pages/studio-enregistrement",
-    description: "Le studio",
+    content: "Le studio",
     icon: "pi pi-microphone",
   },
   {
-    title: "Festivals",
+    titre: "Festivals",
     path: "/admin/pages/festivals",
-    description: "Les festivals",
+    content: "Les festivals",
     icon: "pi pi-flag",
   },
   {
-    title: "Partenaires",
+    titre: "Partenaires",
     path: "/admin/pages/partenaires",
-    description: "Liste des partenaires",
+    content: "Liste des partenaires",
     icon: "pi pi-heart",
   },
   {
-    title: "Contacts",
+    titre: "Contacts",
     path: "/admin/pages/contacts",
-    description: "Informations de contact",
+    content: "Informations de contact",
     icon: "pi pi-envelope",
   },
 ];
@@ -145,7 +145,7 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Tableau de bord</h1>
           <p className="text-gray-600 mt-1">
-            Bienvenue, {user?.name || user?.email || "Administrateur"}
+            Bienvenue, {user?.nom || user?.email || "Administrateur"}
           </p>
         </div>
         <button
@@ -185,9 +185,9 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
-                  {page.title}
+                  {page.titre}
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">{page.description}</p>
+                <p className="text-sm text-gray-500 mt-1">{page.content}</p>
               </div>
             </a>
           ))}

@@ -17,7 +17,7 @@ const { concert } = Astro.props;
         <span class="month">{concert.date.toLocaleDateString("fr-FR", { month: "short" })}</span>
       </div>
 
-      <img src={resolvePath(concert.imageUrl)} alt={concert.name} class="card-image" />
+      <img src={resolvePath(concert.image)} alt={concert.titre} class="card-image" />
       <div class="image-overlay">
         <span class="overlay-text">Plus d'infos</span>
       </div>
@@ -39,10 +39,10 @@ const { concert } = Astro.props;
     </div>
 
     <div class="card-info">
-      <h3>{concert.name}</h3>
+      <h3>{concert.titre}</h3>
       <div class="concert-details">
-        <p><i class="pi pi-map-marker"></i> {concert.venue}</p>
-        <p><i class="pi pi-euro"></i> {concert.price || "Gratuit"}</p>
+        <p><i class="pi pi-map-marker"></i> {concert.lieu}</p>
+        <p><i class="pi pi-euro"></i> {concert.prix || "Gratuit"}</p>
       </div>
     </div>
   </a>
@@ -129,7 +129,7 @@ const { concert } = Astro.props;
     min-width: 60px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-    .day {
+    .jour {
       font-size: 1.5rem;
       font-weight: 700;
       line-height: 1;

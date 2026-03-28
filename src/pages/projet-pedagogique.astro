@@ -36,7 +36,7 @@ try {
 projects = projects.map((project) => ({
   ...project,
   image: project.image,
-  description: project.extrait || project.description,
+  contenuHtml: project.extrait || project.contenuHtml,
 }));
 ---
 
@@ -67,10 +67,10 @@ projects = projects.map((project) => ({
             {pageContent.contacts.map((contact: any) => (
               <ContactCard
                 image={contact.image || "/assets/logo-adonf.png"}
-                name={contact.name}
+                nom={contact.nom}
                 role={contact.role}
                 email={contact.email}
-                phone={contact.phone}
+                telephone={contact.telephone}
               />
             ))}
           </div>

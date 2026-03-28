@@ -12,17 +12,17 @@ const { actualite, featured } = Astro.props;
 
 <article class={`actualite-card ${featured ? "featured" : ""}`}>
   <div class="card-image-wrapper">
-    <img src={resolvePath(actualite.imageUrl)} alt={actualite.title} class="card-image" />
+    <img src={resolvePath(actualite.image)} alt={actualite.titre} class="card-image" />
     <div class="image-overlay">
       <span class="overlay-text">Lire l'article</span>
     </div>
   </div>
   <div class="card-content">
-    <div class="card-date">{actualite.publishedAt.toLocaleDateString("fr-FR")}</div>
-    <h3 class="card-title">{actualite.title}</h3>
-    <p class="card-excerpt">{actualite.excerpt}</p>
+    <div class="card-date">{actualite.datePublication.toLocaleDateString("fr-FR")}</div>
+    <h3 class="card-title">{actualite.titre}</h3>
+    <p class="card-excerpt">{actualite.extrait}</p>
   </div>
-  <a href={resolvePath(`/actualites/${actualite.slug}`)} class="card-link" aria-label={`Lire ${actualite.title}`}></a>
+  <a href={resolvePath(`/actualites/${actualite.slug}`)} class="card-link" aria-label={`Lire ${actualite.titre}`}></a>
 </article>
 
 <style lang="scss">

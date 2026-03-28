@@ -17,7 +17,7 @@ try {
       if (found) {
         actualite = {
           ...found,
-          publishedAt: new Date(found.publishedAt || new Date()),
+          datePublication: new Date(found.datePublication || new Date()),
         };
       }
     }
@@ -32,39 +32,39 @@ if (!actualite) {
 }
 ---
 
-<Layout title={`${actualite.title} - Actualités Adonf`}>
+<Layout title={`${actualite.titre} - Actualités Adonf`}>
   <div class="page-container">
     <div class="header-spacing"></div>
 
     <div class="news-detail-container">
       <div class="image-container">
-        <img src={actualite.imageUrl} alt={actualite.title} transition:name={`news-image-${actualite.id}`} />
+        <img src={actualite.image} alt={actualite.titre} transition:name={`news-image-${actualite.id}`} />
       </div>
 
       <div class="news-content">
-        <h1 class="news-title">{actualite.title}</h1>
-        <p class="publish-date">Publié le {actualite.publishedAt.toLocaleDateString("fr-FR")}</p>
+        <h1 class="news-title">{actualite.titre}</h1>
+        <p class="publish-date">Publié le {actualite.datePublication.toLocaleDateString("fr-FR")}</p>
 
         <div class="main-text">
-          {actualite.content && <div set:html={actualite.content} />}
-          {!actualite.content && <div set:html={actualite.excerpt} />}
+          {actualite.contenuHtml && <div set:html={actualite.contenuHtml} />}
+          {!actualite.contenuHtml && <div set:html={actualite.extrait} />}
         </div>
 
         {
           actualite.sections &&
             actualite.sections.map((section: any) => (
               <div class="custom-section">
-                <h2 class="section-title">{section.title}</h2>
-                <div set:html={section.description || section.content} />
+                <h2 class="section-title">{section.titre}</h2>
+                <div set:html={section.contenuHtml || section.contenuHtml} />
               </div>
             ))
         }
 
         {
-          actualite.buttonLink && (
+          actualite.lienBouton && (
             <div class="action-area">
-              <a href={actualite.buttonLink} target={actualite.buttonLink.startsWith("http") ? "_blank" : "_self"} class="btn-primary">
-                {actualite.buttonText || "En savoir plus"}
+              <a href={actualite.lienBouton} target={actualite.lienBouton.startsWith("http") ? "_blank" : "_self"} class="btn-primary">
+                {actualite.texteBouton || "En savoir plus"}
               </a>
             </div>
           )
@@ -149,7 +149,7 @@ if (!actualite) {
     display: inline-block;
   }
 
-  .section-title::after {
+  .section-titre::after {
     content: "";
     position: absolute;
     bottom: -5px;

@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from "../../layouts/Layout.astro";
 import ContactCard from "../../components/ContactCard.astro";
 import { resolvePath } from "@/lib/utils";
@@ -30,10 +30,10 @@ if (!projectData) {
 const project = {
   ...projectData,
   image: projectData.image,
-  introduction: projectData.content || projectData.introduction || "",
+  contenu: projectData.contenuHtml || projectData.introduction || "",
   sections: projectData.sections?.map((s: any) => ({
     ...s,
-    content: s.content || s.description || "",
+    contenu: s.contenuHtml || s.contenu || "",
   })),
 };
 ---
@@ -79,10 +79,10 @@ const project = {
       <div class="contact-wrapper">
         <ContactCard
           image="/assets/logo-adonf.png"
-          name="Coordinateur Pédagogique"
+          nom="Coordinateur Pédagogique"
           role="Association Adonf"
           email="contact@association-adonf.fr"
-          phone="05 56 33 66 00"
+          telephone="05 56 33 66 00"
         />
       </div>
     </div>
@@ -167,7 +167,7 @@ const project = {
     display: inline-block;
   }
 
-  .section-title::after {
+  .section-titre::after {
     content: "";
     position: absolute;
     bottom: -5px;
