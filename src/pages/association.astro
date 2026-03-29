@@ -1,4 +1,6 @@
 ---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import ContactCard from "../components/ContactCard.astro";
 import { resolvePath } from "@/lib/utils";
@@ -42,6 +44,9 @@ const content = pageContent || {
       </h1>
       <div class="title-underline"></div>
     </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
 
     <div class="content-wrapper">
       {
@@ -73,6 +78,9 @@ const content = pageContent || {
         </section>
       )
     }
+  
+      </>
+    )}
   </div>
 </Layout>
 

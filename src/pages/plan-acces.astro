@@ -1,4 +1,6 @@
 ﻿---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import { getApiUrl } from "../lib/api";
 
@@ -44,6 +46,9 @@ const rightSections = content.sections ? content.sections.slice(content.sections
       </h1>
       <div class="title-underline"></div>
     </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
 
     <div class="grid-container">
       {/* General Info Column */}
@@ -102,6 +107,9 @@ const rightSections = content.sections ? content.sections.slice(content.sections
         </section>
       )
     }
+  
+      </>
+    )}
   </div>
 </Layout>
 

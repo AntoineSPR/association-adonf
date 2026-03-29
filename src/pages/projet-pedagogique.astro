@@ -1,4 +1,6 @@
 ---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
 import ContactCard from "../components/ContactCard.astro";
@@ -50,6 +52,9 @@ projects = projects.map((project) => ({
       </h1>
       <div class="title-underline"></div>
     </header>
+    {(isEmptyContent(pageContent) && (!projects || projects.length === 0)) ? <EnConstruction /> : (
+      <>
+        
 
     <!-- Grid -->
     <section class="projects-section">
@@ -77,6 +82,9 @@ projects = projects.map((project) => ({
         </section>
       )
     }
+  
+      </>
+    )}
   </div>
 </Layout>
 

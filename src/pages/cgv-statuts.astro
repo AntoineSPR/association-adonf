@@ -1,4 +1,6 @@
 ﻿---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import { getApiUrl } from "../lib/api";
 
@@ -39,10 +41,16 @@ const content = pageContent || {
       </h1>
       <div class="title-underline"></div>
     </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
 
     <div class="legal-content">
-      {content.contenuHtml ? <div set:html={content.contenuHtml} /> : <p>Le contenu est en cours de rédaction.</p>}
+      <div set:html={content.contenuHtml} />
     </div>
+  
+      </>
+    )}
   </div>
 </Layout>
 

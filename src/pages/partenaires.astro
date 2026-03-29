@@ -1,4 +1,6 @@
 ---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import PartnerCard from "../components/PartnerCard.astro";
 import { getApiUrl } from "../lib/api";
@@ -33,10 +35,16 @@ try {
       <h1 class="main-title">NOS <span>PARTENAIRES</span></h1>
       <div class="title-underline"></div>
     </header>
+    {(!partenaires || partenaires.length === 0) ? <EnConstruction /> : (
+      <>
+        
 
     <div class="partners-grid">
       {partenaires.map((partner) => <PartnerCard {...partner} />)}
     </div>
+  
+      </>
+    )}
   </div>
 </Layout>
 

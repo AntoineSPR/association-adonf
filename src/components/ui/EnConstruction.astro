@@ -1,0 +1,24 @@
+---
+export interface Props {
+  message?: string;
+}
+const { message = "Cette page est en cours de construction. Revenez bientôt !" } = Astro.props;
+---
+
+<div class="en-construction">
+  <p>{message}</p>
+</div>
+
+<style>
+  .en-construction {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    margin: 2rem auto;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 2px dashed #ddd;
+    color: #555;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+</style>

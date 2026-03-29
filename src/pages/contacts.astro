@@ -1,4 +1,6 @@
 ﻿---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import ContactCard from "../components/ContactCard.astro";
 import { getApiUrl } from "../lib/api";
@@ -33,6 +35,9 @@ try {
       <h1 class="main-title">NOUS <span>CONTACTER</span></h1>
       <div class="title-underline"></div>
     </header>
+    {(!contacts || contacts.length === 0) ? <EnConstruction /> : (
+      <>
+        
 
     <div class="contacts-grid">
       {
@@ -49,6 +54,9 @@ try {
     </div>
 
     {contacts.length === 0 && <p style="text-align: center; color: #666;">Aucun contact disponible pour le moment.</p>}
+  
+      </>
+    )}
   </div>
 </Layout>
 

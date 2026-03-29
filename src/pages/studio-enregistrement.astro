@@ -1,4 +1,6 @@
 ---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import ContactCard from "../components/ContactCard.astro";
 import { getApiUrl } from "../lib/api";
@@ -48,6 +50,9 @@ const content = pageContent || {
       </h1>
       <div class="title-underline"></div>
     </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
 
     <!-- Equipment List -->
     <section class="equipment-section">
@@ -78,6 +83,9 @@ const content = pageContent || {
         </section>
       )
     }
+  
+      </>
+    )}
   </div>
 </Layout>
 

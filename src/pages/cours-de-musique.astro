@@ -1,4 +1,6 @@
 ---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
 import ContactCard from "../components/ContactCard.astro";
@@ -56,6 +58,9 @@ lessons = lessons.map((lesson) => ({
       </h1>
       <div class="title-underline"></div>
     </header>
+    {(isEmptyContent(pageContent) && (!lessons || lessons.length === 0)) ? <EnConstruction /> : (
+      <>
+        
 
     <!-- Grid -->
     <section class="lessons-section">
@@ -123,6 +128,9 @@ lessons = lessons.map((lesson) => ({
         </section>
       )
     }
+  
+      </>
+    )}
   </div>
 </Layout>
 
