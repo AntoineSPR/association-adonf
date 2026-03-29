@@ -400,7 +400,10 @@ export default function PageEditor({ slug }: PageEditorProps) {
           api.get(`/api/pagecontent/${slug}`),
           slug !== "contacts" &&
           slug !== "contenu-global" &&
-          slug !== "partenaires"
+          slug !== "partenaires" &&
+          slug !== "cgv-statuts" &&
+          slug !== "mentions-legales" &&
+          slug !== "politique-confidentialite"
             ? api.get(`/api/pagecontent/contacts`)
             : Promise.resolve(null),
         ]);
@@ -577,6 +580,9 @@ export default function PageEditor({ slug }: PageEditorProps) {
           {slug !== "contacts" &&
             slug !== "contenu-global" &&
             slug !== "partenaires" &&
+            slug !== "cgv-statuts" &&
+            slug !== "mentions-legales" &&
+            slug !== "politique-confidentialite" &&
             availableContacts.length > 0 && (
               <div className="mt-12 pt-8 border-t border-gray-200">
                 <div className="mb-4">
