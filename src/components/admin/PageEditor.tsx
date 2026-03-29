@@ -398,7 +398,9 @@ export default function PageEditor({ slug }: PageEditorProps) {
         setIsLoading(true);
         const [response, contactsResponse] = await Promise.all([
           api.get(`/api/pagecontent/${slug}`),
-          slug !== "contacts" && slug !== "contenu-global"
+          slug !== "contacts" &&
+          slug !== "contenu-global" &&
+          slug !== "partenaires"
             ? api.get(`/api/pagecontent/contacts`)
             : Promise.resolve(null),
         ]);
@@ -574,6 +576,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
 
           {slug !== "contacts" &&
             slug !== "contenu-global" &&
+            slug !== "partenaires" &&
             availableContacts.length > 0 && (
               <div className="mt-12 pt-8 border-t border-gray-200">
                 <div className="mb-4">

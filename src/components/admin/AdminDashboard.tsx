@@ -128,12 +128,6 @@ const categories: Category[] = [
         content: "Conditions générales et statuts",
         icon: "pi pi-file-o",
       },
-      {
-        titre: "Partenaires",
-        path: "/admin/pages/partenaires",
-        content: "Liste des partenaires",
-        icon: "pi pi-heart",
-      },
     ],
   },
   {
@@ -150,6 +144,12 @@ const categories: Category[] = [
         path: "/admin/pages/contacts",
         content: "Fiches de contact",
         icon: "pi pi-envelope",
+      },
+      {
+        titre: "Partenaires",
+        path: "/admin/pages/partenaires",
+        content: "Liste des partenaires",
+        icon: "pi pi-heart",
       },
     ],
   },

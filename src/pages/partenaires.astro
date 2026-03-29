@@ -1,39 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PartnerCard from "../components/PartnerCard.astro";
+import { getApiUrl } from "../lib/api";
 
-const partners = [
-  {
-    nom: "Mairie de Bordeaux",
-    logo: "/assets/logo-adonf.png",
-    url: "https://www.bordeaux.fr",
-  },
-  {
-    nom: "Département de la Gironde",
-    logo: "/assets/logo-adonf.png",
-    url: "https://www.gironde.fr",
-  },
-  {
-    nom: "Région Nouvelle-Aquitaine",
-    logo: "/assets/logo-adonf.png",
-    url: "https://www.nouvelle-aquitaine.fr",
-  },
-  {
-    nom: "Centre National de la Musique",
-    logo: "/assets/logo-adonf.png",
-    url: "https://cnm.fr",
-  },
-  {
-    nom: "Rock School Barbey",
-    logo: "/assets/logo-adonf.png",
-    url: "https://www.rockschool-barbey.com",
-  },
-  {
-    nom: "RIM - Réseau des Indépendants de la Musique",
-    logo: "/assets/logo-adonf.png",
-    url: "https://le-rim.org",
-  },
-];
+const API_URL = getApiUrl();
+let partenaires = [];
+
+if (typeof process !== "undefined" && import.meta.env.DEV) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
+try {
+  const res = await fetch(`${API_URL}/api/PageContent/partenaires`);
+  if (res.ok) {
+    const data = await res.json();
+    let parsedContent = data.content;
+    if (typeof parsedContent === "string") {
+      parsedContent = JSON.parse(parsedContent);
+    }
+    if (parsedContent && Array.isArray(parsedContent.partenaires)) {
+      partenaires = parsedContent.partenaires;
+    }
+  }
+} catch (e) {
+  console.error("Failed to load partenaires", e);
+}
 ---
 
 <Layout title="Nos Partenaires - Association Adonf">
@@ -44,7 +35,7 @@ const partners = [
     </header>
 
     <div class="partners-grid">
-      {partners.map((partner) => <PartnerCard {...partner} />)}
+      {partenaires.map((partner) => <PartnerCard {...partner} />)}
     </div>
   </div>
 </Layout>
