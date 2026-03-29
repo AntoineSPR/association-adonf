@@ -148,7 +148,7 @@ const categories: Category[] = [
       {
         titre: "Contacts",
         path: "/admin/pages/contacts",
-        content: "Informations de contact",
+        content: "Fiches de contact",
         icon: "pi pi-envelope",
       },
     ],

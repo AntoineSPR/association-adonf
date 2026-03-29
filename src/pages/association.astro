@@ -26,7 +26,8 @@ try {
 }
 
 const content = pageContent || {
-  titreGlobal: "L'ASSOCIATION",
+  titrePartie1: "L'ASSOCIATION",
+  titrePartie2: "",
   sections: [],
   contacts: [],
 };
@@ -35,7 +36,10 @@ const content = pageContent || {
 <Layout title={"Association Adonf"}>
   <div class="page-container">
     <header class="page-header">
-      <h1 class="main-title">{content.titreGlobal}</h1>
+      <h1 class="main-title">
+        {content.titrePartie1}
+        {content.titrePartie2 && <span>{content.titrePartie2}</span>}
+      </h1>
       <div class="title-underline"></div>
     </header>
 
