@@ -15,5 +15,5 @@ export default defineConfig({
   adapter: node({
     mode: "middleware",
   }),
-  trailingSlash: isProd ? "always" : "ignore",
+  trailingSlash: "ignore",
 });
