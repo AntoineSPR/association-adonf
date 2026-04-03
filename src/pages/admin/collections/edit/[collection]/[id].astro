@@ -1,0 +1,19 @@
+---
+import Layout from "../../../../../layouts/Layout.astro";
+import ItemEditor from "../../../../../components/admin/collections/ItemEditor";
+
+export function getStaticPaths() {
+  const collections = ["concerts", "actualites"];
+  return [{ params: { collection: "concerts", id: "new" } }, { params: { collection: "actualites", id: "new" } }];
+}
+
+const { collection, id } = Astro.params;
+---
+
+<Layout title={`Edit ${id} in ${collection} - Admin Adonf`}>
+  <div class="min-h-screen bg-gray-50 pt-24 pb-12">
+    <div class="container mx-auto px-4">
+      <ItemEditor client:only="react" collection={collection as string} itemId={id as string} />
+    </div>
+  </div>
+</Layout>

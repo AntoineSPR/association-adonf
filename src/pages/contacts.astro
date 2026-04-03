@@ -1,0 +1,76 @@
+﻿---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+import { getApiUrl } from "../lib/api";
+
+const API_URL = getApiUrl();
+let contacts = [];
+
+if (typeof process !== "undefined" && import.meta.env.DEV) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
+try {
+  const res = await fetch(`${API_URL}/api/PageContent/contacts`);
+  if (res.ok) {
+    const data = await res.json();
+    let parsedContent = data.content;
+    if (typeof parsedContent === "string") {
+      parsedContent = JSON.parse(parsedContent);
+    }
+    if (parsedContent && Array.isArray(parsedContent.contacts)) {
+      contacts = parsedContent.contacts;
+    }
+  }
+} catch (e) {
+  console.error("Failed to load contacts", e);
+}
+---
+
+<Layout title="Contacts - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">NOUS <span>CONTACTER</span></h1>
+      <div class="title-underline"></div>
+    </header>
+    {(!contacts || contacts.length === 0) ? <EnConstruction /> : (
+      <>
+        
+
+    <div class="contacts-grid">
+      {
+        contacts.map((contact: any) => (
+          <ContactCard
+            image={contact.image || "/assets/logo-adonf.png"}
+            nom={contact.nom}
+            role={contact.role}
+            email={contact.email}
+            telephone={contact.telephone}
+          />
+        ))
+      }
+    </div>
+
+    {contacts.length === 0 && <p style="text-align: center; color: #666;">Aucun contact disponible pour le moment.</p>}
+  
+      </>
+    )}
+  </div>
+</Layout>
+
+<style>
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (max-width: 640px) {
+    .contacts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

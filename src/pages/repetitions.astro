@@ -1,0 +1,321 @@
+---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+import { resolvePath } from "@/lib/utils";
+import { getApiUrl } from "../lib/api";
+
+let pageContent: any = {};
+
+try {
+  const pageRes = await fetch(`${getApiUrl()}/api/PageContent/repetitions`);
+  if (pageRes.ok) {
+    const pageDoc = await pageRes.json();
+    let content = pageDoc.content;
+    if (typeof content === "string") content = JSON.parse(content);
+    if (content && Object.keys(content).length > 0) {
+      pageContent = content; // override defaults if content exists
+    }
+  }
+} catch (err) {
+  console.error("Failed to fetch repetitions content", err);
+}
+---
+
+<Layout title="Répétitions - Association Adonf">
+  <div class="page-container">
+    <!-- Header -->
+    <header class="page-header">
+      <h1 class="main-title">
+        {pageContent.titrePartie1 || "SALLE DE"}
+        <span>{pageContent.titrePartie2 || "RÉPÉTITION"}</span>
+      </h1>
+      <div class="title-underline"></div>
+    </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
+
+    <!-- Intro / Vision Section -->
+    <section class="vision-section">
+      <div class="vision-text" set:html={pageContent.presentationHtml} />
+    </section>
+
+    <!-- Info Grid (Horaires, Tarifs) -->
+    <section class="info-grid-section">
+      <!-- Horaires -->
+      <div class="info-card">
+        <h2 class="card-title">HORAIRES</h2>
+        <div class="card-content">
+          <div class="reservation-text" set:html={pageContent.reservationHtml} />
+
+          <div class="schedule-block">
+            {
+              pageContent.horaires &&
+                pageContent.horaires.map((h: any) => (
+                  <div class="schedule-row">
+                    <span>{h.jour}</span> <strong>{h.heures}</strong>
+                  </div>
+                ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarifs -->
+      <div class="info-card">
+        <h2 class="card-title">TARIFS</h2>
+        <div class="card-content">
+          <div class="tarif-simple-group">
+            <h3>ADHÉSION</h3>
+            <p><strong>{pageContent.prixAdhesion}</strong> {pageContent.periodeAdhesion}</p>
+          </div>
+
+          <div class="tarif-simple-group">
+            <h3>LOCATION DU LOCAL</h3>
+            <ul class="tarifs-simple-list">
+              {
+                pageContent.tarifsLocation &&
+                  pageContent.tarifsLocation.map((t: any) => (
+                    <li>
+                      <span>{t.libelle}</span>
+                      <span class="price">{t.prix}</span>
+                    </li>
+                  ))
+              }
+            </ul>
+          </div>
+
+          <div class="tarif-alert">{pageContent.alerteTarifs}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services (Full width) -->
+    <section class="services-section">
+      <h2 class="section-title">SERVICES</h2>
+      <div class="services-container">
+        <div class="service-col">
+          <ul class="check-list">
+            {pageContent.services && pageContent.services.map((s: any) => <li>{s.libelle}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Planning -->
+    <section class="planning-section">
+      <h2 class="section-title">PLANNING</h2>
+      <div class="planning-content" set:html={pageContent.planningHtml} />
+    </section>
+
+    <!-- Contacts Section -->
+    {
+      pageContent.contacts && pageContent.contacts.length > 0 && (
+        <section class="contacts-section">
+          <h2 class="section-title">CONTACTS</h2>
+          <div class="contacts-grid">
+            {pageContent.contacts.map((contact: any) => (
+              <ContactCard
+                image={contact.image || contact.image || "/assets/logo-adonf.png"}
+                nom={contact.nom}
+                role={contact.role}
+                email={contact.email}
+                telephone={contact.telephone}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  
+      </>
+    )}
+  </div>
+</Layout>
+
+<style>
+  /* Card Title (specific to this page cards) */
+  .card-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+  }
+  .card-titre::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 6px;
+    background: var(--primary-color, #dc143c);
+    border-radius: 3px;
+  }
+
+  /* Vision Section - Local Override */
+  .vision-section {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 4rem; /* Added reasonable margin */
+  }
+
+  .vision-text {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    max-width: 900px;
+    text-align: center;
+  }
+
+  .vision-text strong {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  /* Info Grid */
+  .info-grid-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  @media (min-width: 768px) {
+    .info-grid-section {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .info-card {
+    background: #f9f9f9;
+    padding: 2.5rem;
+    border-radius: 16px;
+  }
+
+  /* Horaires Specifics */
+  .reservation-text {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #333;
+  }
+  .reservation-text a {
+    color: var(--primary-color, #dc143c);
+    font-weight: 600;
+  }
+
+  .schedule-block {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  }
+  .schedule-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted #e0e0e0;
+    padding: 0.75rem 0;
+    color: #333;
+  }
+  .schedule-row:last-child {
+    border-bottom: none;
+  }
+  .schedule-row span {
+    font-weight: 500;
+  }
+  .schedule-row strong {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  /* Tarifs Inside Card */
+  .tarif-simple-group {
+    margin-bottom: 2rem;
+  }
+  .tarif-simple-group h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin: 0 0 1rem 0;
+    border-left: 4px solid var(--primary-color, #dc143c);
+    padding-left: 0.75rem;
+  }
+
+  .tarifs-simple-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .tarifs-simple-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    align-items: center;
+    background: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    color: #444;
+  }
+
+  .prix {
+    font-weight: 800;
+    color: var(--primary-color, #dc143c);
+    font-size: 1.1rem;
+  }
+
+  .tarif-alert {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #c0392b;
+    background: #fdf0ed;
+    padding: 1rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+    line-height: 1.5;
+    text-align: center;
+    border: 1px solid rgba(192, 57, 43, 0.2);
+  }
+
+  /* Services Section */
+  .services-section {
+    margin-bottom: 4rem;
+  }
+
+  .services-container {
+    background: #f9f9f9;
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .services-container {
+      padding: 3rem;
+    }
+  }
+
+  .service-col h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 0 0 1.5rem 0;
+    color: #1a1a1a;
+    text-transform: uppercase;
+  }
+
+  /* Planning Section */
+  .planning-section {
+    margin-bottom: 6rem;
+  }
+  .planning-content {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    border-left: 4px solid #1a1a1a;
+    padding-left: 1.5rem;
+  }
+</style>

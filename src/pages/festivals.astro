@@ -1,0 +1,103 @@
+---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
+import Layout from "../layouts/Layout.astro";
+import ContactCard from "../components/ContactCard.astro";
+import { resolvePath } from "@/lib/utils";
+import { getApiUrl } from "../lib/api";
+
+const API_URL = getApiUrl();
+let pageContent = null;
+
+try {
+  const res = await fetch(`${API_URL}/api/PageContent/festivals`);
+  if (res.ok) {
+    const data = await res.json();
+    let parsedContent = data.content;
+    if (typeof parsedContent === "string") {
+      parsedContent = JSON.parse(parsedContent);
+    }
+    pageContent = parsedContent;
+  }
+} catch (e) {
+  console.error("Failed to load page content", e);
+}
+
+const content = pageContent || {
+  titrePartie1: "PAGE",
+  titrePartie2: "",
+  presentation: {
+    descriptionHtml: "<p>Contenu en cours de chargement...</p>",
+    image: "/assets/logo-adonf.png"
+  },
+  contacts: []
+};
+---
+
+<Layout title={`${content.titrePartie1} ${content.titrePartie2 ? content.titrePartie2 : ''} - Association Adonf`}>
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">
+        {content.titrePartie1} {content.titrePartie2 && <span>{content.titrePartie2}</span>}
+      </h1>
+      <div class="title-underline"></div>
+    </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
+
+    <section class="content-section">
+      <div class="text-container" set:html={content.presentation.descriptionHtml} />
+      {content.presentation.image && (
+        <div class="image-container">
+          <img src={resolvePath(content.presentation.image)} alt={`${content.titrePartie1} ${content.titrePartie2 || ''}`} />
+        </div>
+      )}
+    </section>
+
+    {content.contacts && content.contacts.length > 0 && (
+      <section class="contacts-section">
+        <h2 class="section-title">CONTACTS</h2>
+        <div class="contacts-grid">
+          {content.contacts.map((contact: any) => (
+            <ContactCard
+              image={contact.image || "/assets/logo-adonf.png"}
+              nom={contact.nom}
+              role={contact.role}
+              email={contact.email}
+              telephone={contact.telephone}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  
+      </>
+    )}
+  </div>
+</Layout>
+
+<style>
+  .content-section {
+    display: grid;
+    gap: 3rem;
+    margin-bottom: 5rem;
+  }
+
+  .image-container img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+  }
+
+  .text-container :global(p) {
+    font-size: 1.15rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+</style>

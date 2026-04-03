@@ -1,0 +1,248 @@
+﻿---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
+import Layout from "../layouts/Layout.astro";
+import { getApiUrl } from "../lib/api";
+
+const API_URL = getApiUrl();
+let pageContent = null;
+
+if (typeof process !== "undefined" && import.meta.env.DEV) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
+try {
+  const res = await fetch(`${API_URL}/api/PageContent/plan-acces`);
+  if (res.ok) {
+    const data = await res.json();
+    let parsedContent = data.content;
+    if (typeof parsedContent === "string") {
+      parsedContent = JSON.parse(parsedContent);
+    }
+    pageContent = parsedContent;
+  }
+} catch (e) {
+  console.error("Failed to load page content", e);
+}
+
+const content = pageContent || {
+  titrePartie1: "PLAN",
+  titrePartie2: "D'ACCÈS",
+  sections: [],
+  image: "",
+};
+
+// Split sections into left and right columns
+const leftSections = content.sections ? content.sections.slice(0, content.sections.length > 2 ? -1 : 1) : [];
+const rightSections = content.sections ? content.sections.slice(content.sections.length > 2 ? -1 : 1) : [];
+---
+
+<Layout title="Plan d'Accès - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">
+        {content.titrePartie1}
+        {content.titrePartie2 && <span>{content.titrePartie2}</span>}
+      </h1>
+      <div class="title-underline"></div>
+    </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
+
+    <div class="grid-container">
+      {/* General Info Column */}
+      <div class="info-column">
+        {
+          leftSections.map((section: any) => (
+            <section class="mb-5">
+              {section.titre && <h2 class="section-title-small">{section.titre}</h2>}
+              <div set:html={section.contenuHtml} />
+            </section>
+          ))
+        }
+      </div>
+
+      {/* Secondary Column (Usually Handicap Access) */}
+      <div class="handicap-column">
+        {
+          rightSections.map((section: any) => (
+            <section class="handicap-block mb-5">
+              {section.titre && (
+                <div class="icon-header">
+                  {section.titre.toLowerCase().includes("handicap") && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="handicap-icon"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M10 8h4.5" />
+                      <path d="M12 12v6" />
+                      <path d="M12 18h2" />
+                    </svg>
+                  )}
+                  <h2 class="section-title-small m-0">{section.titre}</h2>
+                </div>
+              )}
+              <div set:html={section.contenuHtml} />
+            </section>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Map Section */}
+    {
+      content.image && (
+        <section class="map-section mt-5">
+          <img src={content.image} alt="Plan d'accès" class="map-image" />
+        </section>
+      )
+    }
+  
+      </>
+    )}
+  </div>
+</Layout>
+
+<style>
+  .grid-container {
+    display: grid;
+    gap: 3rem;
+  }
+
+  @media (min-width: 900px) {
+    .grid-container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .mb-5 {
+    margin-bottom: 3rem;
+  }
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  .mb-2 {
+    margin-bottom: 0.75rem;
+  }
+  .mt-5 {
+    margin-top: 4rem;
+  }
+  .mt-2 {
+    margin-top: 0.75rem;
+  }
+  .m-0 {
+    margin: 0 !important;
+  }
+
+  .section-title-small {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+  .section-title-small::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: var(--primary-color, #dc143c);
+    border-radius: 2px;
+    margin-top: 4px;
+  }
+
+  /* Specific styles passed as HTML content need :global */
+  :global(.transport-item) {
+    margin-bottom: 1rem;
+    border-left: 3px solid #eee;
+    padding-left: 1rem;
+  }
+  :global(.transport-label) {
+    font-weight: 700;
+    color: var(--primary-color, #dc143c);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  :global(.accommodation-card) {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
+  :global(.accommodation-card h3) {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: #1a1a1a;
+  }
+  :global(.accommodation-card a) {
+    color: var(--primary-color, #dc143c);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  :global(.accommodation-card a:hover) {
+    text-decoration: underline;
+  }
+
+  .handicap-block {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 16px;
+    padding: 2rem;
+  }
+  .icon-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .handicap-icon {
+    color: var(--primary-color, #dc143c);
+    min-width: 32px;
+  }
+
+  :global(.highlight) {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  :global(.contact-box) {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  :global(.btn-outline) {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--primary-color, #dc143c);
+    color: var(--primary-color, #dc143c);
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  /* Map */
+  .map-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #eee;
+  }
+</style>

@@ -1,0 +1,12 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ItemEditor from "../../../components/admin/collections/ItemEditor";
+---
+
+<Layout title="Éditeur d'élément - Admin Adonf">
+  <div class="min-h-screen bg-gray-50 pt-24 pb-12">
+    <div class="container mx-auto px-4">
+      <ItemEditor client:only="react" />
+    </div>
+  </div>
+</Layout>

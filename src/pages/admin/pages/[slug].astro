@@ -1,0 +1,32 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import PageEditor from "../../../components/admin/PageEditor.tsx";
+
+// Define the static paths so Astro knows what to generate at build time (if using static output)
+// If you are using SSR (Server Side Rendering), you don't necessarily need getStaticPaths.
+export function getStaticPaths() {
+  return [
+    { params: { slug: "accueil" } },
+    { params: { slug: "association" } },
+    { params: { slug: "agenda" } },
+    { params: { slug: "cours-de-musique" } },
+    { params: { slug: "accompagnement-artistique" } },
+    { params: { slug: "projet-pedagogique" } },
+    { params: { slug: "regie" } },
+    { params: { slug: "repetitions" } },
+    { params: { slug: "sonorisation" } },
+    { params: { slug: "studio-enregistrement" } },
+    { params: { slug: "festivals" } },
+    { params: { slug: "partenaires" } },
+    { params: { slug: "contacts" } },
+  ];
+}
+
+const { slug } = Astro.params;
+---
+
+<Layout title={`Administration | ${slug?.replace(/-/g, " ")}`}>
+  <div class="min-h-screen bg-gray-50 pt-24 pb-12">
+    <PageEditor client:only="react" slug={slug as string} />
+  </div>
+</Layout>

@@ -1,0 +1,21 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CollectionEditor from "../../../components/admin/collections/CollectionEditor";
+
+export function getStaticPaths() {
+  return [
+    { params: { collection: "concerts" } },
+    { params: { collection: "actualites" } },
+    { params: { collection: "cours" } },
+    { params: { collection: "projets-pedagogiques" } },
+  ];
+}
+
+const { collection } = Astro.params;
+---
+
+<Layout title={`Administration | Liste des ${collection}`}>
+  <div class="min-h-screen bg-gray-50 pt-24 pb-12">
+    <CollectionEditor client:only="react" collection={collection as string} />
+  </div>
+</Layout>

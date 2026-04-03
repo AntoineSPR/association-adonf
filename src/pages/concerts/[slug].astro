@@ -1,0 +1,319 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { resolvePath } from "../../lib/utils";
+import { getApiUrl } from "../../lib/api";
+
+const { slug } = Astro.params;
+let concert;
+
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") {
+      content = JSON.parse(content);
+    }
+    if (content && Array.isArray(content.items)) {
+      const found = content.items.find((c: any) => (c.slug || String(c.id)) === slug);
+      if (found) {
+        // Construct standard ISO string assuming local time (e.g. "2026-03-25T20:30:00")
+        const dateStr = found.date || new Date().toISOString().split("T")[0];
+        const timeStr = found.heure && found.heure.includes(":") ? found.heure : "00:00";
+        const parsedDate = new Date(`${dateStr}T${timeStr}:00`);
+
+        concert = {
+          ...found,
+          date: parsedDate,
+        };
+      }
+    }
+  }
+} catch (e) {
+  console.error("Failed to fetch concert data", e);
+}
+
+// Redirect to 404 if concert not found
+if (!concert) {
+  return Astro.redirect("/404");
+}
+
+// Helper to format full date
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+---
+
+<Layout title={`${concert.titre} - Concerts Adonf`}>
+  <div class="page-container">
+    <div class="header-spacing"></div>
+
+    <div class="concert-detail-container">
+      <div class="image-container">
+        <img src={concert.image} alt={concert.titre} transition:name={`concert-image-${concert.id}`} />
+        {
+          concert.status && (
+            <div
+              class={`status-badge ${concert.status
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")}`}
+            >
+              {concert.status}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="concert-content">
+        <h1 class="concert-title">{concert.titre}</h1>
+
+        <div class="concert-meta">
+          <div class="meta-item">
+            <i class="pi pi-calendar"></i>
+            <span>{formatDate(concert.date)}</span>
+          </div>
+          {
+            concert.lieu && (
+              <div class="meta-item">
+                <i class="pi pi-map-marker" />
+                <span>{concert.lieu}</span>
+              </div>
+            )
+          }
+          {
+            concert.prix != null && concert.prix !== "" && (
+              <div class="meta-item">
+                <i class="pi pi-euro" />
+                <span>{concert.prix || "Gratuit"}</span>
+              </div>
+            )
+          }
+          <div class="meta-item">
+            <i class="pi pi-map-marker"></i>
+            <span>{concert.lieu}</span>
+          </div>
+          <div class="meta-item">
+            <i class="pi pi-euro"></i>
+            <span>{concert.prix || "Gratuit"}</span>
+          </div>
+        </div>
+
+        {concert.contenuHtml && <div class="main-text text-lg" set:html={concert.contenuHtml} />}
+
+        {
+          concert.sections &&
+            concert.sections.map((section: any) => (
+              <div class="custom-section">
+                <h2 class="section-title">{section.titre}</h2>
+                <div class="text-lg" set:html={section.contenuHtml || section.contenuHtml} />
+              </div>
+            ))
+        }
+
+        {
+          concert.lienBouton && (
+            <div class="action-area">
+              <a href={concert.lienBouton} target="_blank" class="btn-primary">
+                {concert.texteBouton || "Réserver ma place"}
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href={resolvePath("/agenda#programmation")}>&larr; Retour à la programmation</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .header-spacing {
+    height: 40px;
+  }
+
+  .concert-detail-container {
+    max-width: 900px;
+    margin: 0 auto 3rem auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .image-container {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .status-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #333;
+    color: white;
+  }
+
+  .status-badge.complet {
+    background: #dc143c;
+  }
+  .status-badge.annule {
+    background: #000;
+  }
+  .status-badge.reporte {
+    background: #ff8c00;
+  }
+
+  .concert-content {
+    padding: 2.5rem;
+  }
+
+  .concert-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .concert-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #555;
+  }
+
+  .meta-item i {
+    color: var(--primary-color, #dc143c);
+    font-size: 1.2rem;
+  }
+
+  .main-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 2.5rem;
+  }
+
+  .custom-section {
+    margin-bottom: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+  }
+
+  .section-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-titre::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary-color, #dc143c);
+  }
+
+  .custom-section p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #555;
+  }
+
+  .action-area {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--primary-color, #dc143c);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #b01030;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);
+  }
+
+  .back-link {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .back-link a {
+    color: #666;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .back-link a:hover {
+    color: var(--primary-color, #dc143c);
+  }
+
+  @media (max-width: 768px) {
+    .image-container {
+      height: 250px;
+    }
+    .concert-content {
+      padding: 1.5rem;
+    }
+    .concert-title {
+      font-size: 1.8rem;
+    }
+    .concert-meta {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>

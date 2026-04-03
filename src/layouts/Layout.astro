@@ -1,0 +1,64 @@
+---
+import "primeicons/primeicons.css";
+import "../styles/global.scss";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { resolvePath } from "../lib/utils";
+import { getApiUrl } from "../lib/api";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+let parametres = {
+  billetterieUrl: "https://www.helloasso.com/associations/a-d-onf",
+  logoImage: "/assets/logo-adonf.png",
+  adressePhysique: {
+    nom: "Association Adonf",
+    ligne1: "29 avenue de Onda",
+    ligne2: "17130 Montendre",
+    telephone: "05 46 49 03 18"
+  },
+  reseauxSociaux: [
+    { label: "Facebook", iconId: "FacebookIcon", url: "https://www.facebook.com/AssociationADonf/" },
+    { label: "Instagram", iconId: "InstagramIcon", url: "https://www.instagram.com/association_adonf/" },
+    { label: "YouTube", iconId: "YoutubeIcon", url: "https://www.youtube.com/channel/UCiP4wYd6e2iLz6F-0Wf-cWA" }
+  ]
+};
+
+if (typeof process !== "undefined" && import.meta.env.DEV) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
+try {
+  const API_URL = getApiUrl();
+  const res = await fetch(`${API_URL}/api/PageContent/contenu-global`);
+  if (res.ok) {
+    const data = await res.json();
+    if (data?.content && Object.keys(data.content).length > 0) {
+      parametres = { ...parametres, ...data.content };
+    }
+  }
+} catch (e) {
+  console.error("Impossible de charger le contenu global (Layout)", e);
+}
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={resolvePath("/favicon.ico")} /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header parametres={parametres} />
+    <slot />
+    <Footer parametres={parametres} />
+  </body>
+</html>
+

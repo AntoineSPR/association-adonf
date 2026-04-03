@@ -1,0 +1,195 @@
+---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import Layout from "../layouts/Layout.astro";
+import ActualiteCard from "../components/ActualiteCard.astro";
+import ConcertCard from "../components/ConcertCard.astro";
+import { getApiUrl } from "../lib/api";
+
+let concerts: any[] = [];
+let actualites: any[] = [];
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") {
+      content = JSON.parse(content);
+    }
+    if (content && Array.isArray(content.items)) {
+      concerts = content.items.map((c: any) => {
+        const dateStr = c.date || new Date().toISOString().split("T")[0];
+        const timeStr = c.heure && c.heure.includes(":") ? c.heure : "00:00";
+        return {
+          ...c,
+          date: new Date(`${dateStr}T${timeStr}:00`),
+          slug: c.slug || String(c.id),
+        };
+      });
+      concerts.sort((a, b) => a.date.getTime() - b.date.getTime());
+    }
+  }
+
+  const resActualites = await fetch(`${getApiUrl()}/api/PageContent/actualites`);
+  if (resActualites.ok) {
+    const doc = await resActualites.json();
+    let content = doc.content;
+    if (typeof content === "string") {
+      content = JSON.parse(content);
+    }
+    if (content && Array.isArray(content.items)) {
+      actualites = content.items.map((a: any) => {
+        return {
+          ...a,
+          datePublication: new Date(a.datePublication || new Date()),
+          slug: a.slug || String(a.id),
+        };
+      });
+      actualites.sort((a, b) => b.datePublication.getTime() - a.datePublication.getTime());
+    }
+  }
+} catch (e) {
+  console.error("Failed to fetch data", e);
+}
+---
+
+<Layout title="Agenda - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">L'AGENDA <span>ADONF</span></h1>
+      <div class="title-underline"></div>
+
+      <div class="agenda-nav">
+        <a href="#actualites" class="nav-btn">Actualités</a>
+        <a href="#programmation" class="nav-btn btn-outline">Programmation</a>
+      </div>
+    </header>
+    <div class="section-layout space-y-20">
+      <!-- Actualités Section -->
+      <section class="actualites-section" id="actualites">
+        <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
+          <div class="w-2 h-10 bg-[var(--primary-color)] rounded-full"></div>
+          <div>
+            <h2 class="text-3xl font-bold text-[var(--light-black)] uppercase tracking-wide m-0">Actualités</h2>
+            <p class="text-[var(--text-light)] text-lg">Les dernières nouvelles de l'association</p>
+          </div>
+        </div>
+
+        <div class="actualites-grid">
+          {
+            actualites.length > 0 ? (
+              actualites.map((actu) => <ActualiteCard actualite={actu} featured={actu.featured} />)
+            ) : (
+              <div style="grid-column: 1 / -1;">
+                <EnConstruction message="Pas d'événement à venir" />
+              </div>
+            )
+          }
+        </div>
+      </section>
+
+      <!-- Programmation Section -->
+      <section class="programmation-section" id="programmation">
+        <div class="flex items-center gap-4 mb-10 pb-4 border-b border-gray-200">
+          <div class="w-2 h-10 bg-[var(--light-black)] rounded-full"></div>
+          <div>
+            <h2 class="text-3xl font-bold text-[var(--light-black)] uppercase tracking-wide m-0">Programmation</h2>
+            <p class="text-[var(--text-light)] text-lg">Les concerts et événements à venir</p>
+          </div>
+        </div>
+
+        <div class="concerts-grid">
+          {
+            concerts.length > 0 ? (
+              concerts.map((concert) => <ConcertCard concert={concert} />)
+            ) : (
+              <div style="grid-column: 1 / -1;">
+                <EnConstruction message="Pas de concert prévu" />
+              </div>
+            )
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .agenda-nav {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .actualites-section,
+  .programmation-section {
+    scroll-margin-top: 4rem;
+  }
+
+  @media (min-width: 1150px) {
+    .actualites-section,
+    .programmation-section {
+      scroll-margin-top: 8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .agenda-nav {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .agenda-nav {
+      justify-content: flex-start;
+    }
+  }
+
+  .nav-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-btn:not(.btn-outline) {
+    background: var(--primary-color, #dc143c);
+    color: white;
+    border: 2px solid var(--primary-color, #dc143c);
+  }
+
+  .nav-btn:not(.btn-outline):hover {
+    background: #b01030;
+    border-color: #b01030;
+    transform: translateY(-2px);
+  }
+
+  .nav-btn.btn-outline {
+    background: transparent;
+    color: #333;
+    border: 2px solid #333;
+  }
+
+  .nav-btn.btn-outline:hover {
+    background: #333;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .actualites-grid,
+  .concerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+</style>

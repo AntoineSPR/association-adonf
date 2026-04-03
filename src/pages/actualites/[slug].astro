@@ -1,0 +1,218 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { resolvePath } from "../../lib/utils";
+import { getApiUrl } from "../../lib/api";
+
+const { slug } = Astro.params;
+let actualite: any = null;
+
+try {
+  const res = await fetch(`${getApiUrl()}/api/PageContent/actualites`);
+  if (res.ok) {
+    const doc = await res.json();
+    let content = doc.content;
+    if (typeof content === "string") content = JSON.parse(content);
+    if (content && Array.isArray(content.items)) {
+      const found = content.items.find((a: any) => (a.slug || String(a.id)) === slug);
+      if (found) {
+        actualite = {
+          ...found,
+          datePublication: new Date(found.datePublication || new Date()),
+        };
+      }
+    }
+  }
+} catch (e) {
+  console.error("Failed to fetch actualite details", e);
+}
+
+// Redirect to 404 if not found
+if (!actualite) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout title={`${actualite.titre} - Actualités Adonf`}>
+  <div class="page-container">
+    <div class="header-spacing"></div>
+
+    <div class="news-detail-container">
+      <div class="image-container">
+        <img src={actualite.image} alt={actualite.titre} transition:name={`news-image-${actualite.id}`} />
+      </div>
+
+      <div class="news-content">
+        <h1 class="news-title">{actualite.titre}</h1>
+        <p class="publish-date">Publié le {actualite.datePublication.toLocaleDateString("fr-FR")}</p>
+
+        <div class="main-text">
+          {actualite.contenuHtml && <div set:html={actualite.contenuHtml} />}
+          {!actualite.contenuHtml && <div set:html={actualite.extrait} />}
+        </div>
+
+        {
+          actualite.sections &&
+            actualite.sections.map((section: any) => (
+              <div class="custom-section">
+                <h2 class="section-title">{section.titre}</h2>
+                <div set:html={section.contenuHtml || section.contenuHtml} />
+              </div>
+            ))
+        }
+
+        {
+          actualite.lienBouton && (
+            <div class="action-area">
+              <a href={actualite.lienBouton} target={actualite.lienBouton.startsWith("http") ? "_blank" : "_self"} class="btn-primary">
+                {actualite.texteBouton || "En savoir plus"}
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href={resolvePath("/agenda#actualites")}>&larr; Retour aux actualités</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .header-spacing {
+    height: 40px;
+  }
+
+  .news-detail-container {
+    max-width: 900px;
+    margin: 0 auto 3rem auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .image-container {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .news-content {
+    padding: 2.5rem;
+  }
+
+  .news-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .publish-date {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .main-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 2.5rem;
+  }
+
+  .custom-section {
+    margin-bottom: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+  }
+
+  .section-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-titre::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary-color, #dc143c);
+  }
+
+  .custom-section p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #555;
+  }
+
+  .action-area {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--primary-color, #dc143c);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #b01030;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);
+  }
+
+  .back-link {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .back-link a {
+    color: #666;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .back-link a:hover {
+    color: var(--primary-color, #dc143c);
+  }
+
+  @media (max-width: 768px) {
+    .image-container {
+      height: 250px;
+    }
+    .news-content {
+      padding: 1.5rem;
+    }
+    .news-title {
+      font-size: 1.8rem;
+    }
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import Layout from "../layouts/Layout.astro";
+import ActualiteCard from "../components/ActualiteCard.astro";
+import ConcertCard from "../components/ConcertCard.astro";
+import { ArrowRightIcon } from "../components/ui/icons";
+import { resolvePath } from "../lib/utils";
+import { getApiUrl } from "../lib/api";
+
+let concerts: any[] = [];
+let actualites: any[] = [];
+try {
+  const resConcerts = await fetch(`${getApiUrl()}/api/PageContent/concerts`);
+  if (resConcerts.ok) {
+    const doc = await resConcerts.json();
+    let content = doc.content;
+    if (typeof content === "string") {
+      content = JSON.parse(content);
+    }
+    if (content && Array.isArray(content.items)) {
+      concerts = content.items.map((c: any) => {
+        const dateStr = c.date || new Date().toISOString().split("T")[0];
+        const timeStr = c.heure && c.heure.includes(":") ? c.heure : "00:00";
+        return {
+          ...c,
+          date: new Date(`${dateStr}T${timeStr}:00`),
+          slug: c.slug || String(c.id),
+        };
+      });
+      concerts.sort((a, b) => a.date.getTime() - b.date.getTime());
+    }
+  }
+
+  const resActualites = await fetch(`${getApiUrl()}/api/PageContent/actualites`);
+  if (resActualites.ok) {
+    const docAct = await resActualites.json();
+    let contentAct = docAct.content;
+    if (typeof contentAct === "string") {
+      contentAct = JSON.parse(contentAct);
+    }
+    if (contentAct && Array.isArray(contentAct.items)) {
+      actualites = contentAct.items.map((a: any) => ({
+        ...a,
+        datePublication: new Date(a.datePublication || new Date()),
+        slug: a.slug || String(a.id),
+      }));
+      actualites.sort((a, b) => b.datePublication.getTime() - a.datePublication.getTime());
+    }
+  }
+} catch (e) {
+  console.error("Failed to fetch data", e);
+}
+
+const recentActualites = actualites.slice(0, 3);
+const recentConcerts = concerts.slice(0, 3);
+---
+
+<Layout title="Association Adonf - École de musique & Concerts">
+  <main class="section-layout">
+    <!-- Hero/Welcome Section could go here, omitting as source was section-layout focused -->
+
+    <section class="actualites-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Actualités</h2>
+          </div>
+          <a href={resolvePath("/agenda#actualites")} class="btn btn-outline">
+            Toutes les actus <ArrowRightIcon className="w-4 h-4" />
+          </a>
+        </div>
+
+        <div class="actualites-grid">
+          {recentActualites.length > 0 ? (
+            recentActualites.map((actu) => <ActualiteCard actualite={actu} featured={actu.featured} />)
+          ) : (
+            <div style="grid-column: 1 / -1;"><EnConstruction message="Pas d'événement à venir" /></div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="programmation-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Programmation</h2>
+          </div>
+          <a href={resolvePath("/agenda#programmation")} class="btn btn-outline">
+            Toute la prog <ArrowRightIcon className="w-4 h-4" />
+          </a>
+        </div>
+
+        <div class="concerts-grid">
+          {recentConcerts.length > 0 ? (
+            recentConcerts.map((concert) => <ConcertCard concert={concert} />)
+          ) : (
+            <div style="grid-column: 1 / -1;"><EnConstruction message="Pas de concert prévu" /></div>
+          )}
+        </div>
+      </div>
+    </section>
+</Layout>
+
+<style lang="scss">
+  /* Extra styles if needed beyond global */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+</style>

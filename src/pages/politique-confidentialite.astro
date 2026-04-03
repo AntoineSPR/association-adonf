@@ -1,0 +1,107 @@
+﻿---
+import EnConstruction from "../components/ui/EnConstruction.astro";
+import { isEmptyContent } from "../lib/utils";
+import Layout from "../layouts/Layout.astro";
+import { getApiUrl } from "../lib/api";
+
+const API_URL = getApiUrl();
+let pageContent = null;
+
+if (typeof process !== "undefined" && import.meta.env.DEV) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
+try {
+  const res = await fetch(`${API_URL}/api/PageContent/politique-confidentialite`);
+  if (res.ok) {
+    const data = await res.json();
+    let parsedContent = data.content;
+    if (typeof parsedContent === "string") {
+      parsedContent = JSON.parse(parsedContent);
+    }
+    pageContent = parsedContent;
+  }
+} catch (e) {
+  console.error("Failed to load politique-confidentialite content", e);
+}
+
+const content = pageContent || {
+  titrePartie1: "POLITIQUE",
+  titrePartie2: "DE CONFIDENTIALITÉ",
+  contenuHtml: "",
+};
+---
+
+<Layout title="Politique de Confidentialité - Association Adonf">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="main-title">
+        {content.titrePartie1}
+        {content.titrePartie2 && <span>{content.titrePartie2}</span>}
+      </h1>
+      <div class="title-underline"></div>
+    </header>
+    {isEmptyContent(pageContent) ? <EnConstruction /> : (
+      <>
+        
+
+    <div class="legal-content">
+      <div set:html={content.contenuHtml} />
+    </div>
+  
+      </>
+    )}
+  </div>
+</Layout>
+
+<style>
+  .legal-content {
+    background: #fff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 4rem;
+    color: #333;
+    line-height: 1.8;
+  }
+
+  :global(.legal-section) {
+    margin-bottom: 2.5rem;
+  }
+
+  :global(.legal-section h3) {
+    color: var(--primary-color, #dc143c);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  :global(.legal-section p) {
+    margin-bottom: 1rem;
+  }
+
+  :global(.legal-section ul) {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  :global(.legal-section li) {
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.legal-content a) {
+    color: var(--primary-color, #dc143c);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  :global(.legal-content a:hover) {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .legal-content {
+      padding: 1.5rem;
+    }
+  }
+</style>
