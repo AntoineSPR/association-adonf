@@ -13,7 +13,7 @@ export default defineConfig({
   base: "/",
   output: "server",
   adapter: node({
-    mode: "standalone",
+    mode: "middleware",
   }),
   trailingSlash: isProd ? "always" : "ignore",
 });

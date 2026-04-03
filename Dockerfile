@@ -22,14 +22,16 @@ RUN npm install --omit=dev
 # On copie les dossiers client et server générés par Astro
 COPY --from=build /app/dist ./dist
 
-# Variables d'environnement obligatoires pour Astro SSR
+# On copie notre script serveur personnalisé
+COPY ./server.mjs ./
+
+# Variables d'environnement
 ENV HOST=0.0.0.0
 ENV PORT=4321
 ENV NODE_ENV=production
-ENV ASTRO_NODE_CLIENT_DIR=./dist/client
 
-# On expose le port 4321 (port par défaut d'Astro)
+# On expose le port 4321
 EXPOSE 4321
 
-# On démarre le script serveur SSR généré par Astro
-CMD ["node", "./dist/server/entry.mjs"]
+# On démarre le serveur Express qui sert Astro
+CMD ["node", "./server.mjs"]
