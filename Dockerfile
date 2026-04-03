@@ -1,5 +1,5 @@
 # Étape 1 : Build
-FROM node:20-alpine AS build
+FROM node:20 AS build
 WORKDIR /app
 
 COPY package*.json ./
@@ -9,12 +9,19 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:alpine AS prod-runtime
+# Étape 2 : Production Runtime (Exécution du serveur Astro SSR)
+FROM node:20-alpine AS prod-runtime
+WORKDIR /app
 
-RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /app/package.json ./
 
-COPY --from=build /app/dist /usr/share/nginx/html
+RUN npm install --omit=dev
 
-EXPOSE 80
+COPY --from=build /app/dist ./dist
 
-CMD ["nginx", "-g", "daemon off;"]
+ENV HOST=0.0.0.0
+ENV PORT=4321
+
+EXPOSE 4321
+
+CMD ["node", "./dist/server/entry.mjs"]
