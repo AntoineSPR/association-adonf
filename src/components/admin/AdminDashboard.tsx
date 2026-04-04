@@ -163,21 +163,31 @@ export default function AdminDashboard() {
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
 
-    if (!token) {
-      window.location.href = "/admin/login";
-      return;
-    }
-
-    if (userData) {
-      try {
-        setUser(JSON.parse(userData));
-      } catch (e) {
-        console.error("Failed to parse user data");
+      if (!token || !userData) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/admin/login";
+        return;
       }
-    }
 
-    setIsLoading(false);
-  }, []);
+      try {
+        const parsedUser = JSON.parse(userData);
+        
+        // Vérifier si l'utilisateur possède bien le rôle Admin
+        if (!parsedUser.roles || !parsedUser.roles.includes("Admin")) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          window.location.href = "/"; // Rediriger les non-admins vers l'accueil
+          return;
+        }
+        
+        setUser(parsedUser);
+      } catch (e) {
+        console.error("Failed to parse user data", e);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/admin/login";
+        return;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
