@@ -163,31 +163,35 @@ export default function AdminDashboard() {
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
 
-      if (!token || !userData) {
+    if (!token || !userData) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/admin/login";
+      return;
+    }
+
+    try {
+      const parsedUser = JSON.parse(userData);
+
+      // Vérifier si l'utilisateur possède bien le rôle Admin
+      if (!parsedUser.roles || !parsedUser.roles.includes("Admin")) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        window.location.href = "/admin/login";
+        window.location.href = "/"; // Rediriger les non-admins vers l'accueil
         return;
       }
 
-      try {
-        const parsedUser = JSON.parse(userData);
-        
-        // Vérifier si l'utilisateur possède bien le rôle Admin
-        if (!parsedUser.roles || !parsedUser.roles.includes("Admin")) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          window.location.href = "/"; // Rediriger les non-admins vers l'accueil
-          return;
-        }
-        
-        setUser(parsedUser);
-      } catch (e) {
-        console.error("Failed to parse user data", e);
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        window.location.href = "/admin/login";
-        return;
+      setUser(parsedUser);
+    } catch (e) {
+      console.error("Failed to parse user data", e);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/admin/login";
+      return;
+    }
+
+    setIsLoading(false);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
