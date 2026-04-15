@@ -1,6 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import ContactList from "../../components/ContactList.astro";
 import { resolvePath } from "../../lib/utils";
 import { getApiUrl } from "../../lib/api";
 
@@ -72,20 +71,6 @@ const lesson = {
         }
       </div>
     </div>
-
-    <!-- Contact Section -->
-    <ContactList
-      contacts={[
-        {
-          image: "/assets/logo-adonf.png",
-          nom: "Secrétariat / Inscriptions",
-          role: "École de Musique",
-          email: "transmission@rockschool-barbey.com",
-          telephone: "05 56 33 66 00",
-        },
-      ]}
-      title="CONTACT & INSCRITPIONS"
-    />
 
     <div class="back-link">
       <a href={resolvePath("/cours-de-musique")}>&larr; Retour à la liste des cours</a>
