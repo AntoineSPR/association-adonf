@@ -3,7 +3,7 @@ import EnConstruction from "../components/ui/EnConstruction.astro";
 import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
-import ContactCard from "../components/ContactCard.astro";
+import ContactList from "../components/ContactList.astro";
 import { resolvePath } from "@/lib/utils";
 import { getApiUrl } from "../lib/api";
 
@@ -116,18 +116,7 @@ lessons = lessons.map((lesson) => ({
     </section>
 
     <!-- Contacts Section -->
-    {
-      content.contacts && content.contacts.length > 0 && (
-        <section class="contacts-section">
-          <h2 class="section-title">CONTACTS</h2>
-          <div class="contacts-grid">
-            {content.contacts.map((contact: any) => (
-              <ContactCard image={contact.image} nom={contact.nom} role={contact.role} email={contact.email} telephone={contact.telephone} />
-            ))}
-          </div>
-        </section>
-      )
-    }
+    <ContactList contacts={content.contacts} />
   
       </>
     )}

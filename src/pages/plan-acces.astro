@@ -3,6 +3,7 @@ import EnConstruction from "../components/ui/EnConstruction.astro";
 import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import { getApiUrl } from "../lib/api";
+import ContactList from "../components/ContactList.astro";
 
 const API_URL = getApiUrl();
 let pageContent = null;
@@ -46,70 +47,66 @@ const rightSections = content.sections ? content.sections.slice(content.sections
       </h1>
       <div class="title-underline"></div>
     </header>
-    {isEmptyContent(pageContent) ? <EnConstruction /> : (
-      <>
-        
-
-    <div class="grid-container">
-      {/* General Info Column */}
-      <div class="info-column">
-        {
-          leftSections.map((section: any) => (
-            <section class="mb-5">
-              {section.titre && <h2 class="section-title-small">{section.titre}</h2>}
-              <div set:html={section.contenuHtml} />
-            </section>
-          ))
-        }
-      </div>
-
-      {/* Secondary Column (Usually Handicap Access) */}
-      <div class="handicap-column">
-        {
-          rightSections.map((section: any) => (
-            <section class="handicap-block mb-5">
-              {section.titre && (
-                <div class="icon-header">
-                  {section.titre.toLowerCase().includes("handicap") && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="handicap-icon"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M10 8h4.5" />
-                      <path d="M12 12v6" />
-                      <path d="M12 18h2" />
-                    </svg>
-                  )}
-                  <h2 class="section-title-small m-0">{section.titre}</h2>
-                </div>
-              )}
-              <div set:html={section.contenuHtml} />
-            </section>
-          ))
-        }
-      </div>
-    </div>
-
-    {/* Map Section */}
     {
-      content.image && (
-        <section class="map-section mt-5">
-          <img src={content.image} alt="Plan d'accès" class="map-image" />
-        </section>
+      isEmptyContent(pageContent) ? (
+        <EnConstruction />
+      ) : (
+        <>
+          <div class="grid-container">
+            {/* General Info Column */}
+            <div class="info-column">
+              {leftSections.map((section: any) => (
+                <section class="mb-5">
+                  {section.titre && <h2 class="section-title-small">{section.titre}</h2>}
+                  <div set:html={section.contenuHtml} />
+                </section>
+              ))}
+            </div>
+
+            {/* Secondary Column (Usually Handicap Access) */}
+            <div class="handicap-column">
+              {rightSections.map((section: any) => (
+                <section class="handicap-block mb-5">
+                  {section.titre && (
+                    <div class="icon-header">
+                      {section.titre.toLowerCase().includes("handicap") && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="32"
+                          height="32"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="handicap-icon"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="M10 8h4.5" />
+                          <path d="M12 12v6" />
+                          <path d="M12 18h2" />
+                        </svg>
+                      )}
+                      <h2 class="section-title-small m-0">{section.titre}</h2>
+                    </div>
+                  )}
+                  <div set:html={section.contenuHtml} />
+                </section>
+              ))}
+            </div>
+          </div>
+
+          {/* Map Section */}
+          {content.image && (
+            <section class="map-section mt-5">
+              <img src={content.image} alt="Plan d'accès" class="map-image" />
+            </section>
+          )}
+          <ContactList contacts={content.contacts} />
+        </>
       )
     }
-  
-      </>
-    )}
   </div>
 </Layout>
 

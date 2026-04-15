@@ -1,0 +1,58 @@
+---
+import ContactCard from "./ContactCard.astro";
+
+interface Props {
+  contacts: any[];
+  title?: string;
+  hideIfEmpty?: boolean;
+}
+
+const { contacts, title = "CONTACTS", hideIfEmpty = true } = Astro.props;
+const isEmpty = !contacts || contacts.length === 0;
+
+if (isEmpty && hideIfEmpty) {
+  // Return nothing if configured to hide
+}
+---
+
+{
+  (!isEmpty || !hideIfEmpty) && (
+    <section class="contacts-section mt-5">
+      {title && <h2 class="section-title">{title}</h2>}
+      <div class="contacts-grid">
+        {!isEmpty ? (
+          contacts.map((contact: any) => (
+            <ContactCard
+              image={contact.image || "/assets/logo-adonf.png"}
+              nom={contact.nom}
+              role={contact.role}
+              email={contact.email}
+              telephone={contact.telephone}
+            />
+          ))
+        ) : (
+          <p style="text-align: center; color: #666; grid-column: 1 / -1;">Aucun contact disponible pour le moment.</p>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .contacts-section {
+    margin-top: 3rem;
+  }
+
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (max-width: 1024px) {
+    .contacts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

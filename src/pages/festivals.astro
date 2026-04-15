@@ -2,7 +2,7 @@
 import EnConstruction from "../components/ui/EnConstruction.astro";
 import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
-import ContactCard from "../components/ContactCard.astro";
+import ContactList from "../components/ContactList.astro";
 import { resolvePath } from "@/lib/utils";
 import { getApiUrl } from "../lib/api";
 
@@ -28,52 +28,39 @@ const content = pageContent || {
   titrePartie2: "",
   presentation: {
     descriptionHtml: "<p>Contenu en cours de chargement...</p>",
-    image: "/assets/logo-adonf.png"
+    image: "/assets/logo-adonf.png",
   },
-  contacts: []
+  contacts: [],
 };
 ---
 
-<Layout title={`${content.titrePartie1} ${content.titrePartie2 ? content.titrePartie2 : ''} - Association Adonf`}>
+<Layout title={`${content.titrePartie1} ${content.titrePartie2 ? content.titrePartie2 : ""} - Association Adonf`}>
   <div class="page-container">
     <header class="page-header">
       <h1 class="main-title">
-        {content.titrePartie1} {content.titrePartie2 && <span>{content.titrePartie2}</span>}
+        {content.titrePartie1}
+        {content.titrePartie2 && <span>{content.titrePartie2}</span>}
       </h1>
       <div class="title-underline"></div>
     </header>
-    {isEmptyContent(pageContent) ? <EnConstruction /> : (
-      <>
-        
+    {
+      isEmptyContent(pageContent) ? (
+        <EnConstruction />
+      ) : (
+        <>
+          <section class="content-section">
+            <div class="text-container" set:html={content.presentation.descriptionHtml} />
+            {content.presentation.image && (
+              <div class="image-container">
+                <img src={resolvePath(content.presentation.image)} alt={`${content.titrePartie1} ${content.titrePartie2 || ""}`} />
+              </div>
+            )}
+          </section>
 
-    <section class="content-section">
-      <div class="text-container" set:html={content.presentation.descriptionHtml} />
-      {content.presentation.image && (
-        <div class="image-container">
-          <img src={resolvePath(content.presentation.image)} alt={`${content.titrePartie1} ${content.titrePartie2 || ''}`} />
-        </div>
-      )}
-    </section>
-
-    {content.contacts && content.contacts.length > 0 && (
-      <section class="contacts-section">
-        <h2 class="section-title">CONTACTS</h2>
-        <div class="contacts-grid">
-          {content.contacts.map((contact: any) => (
-            <ContactCard
-              image={contact.image || "/assets/logo-adonf.png"}
-              nom={contact.nom}
-              role={contact.role}
-              email={contact.email}
-              telephone={contact.telephone}
-            />
-          ))}
-        </div>
-      </section>
-    )}
-  
-      </>
-    )}
+          <ContactList contacts={content.contacts} />
+        </>
+      )
+    }
   </div>
 </Layout>
 

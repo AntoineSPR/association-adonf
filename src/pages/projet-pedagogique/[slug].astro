@@ -1,6 +1,6 @@
 ﻿---
 import Layout from "../../layouts/Layout.astro";
-import ContactCard from "../../components/ContactCard.astro";
+import ContactList from "../../components/ContactList.astro";
 import { resolvePath } from "@/lib/utils";
 import { getApiUrl } from "../../lib/api";
 
@@ -74,18 +74,17 @@ const project = {
     </div>
 
     <!-- Contact Section -->
-    <div class="contact-section">
-      <h2 class="contact-title">CONTACTS</h2>
-      <div class="contact-wrapper">
-        <ContactCard
-          image="/assets/logo-adonf.png"
-          nom="Coordinateur Pédagogique"
-          role="Association Adonf"
-          email="contact@association-adonf.fr"
-          telephone="05 56 33 66 00"
-        />
-      </div>
-    </div>
+    <ContactList
+      contacts={[
+        {
+          image: "/assets/logo-adonf.png",
+          nom: "Coordinateur Pédagogique",
+          role: "Association Adonf",
+          email: "contact@association-adonf.fr",
+          telephone: "05 56 33 66 00",
+        },
+      ]}
+    />
 
     <div class="back-link">
       <a href={resolvePath("/projet-pedagogique")}>&larr; Retour aux projets</a>

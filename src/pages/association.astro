@@ -2,7 +2,7 @@
 import EnConstruction from "../components/ui/EnConstruction.astro";
 import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
-import ContactCard from "../components/ContactCard.astro";
+import ContactList from "../components/ContactList.astro";
 import { resolvePath } from "@/lib/utils";
 import { getApiUrl } from "../lib/api";
 
@@ -44,43 +44,25 @@ const content = pageContent || {
       </h1>
       <div class="title-underline"></div>
     </header>
-    {isEmptyContent(pageContent) ? <EnConstruction /> : (
-      <>
-        
-
-    <div class="content-wrapper">
-      {
-        content.sections &&
-          content.sections.map((section: any) => (
-            <section class="info-section">
-              {section.titre && <h2 class="section-title">{section.titre}</h2>}
-              <div class="text-container" set:html={section.contenuHtml} />
-            </section>
-          ))
-      }
-    </div>
-
     {
-      content.contacts && content.contacts.length > 0 && (
-        <section class="contacts-section mt-5">
-          <h2 class="section-title">CONTACTS</h2>
-          <div class="contacts-grid">
-            {content.contacts.map((contact: any) => (
-              <ContactCard
-                image={contact.image || "/assets/logo-adonf.png"}
-                nom={contact.nom}
-                role={contact.role}
-                email={contact.email}
-                telephone={contact.telephone}
-              />
-            ))}
+      isEmptyContent(pageContent) ? (
+        <EnConstruction />
+      ) : (
+        <>
+          <div class="content-wrapper">
+            {content.sections &&
+              content.sections.map((section: any) => (
+                <section class="info-section">
+                  {section.titre && <h2 class="section-title">{section.titre}</h2>}
+                  <div class="text-container" set:html={section.contenuHtml} />
+                </section>
+              ))}
           </div>
-        </section>
+
+          <ContactList contacts={content.contacts} />
+        </>
       )
     }
-  
-      </>
-    )}
   </div>
 </Layout>
 
