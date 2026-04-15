@@ -545,6 +545,15 @@ const JsonFormNode = ({
           )
             return null;
 
+          // Hide "id" and "contact" fields inside the contacts array
+          if (
+            path.length > 0 &&
+            path[0] === "contacts" &&
+            (key === "id" || key === "contact" || key === "contactId")
+          ) {
+            return null;
+          }
+
           const isComplex = typeof data[key] === "object" && data[key] !== null;
           return (
             <div
