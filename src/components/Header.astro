@@ -27,8 +27,13 @@ const menuItems = [
       { label: "Projet Pédagogique", href: "/projet-pedagogique" },
     ],
   },
-  { label: "Répétitions", href: "/repetitions" },
-  { label: "Studio d'Enregistrement", href: "/studio-enregistrement" },
+  {
+    label: "Studio",
+    children: [
+      { label: "Répétitions", href: "/repetitions" },
+      { label: "Studio d'Enregistrement", href: "/studio-enregistrement" },
+    ],
+  },
   {
     label: "Prestations diverses",
     children: [
@@ -41,6 +46,7 @@ const menuItems = [
       },
     ],
   },
+  { label: "Devenir Partenaire", href: "/partenaires" },
 ];
 
 const { parametres } = Astro.props;

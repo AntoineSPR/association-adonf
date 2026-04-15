@@ -99,6 +99,12 @@ const categories: Category[] = [
         content: "Page accompagnement",
         icon: "pi pi-star",
       },
+      {
+        titre: "Partenaires",
+        path: "/admin/pages/partenaires",
+        content: "Gestion des partenaires et page de présentation",
+        icon: "pi pi-heart",
+      },
     ],
   },
   {
@@ -150,12 +156,6 @@ const categories: Category[] = [
         path: "/admin/pages/contacts",
         content: "Fiches de contact",
         icon: "pi pi-envelope",
-      },
-      {
-        titre: "Partenaires",
-        path: "/admin/pages/partenaires",
-        content: "Liste des partenaires",
-        icon: "pi pi-heart",
       },
     ],
   },

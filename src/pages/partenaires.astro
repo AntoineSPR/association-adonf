@@ -6,7 +6,7 @@ import PartnerCard from "../components/PartnerCard.astro";
 import { getApiUrl } from "../lib/api";
 
 const API_URL = getApiUrl();
-let partenaires = [];
+let pageContent = null;
 
 if (typeof process !== "undefined" && import.meta.env.DEV) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -20,39 +20,232 @@ try {
     if (typeof parsedContent === "string") {
       parsedContent = JSON.parse(parsedContent);
     }
-    if (parsedContent && Array.isArray(parsedContent.partenaires)) {
-      partenaires = parsedContent.partenaires;
-    }
+    pageContent = parsedContent;
   }
 } catch (e) {
   console.error("Failed to load partenaires", e);
 }
+
+const defaults = {
+  titrePartie1: "DEVENIR",
+  titrePartie2: "PARTENAIRE",
+  description: "",
+  titrePartenaires: "ILS NOUS FONT DÉJÀ CONFIANCE",
+  encarts: [],
+  sectionAction: null,
+  partenaires: [],
+};
+
+const content = { ...defaults, ...(pageContent || {}) };
+
+// Check if everything is empty to show EnConstruction
+const isCompletelyEmpty =
+  !content.description &&
+  (!content.encarts || content.encarts.length === 0) &&
+  !content.sectionAction &&
+  (!content.partenaires || content.partenaires.length === 0);
 ---
 
-<Layout title="Nos Partenaires - Association Adonf">
+<Layout title="Devenir Partenaire - Association Adonf">
   <div class="page-container">
     <header class="page-header">
-      <h1 class="main-title">NOS <span>PARTENAIRES</span></h1>
+      <h1 class="main-title">
+        {content.titrePartie1}
+        {content.titrePartie2 && <span>{content.titrePartie2}</span>}
+      </h1>
       <div class="title-underline"></div>
     </header>
-    {(!partenaires || partenaires.length === 0) ? <EnConstruction /> : (
-      <>
-        
 
-    <div class="partners-grid">
-      {partenaires.map((partner) => <PartnerCard {...partner} />)}
-    </div>
-  
-      </>
-    )}
+    {
+      isCompletelyEmpty ? (
+        <EnConstruction />
+      ) : (
+        <>
+          {content.description && content.description !== "<p><br></p>" && (
+            <section class="vision-section">
+              <div class="vision-text text-container text-bold" set:html={content.description} />
+            </section>
+          )}
+
+          {content.encarts && content.encarts.length > 0 && (
+            <div class="encarts-grid">
+              {content.encarts.map((encart: any) => (
+                <div class="encart-card">
+                  {encart.image && (
+                    <div class="encart-image">
+                      <img src={encart.image} alt={encart.titre || "Encart image"} />
+                    </div>
+                  )}
+                  {encart.titre && <h3 class="encart-title">{encart.titre}</h3>}
+                  {encart.description && <div class="encart-description text-container" set:html={encart.description} />}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {content.sectionAction && (content.sectionAction.titre || content.sectionAction.description) && (
+            <section class="action-section">
+              {content.sectionAction.titre && (
+                <div class="mb-8">
+                  <h2 class="section-subtitle">{content.sectionAction.titre}</h2>
+                </div>
+              )}
+              {content.sectionAction.description && <div class="action-description text-container" set:html={content.sectionAction.description} />}
+              {content.sectionAction.texteBouton && content.sectionAction.lienBouton && (
+                <div class="action-btn-wrapper">
+                  <a href={content.sectionAction.lienBouton} class="action-btn">
+                    {content.sectionAction.texteBouton}
+                  </a>
+                </div>
+              )}
+            </section>
+          )}
+
+          {content.partenaires && content.partenaires.length > 0 && (
+            <div class="partenaires-existants mt-16">
+              <h2 class="section-subtitle">{content.titrePartenaires || "ILS NOUS FONT DÉJÀ CONFIANCE"}</h2>
+              <div class="partners-grid mt-8">
+                {content.partenaires.map((partner: any) => (
+                  <PartnerCard {...partner} />
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )
+    }
   </div>
 </Layout>
 
 <style>
+  .vision-section {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 4rem;
+  }
+
+  .vision-text {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    max-width: 900px;
+    text-align: center;
+  }
+
+  .encarts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .encart-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .encart-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .encart-image {
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .encart-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .encart-title {
+    padding: 1.5rem 1.5rem 0.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--light-black);
+    margin: 0;
+  }
+
+  .encart-description {
+    padding: 0 1.5rem 1.5rem;
+    font-size: 0.95rem;
+    color: #4a5568;
+    flex-grow: 1;
+  }
+
+  .action-section {
+    padding: 2rem 0 4rem 0;
+    text-align: center;
+  }
+
+  .action-description {
+    margin-bottom: 2rem;
+    color: #4a5568;
+    font-size: 1.1rem;
+  }
+
+  .action-btn-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .action-btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .action-btn:hover {
+    background-color: #b01030;
+    transform: scale(1.05);
+  }
+
+  .section-subtitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--light-black);
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    margin: 0 auto;
+  }
+
+  .partenaires-existants {
+    text-align: center;
+  }
+
   .partners-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
     margin-bottom: 5rem;
+    text-align: left;
+  }
+
+  /* Utils for jodit editor */
+  .text-container :global(a) {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+
+  .text-container :global(p) {
+    margin-bottom: 1rem;
   }
 </style>

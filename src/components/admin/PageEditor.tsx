@@ -478,6 +478,18 @@ const JsonFormNode = ({
                 newItem = { titreBouton: "Télécharger", fichierDocument: "" };
               else if (arrName === "contacts")
                 newItem = { iconId: "FacebookIcon", texte: "", lienUrl: "" };
+              else if (arrName === "encarts")
+                newItem = {
+                  image: "",
+                  titre: "Nouvel encart",
+                  description: "",
+                };
+              else if (arrName === "partenaires")
+                newItem = {
+                  imageLogo: "",
+                  nomPartenaire: "Nouveau partenaire",
+                  lien: "",
+                };
               else if (arrName === "items")
                 newItem = {
                   titre: "Nouveau titre",
@@ -505,7 +517,6 @@ const JsonFormNode = ({
       "titrePartie1",
       "titrePartie2",
       "presentation",
-      "presentation",
       "description",
       "reservation",
       "horaires",
@@ -517,8 +528,12 @@ const JsonFormNode = ({
       "inscriptions",
       "services",
       "planning",
+      "encarts",
+      "sectionAction",
       "contacts",
       "sections",
+      "titrePartenaires",
+      "partenaires",
     ];
 
     const sortedKeys = Object.keys(data).sort((a, b) => {
@@ -634,6 +649,31 @@ export default function PageEditor({ slug }: PageEditorProps) {
             },
           ];
           delete pageData.documentPdf;
+        }
+
+        if (slug === "partenaires") {
+          if (!pageData.hasOwnProperty("encarts")) {
+            pageData.titrePartie1 = "DEVENIR";
+            pageData.titrePartie2 = "PARTENAIRE";
+            pageData.description = "<p>Soutenez l'association !</p>";
+            pageData.encarts = [
+              {
+                image: "",
+                titre: "Visibilité",
+                description: "<p>Profitez de notre audience.</p>",
+              },
+            ];
+            pageData.sectionAction = {
+              titre: "Prêt à nous rejoindre ?",
+              description: "<p>Contactez-nous pour en discuter.</p>",
+              texteBouton: "NOUS CONTACTER",
+              lienBouton: "/contacts",
+            };
+          }
+          if (!pageData.hasOwnProperty("titrePartenaires")) {
+            pageData.titrePartenaires = "ILS NOUS FONT DÉJÀ CONFIANCE";
+          }
+          if (!pageData.partenaires) pageData.partenaires = [];
         }
 
         setContent(pageData);
