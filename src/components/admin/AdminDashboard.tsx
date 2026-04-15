@@ -40,6 +40,12 @@ const categories: Category[] = [
         content: "Gestion des projets pédagogiques",
         icon: "pi pi-book",
       },
+      {
+        titre: "Fiches Studio",
+        path: "/admin/collections/studios",
+        content: "Miniatures de la page studio d'enregistrement",
+        icon: "pi pi-microphone",
+      },
     ],
   },
   {

@@ -3,10 +3,13 @@ import EnConstruction from "../components/ui/EnConstruction.astro";
 import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import ContactList from "../components/ContactList.astro";
+import VideoCard from "../components/VideoCard.astro";
+import { resolvePath } from "@/lib/utils";
 import { getApiUrl } from "../lib/api";
 
 const API_URL = getApiUrl();
 let pageContent = null;
+let studios: any[] = [];
 
 try {
   const res = await fetch(`${API_URL}/api/PageContent/studio-enregistrement`);
@@ -17,6 +20,18 @@ try {
       parsedContent = JSON.parse(parsedContent);
     }
     pageContent = parsedContent;
+  }
+
+  const res2 = await fetch(`${API_URL}/api/PageContent/studios`);
+  if (res2.ok) {
+    const doc2 = await res2.json();
+    let content2 = doc2.content;
+    if (typeof content2 === "string") {
+      content2 = JSON.parse(content2);
+    }
+    if (content2 && Array.isArray(content2.items)) {
+      studios = content2.items;
+    }
   }
 } catch (e) {
   console.error("Failed to load page content", e);
@@ -50,9 +65,8 @@ const content = pageContent || {
       </h1>
       <div class="title-underline"></div>
     </header>
-    {isEmptyContent(pageContent) ? <EnConstruction /> : (
-      <>
-        
+    {(isEmptyContent(pageContent) && (!studios || studios.length === 0)) ? <EnConstruction /> : (
+      <>      
 
     <!-- Equipment List -->
     <section class="equipment-section">
@@ -64,6 +78,15 @@ const content = pageContent || {
       </div>
     </section>
 
+    <!-- Studios Grid -->
+    {studios && studios.length > 0 && (
+      <section class="studios-section">
+        <div class="studios-container">
+          {studios.map((studio) => <VideoCard video={studio} />)}
+        </div>
+      </section>
+    )}
+
     <!-- Contacts Section -->
     <ContactList contacts={content.contacts} />
   
@@ -73,6 +96,18 @@ const content = pageContent || {
 </Layout>
 
 <style>
+  /* Studios Grid */
+  .studios-section {
+    margin-bottom: 6rem;
+  }
+
+  .studios-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+
   /* Equipment List */
   .equipment-section {
     margin-bottom: 5rem;

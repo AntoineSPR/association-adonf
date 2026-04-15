@@ -95,6 +95,15 @@ const getEmptyTemplate = (type: string): Item => {
       sections: [],
     };
   }
+  if (type === "studios") {
+    return {
+      id: "new",
+      slug: "nouveau-studio",
+      titre: "",
+      image: "",
+      lienVideo: "",
+    };
+  }
   return { id: "new", titre: "Nouvel élément" };
 };
 
@@ -472,33 +481,37 @@ function ItemEditorInner(props: ItemEditorProps) {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div
+          className={`grid grid-cols-1 ${collection !== "studios" ? "md:grid-cols-2" : "md:grid-cols-1 max-w-2xl mx-auto"} gap-8`}
+        >
           {/* Base Fields */}
           <div className="space-y-6">
             <h2 className="text-xl font-semibold border-b pb-2">
               Informations principales
             </h2>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Titre
-              </label>
-              <input
-                type="text"
-                value={item.titre || ""}
-                onChange={(e) => handleChange("titre", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
-                placeholder={
-                  collection === "cours"
-                    ? "Ex: Guitare"
-                    : collection === "projets-pedagogiques"
-                      ? "Ex: Eveil Musical"
-                      : collection === "actualites"
-                        ? "Ex: Nouvel album studio"
-                        : "Ex: Concert Rock Adonf"
-                }
-              />
-            </div>
+            {collection !== "studios" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Titre
+                </label>
+                <input
+                  type="text"
+                  value={item.titre || ""}
+                  onChange={(e) => handleChange("titre", e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-shadow outline-none"
+                  placeholder={
+                    collection === "cours"
+                      ? "Ex: Guitare"
+                      : collection === "projets-pedagogiques"
+                        ? "Ex: Eveil Musical"
+                        : collection === "actualites"
+                          ? "Ex: Nouvel album studio"
+                          : "Ex: Concert Rock Adonf"
+                  }
+                />
+              </div>
+            )}
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -565,9 +578,25 @@ function ItemEditorInner(props: ItemEditorProps) {
               )}
             </div>
 
+            {collection === "studios" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Lien de la vidéo (Youtube, Vimeo, etc...)
+                </label>
+                <input
+                  type="url"
+                  value={item.lienVideo || ""}
+                  onChange={(e) => handleChange("lienVideo", e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                  placeholder="Ex: https://www.youtube.com/watch?v=..."
+                />
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-4">
               {collection !== "cours" &&
-                collection !== "projets-pedagogiques" && (
+                collection !== "projets-pedagogiques" &&
+                collection !== "studios" && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Date {collection === "actualites" ? "de publication" : ""}
@@ -640,156 +669,163 @@ function ItemEditorInner(props: ItemEditorProps) {
           </div>
 
           {/* Description & Action Button */}
-          <div className="space-y-6">
-            <h2 className="text-xl font-semibold border-b pb-2">
-              {collection === "actualites"
-                ? "Contenu de l'actualité"
-                : "Description & Action"}
-            </h2>
+          {collection !== "studios" && (
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold border-b pb-2">
+                {collection === "actualites"
+                  ? "Contenu de l'actualité"
+                  : "Description & Action"}
+              </h2>
 
-            {["actualites", "projets-pedagogiques"].includes(
-              collection || "",
-            ) && (
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Extrait (Résumé court)
-                </label>
-                <textarea
-                  value={item.extrait || ""}
-                  onChange={(e) => handleChange("extrait", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none h-24"
-                />
-              </div>
-            )}
+              {["actualites", "projets-pedagogiques"].includes(
+                collection || "",
+              ) && (
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Extrait (Résumé court)
+                  </label>
+                  <textarea
+                    value={item.extrait || ""}
+                    onChange={(e) => handleChange("extrait", e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none h-24"
+                  />
+                </div>
+              )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Le contenu de la page
-              </label>
-              <div className="bg-white">
-                <JoditEditor
-                  ref={editorRef}
-                  value={item["contenuHtml"] || ""}
-                  config={joditConfig}
-                  onBlur={(newContent) =>
-                    handleChange("contenuHtml", newContent)
-                  }
-                  onChange={(newContent) => {}}
-                />
-              </div>
-            </div>
-
-            {collection !== "cours" &&
-              collection !== "projets-pedagogiques" && (
-                <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 mt-8 shadow-sm">
-                  <h3 className="font-medium text-gray-900 mb-3 block">
-                    Bouton d'action (optionnel)
-                  </h3>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Texte du bouton
-                      </label>
-                      <input
-                        type="text"
-                        value={item.texteBouton || ""}
-                        onChange={(e) =>
-                          handleChange("texteBouton", e.target.value)
-                        }
-                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
-                        placeholder="Ex: Réserver ma place"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Lien cible (URL)
-                      </label>
-                      <input
-                        type="text"
-                        value={item.lienBouton || ""}
-                        onChange={(e) =>
-                          handleChange("lienBouton", e.target.value)
-                        }
-                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none font-mono"
-                        placeholder="https://..."
-                      />
-                    </div>
+              {collection !== "studios" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Le contenu de la page
+                  </label>
+                  <div className="bg-white">
+                    <JoditEditor
+                      ref={editorRef}
+                      value={item["contenuHtml"] || ""}
+                      config={joditConfig}
+                      onBlur={(newContent) =>
+                        handleChange("contenuHtml", newContent)
+                      }
+                      onChange={(newContent) => {}}
+                    />
                   </div>
                 </div>
               )}
-          </div>
+
+              {collection !== "cours" &&
+                collection !== "projets-pedagogiques" &&
+                collection !== "studios" && (
+                  <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 mt-8 shadow-sm">
+                    <h3 className="font-medium text-gray-900 mb-3 block">
+                      Bouton d'action (optionnel)
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Texte du bouton
+                        </label>
+                        <input
+                          type="text"
+                          value={item.texteBouton || ""}
+                          onChange={(e) =>
+                            handleChange("texteBouton", e.target.value)
+                          }
+                          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                          placeholder="Ex: Réserver ma place"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Lien cible (URL)
+                        </label>
+                        <input
+                          type="text"
+                          value={item.lienBouton || ""}
+                          onChange={(e) =>
+                            handleChange("lienBouton", e.target.value)
+                          }
+                          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none font-mono"
+                          placeholder="https://..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Dynamic Sections */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-        <div className="flex justify-between items-center mb-6 border-b pb-4 mt-2">
-          <h2 className="text-xl font-semibold">
-            Paragraphes supplémentaires (Sections)
-          </h2>
-          <button
-            onClick={addSection}
-            className="flex items-center text-sm px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition font-medium shadow-sm"
-          >
-            <Plus className="w-4 h-4 mr-1" /> Ajouter un paragraphe
-          </button>
-        </div>
-
-        {(!item.sections || item.sections.length === 0) && (
-          <div className="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-            <p className="text-gray-500">Aucun paragraphe supplémentaire.</p>
-          </div>
-        )}
-
-        <div className="space-y-6">
-          {item.sections?.map((section, index) => (
-            <div
-              key={index}
-              className="p-6 bg-gray-50 rounded-xl border border-gray-200 relative group transition-colors hover:border-purple-300"
+      {collection !== "studios" && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+          <div className="flex justify-between items-center mb-6 border-b pb-4 mt-2">
+            <h2 className="text-xl font-semibold">
+              Paragraphes supplémentaires (Sections)
+            </h2>
+            <button
+              onClick={addSection}
+              className="flex items-center text-sm px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition font-medium shadow-sm"
             >
-              <button
-                onClick={() => removeSection(index)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors p-2 bg-white rounded-lg shadow-sm border md:opacity-0 md:group-hover:opacity-100"
-                title="Supprimer ce paragraphe"
+              <Plus className="w-4 h-4 mr-1" /> Ajouter un paragraphe
+            </button>
+          </div>
+
+          {(!item.sections || item.sections.length === 0) && (
+            <div className="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+              <p className="text-gray-500">Aucun paragraphe supplémentaire.</p>
+            </div>
+          )}
+
+          <div className="space-y-6">
+            {item.sections?.map((section, index) => (
+              <div
+                key={index}
+                className="p-6 bg-gray-50 rounded-xl border border-gray-200 relative group transition-colors hover:border-purple-300"
               >
-                <Trash2 className="w-4 h-4" />
-              </button>
+                <button
+                  onClick={() => removeSection(index)}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors p-2 bg-white rounded-lg shadow-sm border md:opacity-0 md:group-hover:opacity-100"
+                  title="Supprimer ce paragraphe"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
 
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Titre du paragraphe {index + 1}
-                </label>
-                <input
-                  type="text"
-                  value={section.titre || ""}
-                  onChange={(e) =>
-                    handleSectionChange(index, "titre", e.target.value)
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                  placeholder="Ex: Programme de la soirée"
-                />
-              </div>
-
-              <div className="h-[280px] flex flex-col">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Contenu
-                </label>
-                <div className="flex-grow bg-white">
-                  <JoditEditor
-                    ref={editorRef}
-                    value={section.contenuHtml || ""}
-                    config={joditConfig}
-                    onBlur={(val) =>
-                      handleSectionChange(index, "contenuHtml", val)
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Titre du paragraphe {index + 1}
+                  </label>
+                  <input
+                    type="text"
+                    value={section.titre || ""}
+                    onChange={(e) =>
+                      handleSectionChange(index, "titre", e.target.value)
                     }
-                    onChange={(newContent) => {}}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                    placeholder="Ex: Programme de la soirée"
                   />
                 </div>
+
+                <div className="h-[280px] flex flex-col">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Contenu
+                  </label>
+                  <div className="flex-grow bg-white">
+                    <JoditEditor
+                      ref={editorRef}
+                      value={section.contenuHtml || ""}
+                      config={joditConfig}
+                      onBlur={(val) =>
+                        handleSectionChange(index, "contenuHtml", val)
+                      }
+                      onChange={(newContent) => {}}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
