@@ -55,6 +55,16 @@ projects = projects.map((project) => ({
     {(isEmptyContent(pageContent) && (!projects || projects.length === 0)) ? <EnConstruction /> : (
       <>
         
+    {pageContent.sections && pageContent.sections.length > 0 && (
+      <div class="content-wrapper">
+        {pageContent.sections.map((section: any) => (
+          <section class="info-section">
+            {section.titre && <h2 class="section-title">{section.titre}</h2>}
+            <div class="text-container" set:html={section.contenuHtml} />
+          </section>
+        ))}
+      </div>
+    )}
 
     <!-- Grid -->
     <section class="projects-section">
@@ -82,5 +92,48 @@ projects = projects.map((project) => ({
     flex-wrap: wrap;
     justify-content: center;
     gap: 2rem;
+  }
+
+  /* Page Sections */
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .info-section {
+    background: #f9f9f9;
+    padding: 2.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color, #dc143c);
+  }
+
+  .section-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  .text-container :global(p) {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .text-container :global(ul) {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .text-container :global(li) {
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-size: 1.1rem;
   }
 </style>
