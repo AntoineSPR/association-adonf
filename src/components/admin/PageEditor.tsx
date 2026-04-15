@@ -7,6 +7,98 @@ interface PageEditorProps {
   slug: string;
 }
 
+const FileUploader = ({
+  data,
+  onChange,
+}: {
+  data: string;
+  onChange: (val: string) => void;
+}) => {
+  const [uploading, setUploading] = useState(false);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await api.post("/File/document", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const relativeUrl = response.data;
+      const fullUrl = `${getApiUrl().replace(/\/$/, "")}${relativeUrl}`;
+      onChange(fullUrl);
+    } catch (err) {
+      console.error("Erreur d'upload", err);
+      alert("Échec de l'upload du fichier");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="relative">
+        <input
+          type="file"
+          onChange={handleUpload}
+          accept=".pdf,.doc,.docx"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+          disabled={uploading}
+        />
+        <button
+          type="button"
+          disabled={uploading}
+          className="w-full flex items-center justify-center gap-2 bg-gray-50 hover:bg-gray-100 border-2 border-dashed border-gray-300 text-gray-700 py-3 rounded-lg transition-colors disabled:opacity-50 relative z-10"
+        >
+          {uploading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Téléchargement...</span>
+            </>
+          ) : (
+            <>
+              <Upload className="w-5 h-5" />
+              <span>
+                {data
+                  ? "Changer le fichier"
+                  : "Sélectionner un fichier (PDF, Doc...)"}
+              </span>
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+          value={data || ""}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Ou collez l'URL d'un fichier ici..."
+        />
+      </div>
+
+      {data && (
+        <div className="mt-2 text-sm text-blue-600 font-medium">
+          <a
+            href={data}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline flex items-center gap-1"
+          >
+            <i className="pi pi-file-pdf"></i> Voir le fichier actuel
+          </a>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ImageUploader = ({
   data,
   onChange,
@@ -176,6 +268,10 @@ const JsonFormNode = ({
     }
 
     const isHtml = path[path.length - 1]?.toLowerCase().includes("html");
+    const isDocument =
+      path[path.length - 1]?.toLowerCase().includes("pdf") ||
+      path[path.length - 1]?.toLowerCase().includes("document") ||
+      path[path.length - 1]?.toLowerCase().includes("fichier");
     const isImage =
       path[path.length - 1]?.toLowerCase().includes("image") ||
       path[path.length - 1]?.toLowerCase().includes("photo") ||
@@ -184,6 +280,12 @@ const JsonFormNode = ({
     if (isImage) {
       return (
         <ImageUploader data={data} onChange={(val) => onChange(path, val)} />
+      );
+    }
+
+    if (isDocument) {
+      return (
+        <FileUploader data={data} onChange={(val) => onChange(path, val)} />
       );
     }
 
@@ -416,6 +518,11 @@ export default function PageEditor({ slug }: PageEditorProps) {
             console.error("Failed to parse page data", e);
           }
         }
+
+        if (slug === "association" && !pageData.hasOwnProperty("documentPdf")) {
+          pageData.documentPdf = "";
+        }
+
         setContent(pageData);
 
         if (contactsResponse && contactsResponse.data?.content) {

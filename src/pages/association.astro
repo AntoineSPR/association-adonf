@@ -30,6 +30,7 @@ try {
 const content = pageContent || {
   titrePartie1: "L'ASSOCIATION",
   titrePartie2: "",
+  documentPdf: "",
   sections: [],
   contacts: [],
 };
@@ -57,6 +58,13 @@ const content = pageContent || {
                   <div class="text-container" set:html={section.contenuHtml} />
                 </section>
               ))}
+            {content.documentPdf && (
+              <div style="margin-bottom: 2rem; display: flex; justify-content: center;">
+                <a href={content.documentPdf} target="_blank" rel="noopener noreferrer" class="btn pdf-btn">
+                  <i class="pi pi-file-pdf" /> Télécharger la fiche technique(PDF)
+                </a>
+              </div>
+            )}
           </div>
 
           <ContactList contacts={content.contacts} />
@@ -88,6 +96,25 @@ const content = pageContent || {
 
   .text-container :global(li) {
     margin-bottom: 0.5rem;
+  }
+
+  .pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color, #dc143c);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .pdf-btn:hover {
+    background-color: #b01030;
+    transform: translateY(-2px);
   }
 
   .text-container :global(a.btn) {
