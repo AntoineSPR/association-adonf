@@ -149,6 +149,7 @@ function ItemEditorInner(props: ItemEditorProps) {
   const [itemId, setItemId] = useState(props.itemId || "");
   const [document, setDocument] = useState<any>(null);
   const [item, setItem] = useState<Item | null>(null);
+  const [originalItem, setOriginalItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -219,7 +220,9 @@ function ItemEditorInner(props: ItemEditorProps) {
 
       if (itemId === "new") {
         // Create mode
-        setItem(getEmptyTemplate(collection));
+        const emptyItem = getEmptyTemplate(collection);
+        setItem(emptyItem);
+        setOriginalItem(JSON.parse(JSON.stringify(emptyItem)));
       } else {
         // Edit mode
         const foundItem = content.items.find(
@@ -228,6 +231,7 @@ function ItemEditorInner(props: ItemEditorProps) {
         if (foundItem) {
           if (!foundItem.sections) foundItem.sections = [];
           setItem(foundItem);
+          setOriginalItem(JSON.parse(JSON.stringify(foundItem)));
         } else {
           setError(
             `Élément avec l'ID "${itemId}" introuvable dans "${collection}".`,
@@ -243,7 +247,9 @@ function ItemEditorInner(props: ItemEditorProps) {
             titre: collection,
             content: { items: [] },
           });
-          setItem(getEmptyTemplate(collection));
+          const emptyItem = getEmptyTemplate(collection);
+          setItem(emptyItem);
+          setOriginalItem(JSON.parse(JSON.stringify(emptyItem)));
         } else {
           setError("Collection introuvable.");
         }
@@ -366,6 +372,40 @@ function ItemEditorInner(props: ItemEditorProps) {
           i.id === "new",
       );
 
+      // Diff check for originalItem
+      const getFiles = (obj: any, files: string[] = []) => {
+        if (!obj) return files;
+        if (typeof obj === "string") {
+          if (obj.includes("/images/") || obj.includes("/documents/")) {
+            files.push(obj);
+          }
+        } else if (typeof obj === "object") {
+          for (let k in obj) getFiles(obj[k], files);
+        }
+        return files;
+      };
+
+      if (originalItem) {
+        const oldFiles = getFiles(originalItem);
+        const newFiles = getFiles(itemToSave);
+        const deletedFiles = oldFiles.filter((f) => !newFiles.includes(f));
+
+        for (const fileUrl of deletedFiles) {
+          try {
+            const filename = fileUrl.split("/").pop();
+            if (filename) {
+              if (fileUrl.includes("/images/")) {
+                await api.delete(`/File?fileName=${filename}`);
+              } else if (fileUrl.includes("/documents/")) {
+                await api.delete(`/File/document?fileName=${filename}`);
+              }
+            }
+          } catch (e) {
+            console.error("Failed to clean up old file", e);
+          }
+        }
+      }
+
       if (itemIndex >= 0) {
         contentCopy.items[itemIndex] = itemToSave;
       } else {
@@ -379,6 +419,7 @@ function ItemEditorInner(props: ItemEditorProps) {
       await api.put(`/api/PageContent/${collection}`, payload);
 
       setSuccess("Sauvegardé avec succès !");
+      setOriginalItem(JSON.parse(JSON.stringify(itemToSave))); // Update original item structure
       setTimeout(() => setSuccess(null), 3000);
 
       // Update UI URL if we just created a new one so it doesn't duplicate on next save

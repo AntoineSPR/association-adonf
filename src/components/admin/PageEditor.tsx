@@ -596,6 +596,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [content, setContent] = useState<any>({});
+  const [originalContent, setOriginalContent] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [availableContacts, setAvailableContacts] = useState<any[]>([]);
@@ -636,6 +637,7 @@ export default function PageEditor({ slug }: PageEditorProps) {
         }
 
         setContent(pageData);
+        setOriginalContent(JSON.parse(JSON.stringify(pageData)));
 
         if (contactsResponse && contactsResponse.data?.content) {
           let contactsData = contactsResponse.data.content;
@@ -681,12 +683,46 @@ export default function PageEditor({ slug }: PageEditorProps) {
     setIsSaving(true);
 
     try {
+      // Find deleted files between originalContent and current content
+      const getFiles = (obj: any, files: string[] = []) => {
+        if (!obj) return files;
+        if (typeof obj === "string") {
+          if (obj.includes("/images/") || obj.includes("/documents/")) {
+            files.push(obj);
+          }
+        } else if (typeof obj === "object") {
+          for (let k in obj) getFiles(obj[k], files);
+        }
+        return files;
+      };
+
+      if (originalContent) {
+        const oldFiles = getFiles(originalContent);
+        const newFiles = getFiles(content);
+        const deletedFiles = oldFiles.filter((f) => !newFiles.includes(f));
+
+        for (const fileUrl of deletedFiles) {
+          try {
+            const filename = fileUrl.split("/").pop();
+            if (filename) {
+              if (fileUrl.includes("/images/")) {
+                await api.delete(`/File?fileName=${filename}`);
+              } else if (fileUrl.includes("/documents/")) {
+                await api.delete(`/File/document?fileName=${filename}`);
+              }
+            }
+          } catch (e) {
+            console.error("Failed to clean up old file", e);
+          }
+        }
+      }
+
       await api.put(`/api/pagecontent/${slug}`, {
         content: content,
       });
 
       setSuccess("Contenu de la page enregistré avec succès.");
-
+      setOriginalContent(JSON.parse(JSON.stringify(content))); // Update original to new saved state
       setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) {
       if (err instanceof SyntaxError) {

@@ -60,11 +60,60 @@ export default function CollectionEditor({
     window.location.href = `/admin/collections/edit?collection=${collection}&id=new`;
   };
 
-  const handleDelete = (id: number) => {
-    if (!confirm("Voulez-vous vraiment supprimer cet élément ?")) return;
+  const handleDelete = async (id: number) => {
+    const itemToDelete = items.find((i) => i.id === id);
+    let containsFiles = false;
+
+    const checkFiles = (obj: any) => {
+      if (!obj) return;
+      if (typeof obj === "string") {
+        if (obj.includes("/images/") || obj.includes("/documents/"))
+          containsFiles = true;
+      } else if (typeof obj === "object") {
+        for (let k in obj) {
+          checkFiles(obj[k]);
+        }
+      }
+    };
+    checkFiles(itemToDelete);
+
+    if (
+      !confirm(
+        containsFiles
+          ? "Êtes-vous sûr de vouloir supprimer cet élément ? Les fichiers qui lui sont associés seront également retirés du serveur."
+          : "Voulez-vous vraiment supprimer cet élément ?",
+      )
+    )
+      return;
+
+    if (containsFiles) {
+      const deleteRecursive = async (obj: any) => {
+        if (!obj) return;
+        if (typeof obj === "string") {
+          try {
+            if (obj.includes("/images/")) {
+              const filename = obj.split("/").pop();
+              if (filename) await api.delete(`/File?fileName=${filename}`);
+            } else if (obj.includes("/documents/")) {
+              const filename = obj.split("/").pop();
+              if (filename)
+                await api.delete(`/File/document?fileName=${filename}`);
+            }
+          } catch (e) {
+            console.error("Failed to delete file", e);
+          }
+        } else if (typeof obj === "object") {
+          for (let k in obj) {
+            await deleteRecursive(obj[k]);
+          }
+        }
+      };
+      await deleteRecursive(itemToDelete);
+    }
+
     const newItems = items.filter((i) => i.id !== id);
     setItems(newItems);
-    handleSave(newItems);
+    await handleSave(newItems);
   };
 
   if (isLoading) {
@@ -117,15 +166,13 @@ export default function CollectionEditor({
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full">
                 {(item.image || item.image) && (
                   <img
-                    src={(item.image || item.image)}
+                    src={item.image || item.image}
                     className="w-full sm:w-24 h-48 sm:h-16 object-cover rounded"
                     alt="cover"
                   />
                 )}
                 <div>
-                  <h3 className="font-bold text-lg">
-                    { item.titre}
-                  </h3>
+                  <h3 className="font-bold text-lg">{item.titre}</h3>
                   <p className="text-sm text-gray-500">
                     {(item.date || item.datePublication) &&
                       new Date(
