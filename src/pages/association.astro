@@ -30,7 +30,7 @@ try {
 const content = pageContent || {
   titrePartie1: "L'ASSOCIATION",
   titrePartie2: "",
-  documentPdf: "",
+  documents: [],
   sections: [],
   contacts: [],
 };
@@ -52,17 +52,27 @@ const content = pageContent || {
         <>
           <div class="content-wrapper">
             {content.sections &&
-              content.sections.map((section: any) => (
-                <section class="info-section">
-                  {section.titre && <h2 class="section-title">{section.titre}</h2>}
-                  <div class="text-container" set:html={section.contenuHtml} />
-                </section>
-              ))}
-            {content.documentPdf && (
-              <div style="margin-bottom: 2rem; display: flex; justify-content: center;">
-                <a href={content.documentPdf} target="_blank" rel="noopener noreferrer" class="btn pdf-btn">
-                  <i class="pi pi-file-pdf" /> Télécharger la fiche technique(PDF)
-                </a>
+              content.sections.map((section: any) => {
+                const hasTitle = section.titre && section.titre.trim() !== "";
+                const hasContent = section.contenuHtml && section.contenuHtml.trim() !== "" && section.contenuHtml !== "<p><br></p>";
+                if (!hasTitle && !hasContent) return null;
+
+                return (
+                  <section class="info-section">
+                    {section.titre && <h2 class="section-title">{section.titre}</h2>}
+                    {section.contenuHtml && <div class="text-container" set:html={section.contenuHtml} />}
+                  </section>
+                );
+              })}
+            {content.documents && content.documents.length > 0 && (
+              <div style="margin-bottom: 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                {content.documents.map((doc: any) =>
+                  doc.fichierDocument ? (
+                    <a href={doc.fichierDocument} target="_blank" rel="noopener noreferrer" class="btn pdf-btn">
+                      <i class="pi pi-file-pdf" /> {doc.titreBouton || "Télécharger le document"}
+                    </a>
+                  ) : null,
+                )}
               </div>
             )}
           </div>

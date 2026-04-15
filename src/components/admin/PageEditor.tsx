@@ -172,31 +172,56 @@ const ImageUploader = ({
       </div>
 
       {data && (
-        <div className="mt-2 relative rounded-lg overflow-hidden h-40 bg-gray-100 border flex items-center justify-center max-w-sm">
-          <img
-            src={data}
-            alt="Aperçu"
-            className="w-full h-full object-contain z-10 relative"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-              if (e.currentTarget.nextElementSibling)
-                (
-                  e.currentTarget.nextElementSibling as HTMLElement
-                ).style.display = "flex";
+        <div className="mt-2 relative">
+          <button
+            type="button"
+            className="absolute top-2 right-2 bg-white/90 text-red-500 hover:bg-red-50 hover:text-red-700 p-2 rounded-full shadow z-20 flex items-center justify-center transition-colors"
+            title="Supprimer l'image"
+            onClick={async () => {
+              if (
+                window.confirm(
+                  "Êtes-vous sûr de vouloir supprimer définitivement cette image du serveur ?",
+                )
+              ) {
+                try {
+                  const filename = data.split("/").pop();
+                  if (filename) await api.delete(`/File?fileName=${filename}`);
+                  onChange("");
+                } catch (e) {
+                  console.error(e);
+                  alert("Erreur lors de la suppression sur le serveur");
+                }
+              }
             }}
-            onLoad={(e) => {
-              e.currentTarget.style.display = "block";
-              if (e.currentTarget.nextElementSibling)
-                (
-                  e.currentTarget.nextElementSibling as HTMLElement
-                ).style.display = "none";
-            }}
-          />
-          <div
-            className="absolute inset-0 bg-black/5 items-center justify-center font-sm text-gray-500"
-            style={{ display: "none" }}
           >
-            [Image invalide]
+            <i className="pi pi-trash"></i>
+          </button>
+          <div className="relative rounded-lg overflow-hidden h-40 bg-gray-100 border flex items-center justify-center max-w-sm">
+            <img
+              src={data}
+              alt="Aperçu"
+              className="w-full h-full object-contain z-10 relative"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                if (e.currentTarget.nextElementSibling)
+                  (
+                    e.currentTarget.nextElementSibling as HTMLElement
+                  ).style.display = "flex";
+              }}
+              onLoad={(e) => {
+                e.currentTarget.style.display = "block";
+                if (e.currentTarget.nextElementSibling)
+                  (
+                    e.currentTarget.nextElementSibling as HTMLElement
+                  ).style.display = "none";
+              }}
+            />
+            <div
+              className="absolute inset-0 bg-black/5 items-center justify-center font-sm text-gray-500"
+              style={{ display: "none" }}
+            >
+              [Image invalide]
+            </div>
           </div>
         </div>
       )}
@@ -343,7 +368,60 @@ const JsonFormNode = ({
           >
             <div className="absolute top-2 right-2 flex gap-2 z-10">
               <button
-                onClick={() => {
+                onClick={async () => {
+                  const objToDelete = data[index];
+                  let containsFiles = false;
+
+                  const checkFiles = (obj: any) => {
+                    if (!obj) return;
+                    if (typeof obj === "string") {
+                      if (
+                        obj.includes("/images/") ||
+                        obj.includes("/documents/")
+                      ) {
+                        containsFiles = true;
+                      }
+                    } else if (typeof obj === "object") {
+                      for (let k in obj) {
+                        checkFiles(obj[k]);
+                      }
+                    }
+                  };
+                  checkFiles(objToDelete);
+
+                  if (containsFiles) {
+                    if (
+                      !window.confirm(
+                        "Êtes-vous sûr de vouloir supprimer cet item ? Les fichiers associés seront retirés du serveur.",
+                      )
+                    )
+                      return;
+                  }
+
+                  const deleteRecursive = async (obj: any) => {
+                    if (!obj) return;
+                    if (typeof obj === "string") {
+                      try {
+                        if (obj.includes("/images/")) {
+                          await api.delete(
+                            `/File?fileName=${obj.split("/").pop()}`,
+                          );
+                        } else if (obj.includes("/documents/")) {
+                          await api.delete(
+                            `/File/document?fileName=${obj.split("/").pop()}`,
+                          );
+                        }
+                      } catch (e) {
+                        console.error("Failed to delete", e);
+                      }
+                    } else if (typeof obj === "object") {
+                      for (let k in obj) {
+                        await deleteRecursive(obj[k]);
+                      }
+                    }
+                  };
+                  await deleteRecursive(objToDelete);
+
                   const newArr = [...data];
                   newArr.splice(index, 1);
                   onChange(path, newArr);
@@ -368,28 +446,47 @@ const JsonFormNode = ({
         <button
           className="text-sm px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 flex items-center gap-2 transition-colors border border-gray-300"
           onClick={() => {
-            const lastItem = data.length > 0 ? data[data.length - 1] : "";
-            let newItem = "";
-            try {
-              newItem =
-                lastItem !== undefined
-                  ? JSON.parse(JSON.stringify(lastItem))
-                  : "";
-            } catch (e) {
-              newItem = "";
-            }
-            // Clear string values in template
-            if (typeof newItem === "object") {
-              const clearObj = (obj: any) => {
-                for (let k in obj) {
-                  if (typeof obj[k] === "string") obj[k] = "";
-                  else if (typeof obj[k] === "boolean") obj[k] = false;
-                  else if (typeof obj[k] === "number") obj[k] = 0;
-                  else if (Array.isArray(obj[k])) obj[k] = [];
-                  else if (typeof obj[k] === "object") clearObj(obj[k]);
-                }
-              };
-              clearObj(newItem);
+            const arrName = path.length > 0 ? path[path.length - 1] : "";
+            const lastItem =
+              data.length > 0 ? data[data.length - 1] : undefined;
+            let newItem: any = "";
+            if (lastItem !== undefined) {
+              try {
+                newItem = JSON.parse(JSON.stringify(lastItem));
+              } catch (e) {
+                newItem = "";
+              }
+              // Clear string values in template
+              if (typeof newItem === "object" && newItem !== null) {
+                const clearObj = (obj: any) => {
+                  for (let k in obj) {
+                    if (typeof obj[k] === "string") obj[k] = "";
+                    else if (typeof obj[k] === "boolean") obj[k] = false;
+                    else if (typeof obj[k] === "number") obj[k] = 0;
+                    else if (Array.isArray(obj[k])) obj[k] = [];
+                    else if (typeof obj[k] === "object" && obj[k] !== null)
+                      clearObj(obj[k]);
+                  }
+                };
+                clearObj(newItem);
+              }
+            } else {
+              // Create default schema when array is empty based on array name
+              if (arrName === "sections")
+                newItem = { titre: "Nouvelle section", contenuHtml: "" };
+              else if (arrName === "documents")
+                newItem = { titreBouton: "Télécharger", fichierDocument: "" };
+              else if (arrName === "contacts")
+                newItem = { iconId: "FacebookIcon", texte: "", lienUrl: "" };
+              else if (arrName === "items")
+                newItem = {
+                  titre: "Nouveau titre",
+                  extrait: "",
+                  contenuHtml: "",
+                  image: "",
+                  sections: [],
+                };
+              else newItem = { titre: "", description: "" };
             }
             onChange(path, [...data, newItem]);
           }}
@@ -519,8 +616,14 @@ export default function PageEditor({ slug }: PageEditorProps) {
           }
         }
 
-        if (slug === "association" && !pageData.hasOwnProperty("documentPdf")) {
-          pageData.documentPdf = "";
+        if (slug === "association" && !pageData.hasOwnProperty("documents")) {
+          pageData.documents = [
+            {
+              titreBouton: "Télécharger le document",
+              fichierDocument: "",
+            },
+          ];
+          delete pageData.documentPdf;
         }
 
         setContent(pageData);
