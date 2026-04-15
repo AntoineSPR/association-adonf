@@ -597,7 +597,9 @@ export default function PageEditor({ slug }: PageEditorProps) {
                   {availableContacts.map((contact: any, idx: number) => {
                     const isChecked =
                       Array.isArray(content.contacts) &&
-                      content.contacts.some((c: any) => c.nom === contact.nom);
+                      content.contacts.some(
+                        (c: any) => c.contactId === contact.id,
+                      );
                     return (
                       <label
                         key={idx}
@@ -614,10 +616,13 @@ export default function PageEditor({ slug }: PageEditorProps) {
                               : [];
                             let newContacts;
                             if (e.target.checked) {
-                              newContacts = [...currentContacts, contact];
+                              newContacts = [
+                                ...currentContacts,
+                                { contactId: contact.id },
+                              ];
                             } else {
                               newContacts = currentContacts.filter(
-                                (c: any) => c.nom !== contact.nom,
+                                (c: any) => c.contactId !== contact.id,
                               );
                             }
                             handleFieldChange(["contacts"], newContacts);
