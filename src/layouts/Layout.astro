@@ -19,13 +19,13 @@ let parametres = {
     nom: "Association Adonf",
     ligne1: "29 avenue de Onda",
     ligne2: "17130 Montendre",
-    telephone: "05 46 49 03 18"
+    telephone: "05 46 49 03 18",
   },
   reseauxSociaux: [
     { label: "Facebook", iconId: "FacebookIcon", url: "https://www.facebook.com/AssociationADonf/" },
     { label: "Instagram", iconId: "InstagramIcon", url: "https://www.instagram.com/association_adonf/" },
-    { label: "YouTube", iconId: "YoutubeIcon", url: "https://www.youtube.com/channel/UCiP4wYd6e2iLz6F-0Wf-cWA" }
-  ]
+    { label: "YouTube", iconId: "YoutubeIcon", url: "https://www.youtube.com/channel/UCiP4wYd6e2iLz6F-0Wf-cWA" },
+  ],
 };
 
 if (typeof process !== "undefined" && import.meta.env.DEV) {
@@ -50,15 +50,28 @@ try {
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href={resolvePath("/favicon.ico")} /> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <link rel="icon" type="image/svg+xml" href={resolvePath("/favicon.ico")} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="flex flex-col min-h-screen">
+    <!-- Lien d'évitement / Skip Link -->
+    <a
+      href="#contenu-main"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-[10000] focus:px-4 focus:py-2 focus:bg-[var(--primary-color)] focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white left-0 top-0 m-2 rounded"
+    >
+      Aller au contenu principal
+    </a>
     <Header parametres={parametres} />
-    <slot />
+    <main
+      id="contenu-main"
+      class="flex-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-color)] focus-visible:ring-offset-2"
+      aria-label="Contenu principal"
+      tabindex="-1"
+    >
+      <slot />
+    </main>
     <Footer parametres={parametres} />
   </body>
 </html>
-
