@@ -32,7 +32,7 @@ if (!actualite) {
 }
 ---
 
-<Layout title={`${actualite.titre} - Actualités Adonf`}>
+<Layout title={`${actualite.titre} - Actualités Adonf`} description={actualite.extrait} image={actualite.image} type="article">
   <div class="page-container">
     <div class="header-spacing"></div>
 
@@ -216,3 +216,4 @@ if (!actualite) {
     }
   }
 </style>
+

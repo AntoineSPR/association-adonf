@@ -51,7 +51,7 @@ const formatDate = (date: Date) => {
 };
 ---
 
-<Layout title={`${concert.titre} - Concerts Adonf`}>
+<Layout title={`${concert.titre} - Concerts Adonf`} description={`Concert : ${concert.titre}${concert.lieu ? ` à ${concert.lieu}` : ""}${concert.date ? ` le ${formatDate(concert.date)}` : ""}.`} image={concert.image} type="music.event">
   <div class="page-container">
     <div class="header-spacing"></div>
 
@@ -317,3 +317,4 @@ const formatDate = (date: Date) => {
     }
   }
 </style>
+

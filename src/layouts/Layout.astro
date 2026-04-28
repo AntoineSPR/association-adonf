@@ -10,12 +10,16 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  canonicalUrl?: string;
+  type?: "website" | "article" | "music.song" | "music.event";
 }
 
-const { 
-  title, 
+const {
+  title,
   description = "Association Adonf - École de musique & Concerts à Montendre",
-  image = "/assets/logo-adonf.png"
+  image = "/assets/logo-adonf.png",
+  canonicalUrl = new URL(Astro.url.pathname, Astro.site || Astro.url.href).href,
+  type = "website",
 } = Astro.props;
 
 let parametres = {
@@ -59,25 +63,52 @@ try {
     <link rel="icon" type="image/x-icon" href={resolvePath("/favicon.ico")} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    
+
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
 
+    <!-- SEO / Indexing -->
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index, follow" />
+
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(resolvePath(image), Astro.url)} />
+    <meta property="og:image" content={new URL(resolvePath(image), Astro.site || Astro.url)} />
+    <meta property="og:site_name" content="Association Adonf" />
+    <meta property="og:locale" content="fr_FR" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:url" content={canonicalUrl} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(resolvePath(image), Astro.url)} />
+    <meta property="twitter:image" content={new URL(resolvePath(image), Astro.site || Astro.url)} />
+
+    <!-- JSON-LD (Schema.org) for Local Music School -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "MusicSchool",
+        name: "Association Adonf",
+        url: Astro.site ? Astro.site.origin : "https://associationadonf.fr",
+        logo: new URL(resolvePath("/assets/logo-adonf.png"), Astro.site || Astro.url).href,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: parametres.adressePhysique.ligne1,
+          addressLocality: parametres.adressePhysique.ligne2.replace(/[0-9]/g, "").trim(),
+          postalCode: parametres.adressePhysique.ligne2.replace(/\D/g, "").trim(),
+          addressCountry: "FR",
+        },
+        telephone: parametres.adressePhysique.telephone,
+        sameAs: parametres.reseauxSociaux.map((s) => s.url),
+      })}
+    />
   </head>
   <body class="flex flex-col min-h-screen">
     <!-- Lien d'évitement / Skip Link -->
