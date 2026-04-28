@@ -176,7 +176,7 @@ const ImageUploader = ({
           <button
             type="button"
             className="absolute top-2 right-2 bg-white/90 text-red-500 hover:bg-red-50 hover:text-red-700 p-2 rounded-full shadow z-20 flex items-center justify-center transition-colors"
-            title="Supprimer l'image"
+            title="Supprimer l'image" aria-label="Supprimer l'image"
             onClick={async () => {
               if (
                 window.confirm(
@@ -944,3 +944,4 @@ export default function PageEditor({ slug }: PageEditorProps) {
     </div>
   );
 }
+

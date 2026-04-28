@@ -825,12 +825,12 @@ function ItemEditorInner(props: ItemEditorProps) {
               >
                 <button
                   onClick={() => removeSection(index)}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors p-2 bg-white rounded-lg shadow-sm border md:opacity-0 md:group-hover:opacity-100"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors p-2 bg-white rounded-lg shadow-sm border md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-red-500"
                   title="Supprimer ce paragraphe"
+                  aria-label="Supprimer ce paragraphe"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-4 h-4" aria-hidden="true" />
                 </button>
-
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Titre du paragraphe {index + 1}

@@ -9,16 +9,19 @@ interface Props {
 const { concert } = Astro.props;
 ---
 
-<article class="concert-card">
-  <a href={resolvePath(`/concerts/${concert.slug}`)} class="concert-card-link">
+<article class="concert-card has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[var(--primary-color)] has-[:focus-visible]:outline-offset-2">
+  <a
+    href={resolvePath(`/concerts/${concert.slug}`)}
+    class="concert-card-link focus:outline-none block no-underline text-inherit h-full"
+  >
     <div class="card-image-wrapper">
-      <div class="event-date">
+      <div class="event-date" aria-hidden="true">
         <span class="day">{concert.date.getDate()}</span>
         <span class="month">{concert.date.toLocaleDateString("fr-FR", { month: "short" })}</span>
       </div>
 
-      <img src={resolvePath(concert.image)} alt={concert.titre} class="card-image" />
-      <div class="image-overlay">
+      <img src={resolvePath(concert.image)} alt="" aria-hidden="true" class="card-image" />
+      <div class="image-overlay" aria-hidden="true">
         <span class="overlay-text">Plus d'infos</span>
       </div>
 
@@ -30,6 +33,7 @@ const { concert } = Astro.props;
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "")}`}
+              aria-label={`Statut du concert : ${concert.status}`}
             >
               {concert.status}
             </span>
@@ -44,14 +48,14 @@ const { concert } = Astro.props;
         {
           concert.lieu && (
             <p>
-              <i class="pi pi-map-marker" /> {concert.lieu}
+              <i class="pi pi-map-marker" aria-hidden="true" /> <span class="sr-only">Lieu :</span> {concert.lieu}
             </p>
           )
         }
         {
           concert.prix != null && (
             <p>
-              <i class="pi pi-euro" /> {concert.prix || "Gratuit"}
+              <i class="pi pi-euro" aria-hidden="true" /> <span class="sr-only">Prix :</span> {concert.prix || "Gratuit"}
             </p>
           )
         }
@@ -213,3 +217,5 @@ const { concert } = Astro.props;
     }
   }
 </style>
+
+

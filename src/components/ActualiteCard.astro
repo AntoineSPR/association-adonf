@@ -10,18 +10,22 @@ interface Props {
 const { actualite, featured } = Astro.props;
 ---
 
-<article class={`actualite-card ${featured ? "featured" : ""}`}>
-  <div class="card-image-wrapper">
-    <img src={resolvePath(actualite.image)} alt={actualite.titre} class="card-image" />
-    <div class="image-overlay">
-      <span class="overlay-text">Lire l'article</span>
+<article class={`actualite-card has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[var(--primary-color)] has-[:focus-visible]:outline-offset-2 ${featured ? "featured" : ""}`}>
+  <a
+    href={resolvePath(`/actualites/${actualite.slug}`)}
+    class="card-link-wrapper focus:outline-none block h-full no-underline text-inherit"
+  >
+    <div class="card-image-wrapper">
+      <img src={resolvePath(actualite.image)} alt="" aria-hidden="true" class="card-image" />
+      <div class="image-overlay" aria-hidden="true">
+        <span class="overlay-text">Lire l'article</span>
+      </div>
     </div>
-  </div>
-  <div class="card-content">
-    <h3 class="card-title">{actualite.titre}</h3>
-    <p class="card-excerpt">{actualite.extrait}</p>
-  </div>
-  <a href={resolvePath(`/actualites/${actualite.slug}`)} class="card-link" aria-label={`Lire ${actualite.titre}`}></a>
+    <div class="card-content">
+      <h3 class="card-title">{actualite.titre}</h3>
+      <p class="card-excerpt">{actualite.extrait}</p>
+    </div>
+  </a>
 </article>
 
 <style lang="scss">
@@ -54,10 +58,12 @@ const { actualite, featured } = Astro.props;
     }
   }
 
-  .card-link {
-    position: absolute;
-    inset: 0;
-    z-index: 10;
+  .card-link-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
   }
 
   .card-image-wrapper {
@@ -141,3 +147,5 @@ const { actualite, featured } = Astro.props;
     }
   }
 </style>
+
+

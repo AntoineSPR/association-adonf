@@ -14,14 +14,14 @@ import { resolvePath } from "../lib/utils";
 
 <div class="contact-card">
   <div class="image-col">
-    <img src={resolvePath(image)} alt={nom} />
+    <img src={resolvePath(image)} alt="" aria-hidden="true" />
   </div>
   <div class="info-col">
     <h3>{nom}</h3>
     <p class="role">{role}</p>
     <div class="contact-details">
-      <a href={`mailto:${email}`} class="contact-link">
-        <span class="icon">
+      <a href={`mailto:${email}`} class="contact-link focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-color)] rounded">
+        <span class="icon" aria-hidden="true">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -38,8 +38,8 @@ import { resolvePath } from "../lib/utils";
         </span>
         {email}
       </a>
-      <a href={`tel:${telephone}`} class="contact-link">
-        <span class="icon">
+      <a href={`tel:${telephone}`} class="contact-link focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-color)] rounded">
+        <span class="icon" aria-hidden="true">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
