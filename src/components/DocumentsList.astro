@@ -1,0 +1,57 @@
+---
+interface Document {
+  titreBouton?: string;
+  fichierDocument: string;
+}
+
+interface Props {
+  documents?: Document[];
+}
+
+const { documents } = Astro.props;
+---
+
+{
+  documents && documents.length > 0 && (
+    <div class="documents-list">
+      {documents.map((doc) =>
+        doc.fichierDocument ? (
+          <a href={doc.fichierDocument} target="_blank" rel="noopener noreferrer" class="btn pdf-btn">
+            <i class="pi pi-file-pdf" /> {doc.titreBouton || "Télécharger le document"}
+          </a>
+        ) : null,
+      )}
+    </div>
+  )
+}
+
+<style>
+  .documents-list {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color, #dc143c);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .pdf-btn:hover {
+    background-color: #b01030;
+    transform: translateY(-2px);
+  }
+</style>

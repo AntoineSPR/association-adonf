@@ -651,6 +651,22 @@ export default function PageEditor({ slug }: PageEditorProps) {
           delete pageData.documentPdf;
         }
 
+        if (
+          slug === "cours-de-musique" &&
+          !pageData.hasOwnProperty("documents")
+        ) {
+          pageData.documents = [
+            {
+              titreBouton: "Télécharger le règlement intérieur",
+              fichierDocument: "",
+            },
+            {
+              titreBouton: "Télécharger le calendrier des cours",
+              fichierDocument: "",
+            },
+          ];
+        }
+
         if (slug === "partenaires") {
           if (!pageData.hasOwnProperty("encarts")) {
             pageData.titrePartie1 = "DEVENIR";
@@ -751,8 +767,12 @@ export default function PageEditor({ slug }: PageEditorProps) {
                 await api.delete(`/File/document?fileName=${filename}`);
               }
             }
-          } catch (e) {
-            console.error("Failed to clean up old file", e);
+          } catch (e: any) {
+            // 404 means the file was already removed (e.g. deleted via the
+            // item's own trash button before saving) — not a real failure.
+            if (e?.response?.status !== 404) {
+              console.error("Failed to clean up old file", e);
+            }
           }
         }
       }

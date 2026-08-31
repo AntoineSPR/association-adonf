@@ -4,6 +4,7 @@ import { isEmptyContent } from "../lib/utils";
 import Layout from "../layouts/Layout.astro";
 import LessonCard from "../components/LessonCard.astro";
 import ContactList from "../components/ContactList.astro";
+import DocumentsList from "../components/DocumentsList.astro";
 import { resolvePath } from "@/lib/utils";
 import { getApiUrl } from "../lib/api";
 
@@ -114,6 +115,8 @@ lessons = lessons.map((lesson) => ({
         </div>
       </div>
     </section>
+
+    <DocumentsList documents={content.documents} />
 
     <!-- Contacts Section -->
     <ContactList contacts={content.contacts} />
