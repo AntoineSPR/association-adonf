@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import api from "../../lib/api";
 
 interface PageItem {
   titre: string;
@@ -171,6 +172,7 @@ export default function AdminDashboard() {
 
     if (!token || !userData) {
       localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
       window.location.href = "/admin/login";
       return;
@@ -182,15 +184,25 @@ export default function AdminDashboard() {
       // Vérifier si l'utilisateur possède bien le rôle Admin
       if (!parsedUser.roles || !parsedUser.roles.includes("Admin")) {
         localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
         window.location.href = "/"; // Rediriger les non-admins vers l'accueil
         return;
       }
 
       setUser(parsedUser);
+
+      // Proactively validate the session: this page never calls the API on
+      // its own, so an expired token would otherwise go undetected until the
+      // admin navigates somewhere that does. The shared axios interceptor
+      // transparently refreshes it, or logs out with a message if that fails.
+      if (parsedUser.email) {
+        api.get(`/user/email/${encodeURIComponent(parsedUser.email)}`).catch(() => {});
+      }
     } catch (e) {
       console.error("Failed to parse user data", e);
       localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
       window.location.href = "/admin/login";
       return;
@@ -199,8 +211,15 @@ export default function AdminDashboard() {
     setIsLoading(false);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    try {
+      if (refreshToken) await api.post("/user/logout", { refreshToken });
+    } catch (e) {
+      console.error("Failed to revoke session", e);
+    }
     localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
     window.location.href = "/admin/login";
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import api from "../../lib/api";
 
@@ -8,6 +8,14 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const reason = sessionStorage.getItem("adminLogoutReason");
+    if (reason === "expired") {
+      setError("Votre session a expiré. Veuillez vous reconnecter.");
+    }
+    sessionStorage.removeItem("adminLogoutReason");
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,8 +30,9 @@ export default function LoginForm() {
 
       const data = response.data;
 
-      // Store token and user info
+      // Store token, refresh token and user info
       localStorage.setItem("token", data.token);
+      localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       // Redirect to admin dashboard
