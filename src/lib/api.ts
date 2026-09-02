@@ -87,7 +87,8 @@ api.interceptors.response.use(
       error.response &&
       error.response.status === 401 &&
       originalRequest &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/user/login')
     ) {
       originalRequest._retry = true;
 

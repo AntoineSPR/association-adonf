@@ -241,13 +241,22 @@ export default function AdminDashboard() {
             Bienvenue, {user?.nom || user?.email || "Administrateur"}
           </p>
         </div>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg font-medium transition-colors flex items-center gap-2"
-        >
-          <i className="pi pi-sign-out"></i>
-          Déconnexion
-        </button>
+        <div className="flex items-center gap-3">
+          <a
+            href="/admin/change-password"
+            className="px-4 py-2 bg-gray-50 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors flex items-center gap-2"
+          >
+            <i className="pi pi-lock"></i>
+            Changer le mot de passe
+          </a>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg font-medium transition-colors flex items-center gap-2"
+          >
+            <i className="pi pi-sign-out"></i>
+            Déconnexion
+          </button>
+        </div>
       </div>
 
       <div className="space-y-8">
